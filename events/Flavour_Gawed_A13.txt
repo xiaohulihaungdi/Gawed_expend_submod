@@ -2,6 +2,10 @@
 namespace = flavor_gawed
 
 #Burning of the Redglades
+# GCD_EVENT_NOTE_BEGIN flavor_gawed.1
+# 事件：焚烧红林（flavor_gawed.1）
+# 用途：处理焚烧红林的选项并向相关国家发送后续事件。
+# GCD_EVENT_NOTE_END
 country_event = {
 	id = flavor_gawed.1
 	title = flavor_gawed.1.t
@@ -45,6 +49,10 @@ country_event = {
 }
 
 #Gawed burns the Redglades
+# GCD_EVENT_NOTE_BEGIN flavor_gawed.2
+# 事件：焚烧红林：各国反应（flavor_gawed.2）
+# 用途：接收加韦德焚林的消息并处理各国的外交与国内反应。
+# GCD_EVENT_NOTE_END
 country_event = {
 	id = flavor_gawed.2
 	title = flavor_gawed.2.t
@@ -134,6 +142,10 @@ country_event = {
 }
 
 #Gawed countryside converts to corinite
+# GCD_EVENT_NOTE_BEGIN flavor_gawed.3
+# 事件：艾伦乡村皈依科林（flavor_gawed.3）
+# 用途：处理加韦德乡村改信科林教派的宗教变化。
+# GCD_EVENT_NOTE_END
 country_event = {
 	id = flavor_gawed.3
 	title = flavor_gawed.3.t
@@ -347,6 +359,10 @@ country_event = {
 }
 
 #Derek Deland
+# GCD_EVENT_NOTE_BEGIN flavor_gawed.4
+# 事件：德里克·德兰（flavor_gawed.4）
+# 用途：决定是否接受德兰议会修正与富商巨头议会特权；拒绝会损失稳定度或行政点及富商忠诚。
+# GCD_EVENT_NOTE_END
 country_event = {
 	id = flavor_gawed.4
 	title = flavor_gawed.4.t
@@ -392,6 +408,10 @@ country_event = {
 }
 
 # Magnates determine support
+# GCD_EVENT_NOTE_BEGIN flavor_gawed.5
+# 事件：议会的决定（flavor_gawed.5）
+# 用途：根据巨头家族的支持倾向处理议会选择与支持变化。
+# GCD_EVENT_NOTE_END
 country_event = {
 	id = flavor_gawed.5
 	title = flavor_gawed.5.t
@@ -561,6 +581,10 @@ country_event = {
 }
 
 # Magnate family goes bankrupt
+# GCD_EVENT_NOTE_BEGIN flavor_gawed.6
+# 事件：巨头家族破产（flavor_gawed.6）
+# 用途：处理巨头家族破产带来的政治与经济选择。
+# GCD_EVENT_NOTE_END
 country_event = {
 	id = flavor_gawed.6
 	title = flavor_gawed.6.t
@@ -605,6 +629,10 @@ country_event = {
 }
 
 # Magnates purchase land
+# GCD_EVENT_NOTE_BEGIN flavor_gawed.7
+# 事件：巨头男爵（flavor_gawed.7）
+# 用途：处理巨头购买土地的事件与相应奖励。
+# GCD_EVENT_NOTE_END
 country_event = {
 	id = flavor_gawed.7
 	title = flavor_gawed.7.t
@@ -642,6 +670,10 @@ country_event = {
 }
 
 # Magnates offer bailout
+# GCD_EVENT_NOTE_BEGIN flavor_gawed.8
+# 事件：巨头提供救助（flavor_gawed.8）
+# 用途：决定是否接受巨头提供的财政救助。
+# GCD_EVENT_NOTE_END
 country_event = {
 	id = flavor_gawed.8
 	title = flavor_gawed.8.t
@@ -715,6 +747,10 @@ country_event = {
 }
 
 # Magnates offer Support
+# GCD_EVENT_NOTE_BEGIN flavor_gawed.9
+# 事件：立场的转变？（flavor_gawed.9）
+# 用途：处理巨头提出支持及派系立场变化。
+# GCD_EVENT_NOTE_END
 country_event = {
 	id = flavor_gawed.9
 	title = flavor_gawed.9.t
@@ -787,6 +823,10 @@ country_event = {
 }
 
 # Magnate Feud
+# GCD_EVENT_NOTE_BEGIN flavor_gawed.10
+# 事件：巨头争端（flavor_gawed.10）
+# 用途：处理巨头家族之间的冲突与调解选择。
+# GCD_EVENT_NOTE_END
 country_event = {
 	id = flavor_gawed.10
 	title = flavor_gawed.10.t
@@ -876,6 +916,10 @@ country_event = {
 }
 
 # New Magnate Business in PROVINCE
+# GCD_EVENT_NOTE_BEGIN flavor_gawed.11
+# 事件：巨头的新生意（flavor_gawed.11）
+# 用途：处理巨头在选定省份开展新业务的投资选择。
+# GCD_EVENT_NOTE_END
 country_event = {
 	id = flavor_gawed.11
 	title = flavor_gawed.11.t
@@ -978,6 +1022,10 @@ country_event = {
 }
 
 # Old Guard Dictatorship
+# GCD_EVENT_NOTE_BEGIN flavor_gawed.12
+# 事件：守旧派终止选举（flavor_gawed.12）
+# 用途：处理守旧派建立独裁统治与停止选举。
+# GCD_EVENT_NOTE_END
 country_event = {
 	id = flavor_gawed.12
 	title = flavor_gawed.12.t
@@ -1031,6 +1079,10 @@ country_event = {
 }
 
 # Old Guard Dictatorship ends
+# GCD_EVENT_NOTE_BEGIN flavor_gawed.13
+# 事件：独裁的终结？（flavor_gawed.13）
+# 用途：处理守旧派独裁结束与恢复政治秩序的选择。
+# GCD_EVENT_NOTE_END
 country_event = {
 	id = flavor_gawed.13
 	title = flavor_gawed.13.t
@@ -1079,6 +1131,10 @@ country_event = {
 }
 
 # Old Guard occupy town, Trade Barons protest
+# GCD_EVENT_NOTE_BEGIN flavor_gawed.14
+# 事件：守旧派占领巨头城镇（flavor_gawed.14）
+# 用途：处理守旧派占领城镇后贸易男爵的抗议。
+# GCD_EVENT_NOTE_END
 country_event = {
 	id = flavor_gawed.14
 	title = flavor_gawed.14.t
@@ -1157,6 +1213,10 @@ country_event = {
 }
 
 # [sezied_province.getName] fails to meet quota
+# GCD_EVENT_NOTE_BEGIN flavor_gawed.15
+# 事件：省份未能完成生产配额（flavor_gawed.15）
+# 用途：处理被占省份未达生产配额的后果。
+# GCD_EVENT_NOTE_END
 country_event = {
 	id = flavor_gawed.15
 	title = flavor_gawed.15.t
@@ -1236,6 +1296,10 @@ country_event = {
 }
 
 # Old Guard conscription, cooperatists protest
+# GCD_EVENT_NOTE_BEGIN flavor_gawed.16
+# 事件：守旧派提议征兵（flavor_gawed.16）
+# 用途：处理守旧派征兵及合作派反对的政治选择。
+# GCD_EVENT_NOTE_END
 country_event = {
 	id = flavor_gawed.16
 	title = flavor_gawed.16.t
@@ -1302,6 +1366,10 @@ country_event = {
 }
 
 # Great year, where do the profits go?
+# GCD_EVENT_NOTE_BEGIN flavor_gawed.17
+# 事件：丰收之年（flavor_gawed.17）
+# 用途：决定良好经济年份带来的收益如何分配。
+# GCD_EVENT_NOTE_END
 country_event = {
 	id = flavor_gawed.17
 	title = flavor_gawed.17.t
@@ -1377,6 +1445,10 @@ country_event = {
 
 
 # Old Guard denounce leader
+# GCD_EVENT_NOTE_BEGIN flavor_gawed.18
+# 事件：守旧派谴责统治者（flavor_gawed.18）
+# 用途：处理守旧派对当前统治者的公开谴责。
+# GCD_EVENT_NOTE_END
 country_event = {
 	id = flavor_gawed.18
 	title = flavor_gawed.18.t
@@ -1412,6 +1484,10 @@ country_event = {
 }
 
 # New cooperatists factories
+# GCD_EVENT_NOTE_BEGIN flavor_gawed.19
+# 事件：合作派投资（flavor_gawed.19）
+# 用途：处理合作派投资新工厂及相关派系变化。
+# GCD_EVENT_NOTE_END
 country_event = {
 	id = flavor_gawed.19
 	title = flavor_gawed.19.t
@@ -1449,6 +1525,10 @@ country_event = {
 }
 
 # Trade Barons request autonomy
+# GCD_EVENT_NOTE_BEGIN flavor_gawed.20
+# 事件：贸易男爵要求自治（flavor_gawed.20）
+# 用途：决定是否接受贸易男爵扩大自治的要求。
+# GCD_EVENT_NOTE_END
 country_event = {
 	id = flavor_gawed.20
 	title = flavor_gawed.20.t
@@ -1496,6 +1576,10 @@ country_event = {
 }
 
 # Cooperatists in power, push for centralization
+# GCD_EVENT_NOTE_BEGIN flavor_gawed.21
+# 事件：合作派推动集权（flavor_gawed.21）
+# 用途：处理执政合作派推动中央集权的政治选择。
+# GCD_EVENT_NOTE_END
 country_event = {
 	id = flavor_gawed.21
 	title = flavor_gawed.21.t
@@ -1561,6 +1645,10 @@ country_event = {
 }
 
 # Trade Barons guarantee cities rights
+# GCD_EVENT_NOTE_BEGIN flavor_gawed.22
+# 事件：贸易男爵起草新权利法案（flavor_gawed.22）
+# 用途：处理贸易男爵保障城市权利的提议。
+# GCD_EVENT_NOTE_END
 country_event = {
 	id = flavor_gawed.22
 	title = flavor_gawed.22.t
@@ -1625,6 +1713,10 @@ country_event = {
 }
 
 # Old Guard
+# GCD_EVENT_NOTE_BEGIN flavor_gawed.23
+# 事件：守旧派接管民用工业（flavor_gawed.23）
+# 用途：决定是否支持守旧派接管工业，并调整政府能力与派系影响力。
+# GCD_EVENT_NOTE_END
 country_event = {
 	id = flavor_gawed.23
 	title = flavor_gawed.23.t
@@ -1689,6 +1781,10 @@ country_event = {
 }
 
 
+# GCD_EVENT_NOTE_BEGIN flavor_gawed.24
+# 事件：占领帝国北部边疆（flavor_gawed.24）
+# 用途：加韦德控制足够帝国北方领土时，启动帝国事变并通知诸侯。
+# GCD_EVENT_NOTE_END
 country_event = {
 	id = flavor_gawed.24
 	title = flavor_gawed.24.t
@@ -1733,6 +1829,10 @@ country_event = {
 }
 
 #Imperial Incident "An Eagle Looms over the Empire"
+# GCD_EVENT_NOTE_BEGIN flavor_gawed.25
+# 事件：占领帝国北部边疆：帝国决议（flavor_gawed.25）
+# 用途：处理帝国针对加韦德北方扩张的事变决策。
+# GCD_EVENT_NOTE_END
 country_event = {
 	id = flavor_gawed.25
 	title = flavor_gawed.25.t
@@ -1827,6 +1927,10 @@ country_event = {
 }
 
 #Gawed notification flavor that Empire backs off
+# GCD_EVENT_NOTE_BEGIN flavor_gawed.26
+# 事件：皇帝的怯懦（flavor_gawed.26）
+# 用途：通知加韦德帝国选择退让。
+# GCD_EVENT_NOTE_END
 country_event = {
 	id = flavor_gawed.26
 	title = flavor_gawed.26.t
@@ -1841,6 +1945,10 @@ country_event = {
 }
 
 #Imperial demand to leave the north
+# GCD_EVENT_NOTE_BEGIN flavor_gawed.27
+# 事件：皇帝的威胁（flavor_gawed.27）
+# 用途：向加韦德提出退出帝国北方领土的要求。
+# GCD_EVENT_NOTE_END
 country_event = {
 	id = flavor_gawed.27
 	title = flavor_gawed.27.t
@@ -1882,6 +1990,10 @@ country_event = {
 }
 
 #Imperial notification that Gawed has retreated
+# GCD_EVENT_NOTE_BEGIN flavor_gawed.28
+# 事件：北方雄鹰退却（flavor_gawed.28）
+# 用途：通知帝国一方加韦德接受撤退要求。
+# GCD_EVENT_NOTE_END
 country_event = {
 	id = flavor_gawed.28
 	title = flavor_gawed.28.t
@@ -1896,6 +2008,10 @@ country_event = {
 }
 
 #Imperial Call to Arms!
+# GCD_EVENT_NOTE_BEGIN flavor_gawed.29
+# 事件：鹰鸽之战（flavor_gawed.29）
+# 用途：处理帝国对抗加韦德的战争动员与参战。
+# GCD_EVENT_NOTE_END
 country_event = {
 	id = flavor_gawed.29
 	title = flavor_gawed.29.t
@@ -1934,6 +2050,10 @@ country_event = {
 
 
 #Event to differentiate YES princes and NO princes
+# GCD_EVENT_NOTE_BEGIN flavor_gawed.30
+# 事件：帝国议会紧急会议（flavor_gawed.30）
+# 用途：区分支持与反对对加韦德采取行动的帝国诸侯。
+# GCD_EVENT_NOTE_END
 country_event = {
 	id = flavor_gawed.30
 	title = flavor_gawed.30.t
@@ -2078,6 +2198,10 @@ country_event = {
 	}
 }
 
+# GCD_EVENT_NOTE_BEGIN flavor_gawed.31
+# 事件：攻入帝国宫廷（flavor_gawed.31）
+# 用途：处理加韦德攻占皇帝首都后的战争结果。
+# GCD_EVENT_NOTE_END
 country_event = { # Storming of the Imperial Palace
 	id = flavor_gawed.31
 	title = flavor_gawed.31.t
@@ -2101,6 +2225,10 @@ country_event = { # Storming of the Imperial Palace
 	}
 }
 
+# GCD_EVENT_NOTE_BEGIN flavor_gawed.32
+# 事件：攻入加韦德首都（flavor_gawed.32）
+# 用途：处理帝国一方攻占加韦德首都后的战争结果。
+# GCD_EVENT_NOTE_END
 country_event = { # Storming of the Gawedi Capital
 	id = flavor_gawed.32
 	title = flavor_gawed.32.t
@@ -2117,6 +2245,10 @@ country_event = { # Storming of the Gawedi Capital
 }
 
 # Notification of Gawed's Loss
+# GCD_EVENT_NOTE_BEGIN flavor_gawed.33
+# 事件：加韦德与帝国的和平：加韦德战败（flavor_gawed.33）
+# 用途：向相关国家通知加韦德战败后的和平结果。
+# GCD_EVENT_NOTE_END
 country_event = {
 	id = flavor_gawed.33
 	title = flavor_gawed.33.t
@@ -2131,6 +2263,10 @@ country_event = {
 }
 
 # Notification of Emperor's Loss
+# GCD_EVENT_NOTE_BEGIN flavor_gawed.34
+# 事件：加韦德与帝国的和平：皇帝战败（flavor_gawed.34）
+# 用途：向相关国家通知皇帝战败后的和平结果。
+# GCD_EVENT_NOTE_END
 country_event = {
 	id = flavor_gawed.34
 	title = flavor_gawed.34.t
@@ -2145,6 +2281,10 @@ country_event = {
 }
 
 #Karina Deland
+# GCD_EVENT_NOTE_BEGIN flavor_gawed.35
+# 事件：卡丽娜·德兰（flavor_gawed.35）
+# 用途：处理卡丽娜成为配偶；本模组额外记录身份供大围猎奖励判断。
+# GCD_EVENT_NOTE_END
 country_event = {
 	id = flavor_gawed.35
 	title = flavor_gawed.35.t
@@ -2188,6 +2328,10 @@ country_event = {
 }
 
 #Event to stop Gawed killing Nimscodd early
+# GCD_EVENT_NOTE_BEGIN flavor_gawed.200
+# 事件：动荡的海岸（flavor_gawed.200）
+# 用途：开局改善加韦德与尼姆斯科德的相互好感，降低过早开战的倾向。
+# GCD_EVENT_NOTE_END
 country_event = {
 	id = flavor_gawed.200
 	title = flavor_gawed.200.t

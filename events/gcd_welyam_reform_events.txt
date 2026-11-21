@@ -1,6 +1,10 @@
 # 新增：所有 .txt 使用 UTF-8 无 BOM；剧情占位与用户给出的正式开局文本分开保存。
 namespace = gcd_welyam
 
+# GCD_EVENT_NOTE_BEGIN gcd_welyam.1
+# 事件：第一道召集令（gcd_welyam.1）
+# 用途：启动威利亚姆改革灾难机制，并在选项中将本国全部省份自治度设为30。
+# GCD_EVENT_NOTE_END
 country_event = {
     id = gcd_welyam.1
     title = gcd_welyam.1.t
@@ -17,6 +21,10 @@ country_event = {
     }
 }
 
+# GCD_EVENT_NOTE_BEGIN gcd_welyam.2
+# 事件：改革结束检查（隐藏）（gcd_welyam.2）
+# 用途：灾难结束时清理临时修正、贷款禁令与机制标记。
+# GCD_EVENT_NOTE_END
 country_event = {
     id = gcd_welyam.2
     title = gcd_welyam.2.t
@@ -32,6 +40,10 @@ country_event = {
     }
 }
 
+# GCD_EVENT_NOTE_BEGIN gcd_welyam.10
+# 事件：第一次富商议会（gcd_welyam.10）
+# 用途：发放改革进度、金钱及持续到君主死亡的顾问费用修正。
+# GCD_EVENT_NOTE_END
 country_event = {
     id = gcd_welyam.10
     title = gcd_welyam.10.t
@@ -48,6 +60,10 @@ country_event = {
     }
 }
 
+# GCD_EVENT_NOTE_BEGIN gcd_welyam.20
+# 事件：奥尔德沃德会议（gcd_welyam.20）
+# 用途：第一路线给予君主在世期间的贵族忠诚均衡点与影响力修正，并永久阻止内战；兼容旧存档的第二路线转入大领主之誓。
+# GCD_EVENT_NOTE_END
 country_event = {
     id = gcd_welyam.20
     title = gcd_welyam.20.t
@@ -76,6 +92,10 @@ country_event = {
     }
 }
 
+# GCD_EVENT_NOTE_BEGIN gcd_welyam.21
+# 事件：大领主之誓（gcd_welyam.21）
+# 用途：第二路线立即没收20贵族土地、降低20贵族忠诚，并给予十年的叛乱度与自治度修正。
+# GCD_EVENT_NOTE_END
 country_event = {
     id = gcd_welyam.21
     title = gcd_welyam.21.t
@@ -91,6 +111,10 @@ country_event = {
     }
 }
 
+# GCD_EVENT_NOTE_BEGIN gcd_welyam.30
+# 事件：威利亚姆的大围猎（gcd_welyam.30）
+# 用途：增加各阶层忠诚并发放十五年外交修正；配偶为卡丽娜时使用额外奖励版本。
+# GCD_EVENT_NOTE_END
 country_event = {
     id = gcd_welyam.30
     title = gcd_welyam.30.t
@@ -109,6 +133,10 @@ country_event = {
     }
 }
 
+# GCD_EVENT_NOTE_BEGIN gcd_welyam.40
+# 事件：威斯特摩尔倒戈（gcd_welyam.40）
+# 用途：通知玩家威斯特摩尔脱离并加入敌方阵营。
+# GCD_EVENT_NOTE_END
 country_event = {
     id = gcd_welyam.40
     title = gcd_welyam.40.t
@@ -118,6 +146,10 @@ country_event = {
     option = { name = gcd_welyam.40.a custom_tooltip = gcd_welyam_westmoors_defected_tt }
 }
 
+# GCD_EVENT_NOTE_BEGIN gcd_welyam.90
+# 事件：旧每日事件兼容接入（隐藏）（gcd_welyam.90）
+# 用途：处理旧存档遗留事件，接入原生每日检测并执行一次检查；不再安排自身。
+# GCD_EVENT_NOTE_END
 country_event = {
     id = gcd_welyam.90
     title = gcd_welyam.90.t
@@ -142,6 +174,10 @@ country_event = {
     }
 }
 
+# GCD_EVENT_NOTE_BEGIN gcd_welyam.91
+# 事件：贵族的动员（隐藏）（gcd_welyam.91）
+# 用途：接收两年一次的叛军调度并尝试生成固定12团贵族叛军；完成任务二或灾难结束后不生成。
+# GCD_EVENT_NOTE_END
 country_event = {
     id = gcd_welyam.91
     title = gcd_welyam.91.t
@@ -167,6 +203,10 @@ country_event = {
     }
 }
 
+# GCD_EVENT_NOTE_BEGIN gcd_welyam.100
+# 事件：加韦德内战（gcd_welyam.100）
+# 用途：在条件满足后释放国家并启动大边区阵营对王室的内战。
+# GCD_EVENT_NOTE_END
 country_event = {
     id = gcd_welyam.100
     title = gcd_welyam.100.t
@@ -196,6 +236,10 @@ country_event = {
     }
 }
 
+# GCD_EVENT_NOTE_BEGIN gcd_welyam.101
+# 事件：加韦德内战：加韦顿陷落（gcd_welyam.101）
+# 用途：首都被叛军阵营攻占后结算大领主胜利，由大边区吞并加韦德并附庸四个参战国。
+# GCD_EVENT_NOTE_END
 country_event = {
     id = gcd_welyam.101
     title = gcd_welyam.101.t
@@ -225,6 +269,10 @@ country_event = {
     }
 }
 
+# GCD_EVENT_NOTE_BEGIN gcd_welyam.102
+# 事件：加韦德内战：王室的胜利（gcd_welyam.102）
+# 用途：加韦德取得至少99战争分数后结算王室胜利，吞并大边区等六个叛乱国家。
+# GCD_EVENT_NOTE_END
 country_event = {
     id = gcd_welyam.102
     title = gcd_welyam.102.t
@@ -256,6 +304,10 @@ country_event = {
     }
 }
 
+# GCD_EVENT_NOTE_BEGIN gcd_welyam.103
+# 事件：内战暂缓（gcd_welyam.103）
+# 用途：缺少可用于建立大边区的非首都领土时，通知玩家内战暂未启动。
+# GCD_EVENT_NOTE_END
 country_event = {
     id = gcd_welyam.103
     title = gcd_welyam.103.t

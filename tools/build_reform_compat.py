@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 
 from pdx_script import parse
+from event_notes import annotate_events
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -55,7 +56,8 @@ def build(anb_root: Path) -> dict[str, bytes]:
     consort = option.children("define_consort")[0]
     text = patch(text, consort.end, '''    # 新增：标记实际由原版事件生成的卡丽娜，不用相同文化/能力冒充姓名检查。
     set_consort_flag = gcd_welyam_karina_deland''', "karina_identity")
-    result[path] = text.encode("utf-8")
+    # 新增：重建原版兼容事件时，同步保留每个事件前的中文名称和用途注释。
+    result[path] = annotate_events(text).encode("utf-8")
     return result
 
 

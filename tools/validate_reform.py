@@ -9,6 +9,7 @@ import re
 import subprocess
 
 from check_encoding import errors
+from event_notes import strip_notes
 from check_event_structure import errors as event_errors
 from pdx_script import Node, parse
 from validate_welyam_units_and_reforms import validate as validate_units_and_reforms
@@ -332,7 +333,9 @@ def validate(anb: Path, game: Path):
     bases = json.loads((ROOT / "制作源文件/改革兼容基线.json").read_text(encoding="utf-8"))
     for path in bases:
         content = (ROOT / path).read_bytes()
-        clean = re.sub(rb'\r?\n    # GCD_REFORM_BEGIN ([a-z_]+)\r?\n.*?    # GCD_REFORM_END \1\r?\n', b"", content, flags=re.S)
+        # 新增：移除说明注释后，仍逐字节核对原版兼容文件，避免注释掩盖逻辑改动。
+        clean = strip_notes(content.decode("utf-8")).encode("utf-8")
+        clean = re.sub(rb'\r?\n    # GCD_REFORM_BEGIN ([a-z_]+)\r?\n.*?    # GCD_REFORM_END \1\r?\n', b"", clean, flags=re.S)
         assert clean == (anb / path).read_bytes().removeprefix(b"\xef\xbb\xbf"), path
         assert hashlib.sha256(content).hexdigest() == bases[path]["generated_sha256"]
     print("Reform validation passed: syntax/references, 20 missions, timer boundaries, disaster shutdown, loan unlock, outcomes, durations, compatibility and encoding.")

@@ -2444,6 +2444,15 @@ allianceaction = {
 }
 
 enforce_peace = {
+    # GCD_REFORM_BEGIN adshaw_enforce_lock
+    # 新增：第三国不能强制结束阿德肖叛乱。
+    condition = {
+        tooltip = gcd_crovis_no_peace_tt
+        potential = { FROM = { is_in_war = { casus_belli = cb_gcd_adshaw_revolt } } }
+        allow = { always = no }
+    }
+    # GCD_REFORM_END adshaw_enforce_lock
+
     # GCD_REFORM_BEGIN enforce_lock
     # 新增：第三国不能用强制和平绕过内战的两种脚本结局。
     condition = {
@@ -4470,6 +4479,15 @@ requestpeace = {
         allow = { always = no }
     }
     # GCD_REFORM_END peace_lock
+
+    # GCD_REFORM_BEGIN adshaw_peace_lock
+    # 新增：阿德肖叛乱同样禁止双方及参战国手动议和。
+    condition = {
+        tooltip = gcd_crovis_no_peace_tt
+        potential = { is_in_war = { casus_belli = cb_gcd_adshaw_revolt participants = FROM } }
+        allow = { always = no }
+    }
+    # GCD_REFORM_END adshaw_peace_lock
 
 	condition = {
         tooltip = LESSER_CANT_PEACE	#can't separate peace Raj subjects

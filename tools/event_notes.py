@@ -7,12 +7,16 @@ from pdx_script import parse
 
 # 原版事件名称为便于维护的中文译名，游戏中的标题仍由原版本地化决定。
 NOTES = {
-    "gawed_yongdongbianqu.1": ("克洛维的冒险：加韦德援助", "支持已记录的克洛维国家并获得10威望；无事件目标时改与阿德肖结盟。"),
-    "gawed_yongdongbianqu.2": ("永冻边区归附", "使独立且未与我国交战的永冻边区成为加韦德附庸。"),
-    "gawed_yongdongbianqu.3": ("永冻边区观察者（隐藏）", "永冻边区独立存在且未与我国交战时，自动向加韦德投递归附事件。"),
-    "gawed_yongdongbianqu.4": ("白湾的归化", "将五个指定省份改为白湾文化，90天后触发归属之争。"),
-    "gawed_yongdongbianqu.5": ("永冻边区的归属", "选择释放两附庸并引发战争，或降低各10独立倾向并给予十年叛乱度+2修正。"),
-    "gawed_yongdongbianqu.6": ("背叛", "由独立的阿德肖和永冻边区分别向加韦德宣战。"),
+    "gawed_yongdongbianqu.8": ("加韦顿的囚王", "文档第五篇；吞并两国，获得东寒湾核心。"),
+    "gawed_yongdongbianqu.7": ("叛军胜利（隐藏）", "达到首都及75分条件后和平，阿德肖取得贝维克海岸。"),
+    "gawed_yongdongbianqu.10": ("克洛维赴加韦顿求援", "承诺资助，正文暂缺。"),
+    "gawed_yongdongbianqu.11": ("旧存档求援接入（隐藏）", "补发已完成前置任务的求援。"),
+    "gawed_yongdongbianqu.1": ("克洛维启行之歌", "加入复国战，双方承受冲击伤害-15%，战后移除。"),
+    "gawed_yongdongbianqu.2": ("白湾王冠之歌", "原版复国改名后落实附庸关系，180天后安排清剿事件。"),
+    "gawed_yongdongbianqu.3": ("旧清剿队列接入（隐藏）", "旧版排队事件转交白湾归化，不自动归附。"),
+    "gawed_yongdongbianqu.4": ("白湾的归化", "文档第三篇；五省改白湾文化，90天后触发.5。"),
+    "gawed_yongdongbianqu.5": ("永冻边区的归属", "文档第四篇；处决后投递.6开战，宽宥保留属国。"),
+    "gawed_yongdongbianqu.6": ("背叛", "永冻边区发起阿德肖叛乱，阿德肖独立结盟参战。"),
     "gcd_welyam.1": ("第一道召集令", "启动威利亚姆改革灾难机制，并在选项中将本国全部省份自治度设为30。"),
     "gcd_welyam.2": ("改革结束检查（隐藏）", "灾难结束时清理临时修正、贷款禁令与机制标记。"),
     "gcd_welyam.10": ("第一次富商议会", "发放改革进度、金钱及持续到君主死亡的顾问费用修正。"),
@@ -73,14 +77,14 @@ def strip_notes(text: str) -> str:
     return NOTE_PATTERN.sub("", text)
 
 
-def annotate_events(text: str) -> str:
+def annotate_events(text: str, extra_notes=None) -> str:
     text = strip_notes(text)
     newline = "\r\n" if "\r\n" in text else "\n"
     events = [n for n in parse(text).children()
               if n.key in {"country_event", "province_event"}]
     for event in reversed(events):
         event_id = event.scalar("id")
-        name, description = NOTES[event_id]
+        name, description = (extra_notes or NOTES)[event_id]
         note = newline.join((
             f"# GCD_EVENT_NOTE_BEGIN {event_id}",
             f"# 事件：{name}（{event_id}）",

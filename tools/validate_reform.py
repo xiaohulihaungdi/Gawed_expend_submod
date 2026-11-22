@@ -205,7 +205,7 @@ def validate(anb: Path, game: Path):
         for mission in col.children():
             if mission.key in local_icons:
                 mission.children("icon")[0].value = local_icons[mission.key]
-            if mission.key in {"a13_1_1", "a13_2_1", "a13_3_1"}:
+            if mission.key in {"a13_1_1", "a13_2_1", "a13_3_1", "a13_3_2"}:
                 # 本轮任务一调整，并合并本机已有的任务二、任务三改动，防止同步覆盖。
                 current = next(n for column in missions.children() for n in column.children()
                                if n.key == mission.key)

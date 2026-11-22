@@ -2,3 +2,6 @@
 bumanderenmin = {
     global_unrest = 2
 }
+
+# 新增：直到原版复国战争结束，由原版胜负回调及每日检查清理。
+gcd_crovis_funded_armies = { shock_damage_received = -0.15 }

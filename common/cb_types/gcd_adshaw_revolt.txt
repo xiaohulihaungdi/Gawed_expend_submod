@@ -1,0 +1,7 @@
+# 新增：由事件授予，不能通过外交界面手动发起。
+cb_gcd_adshaw_revolt = {
+    exclusive = yes
+    is_triggered_only = yes
+    ai_peace_desire = -9999
+    war_goal = gcd_adshaw_defend_capital
+}

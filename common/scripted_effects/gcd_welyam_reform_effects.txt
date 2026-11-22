@@ -388,16 +388,7 @@ gcd_welyam_westmoors_defect_effect = {
     country_event = { id = gcd_welyam.40 days = 1 }
 }
 
-# 待接入（用户已确认）：阿德肖叛乱尚未设计，不误用冰冻喉的克洛维叛乱。
+# 更新：下面接口专指永冻边区发起的阿德肖叛乱。
 # 未来由 A13 事件保存敌方领袖为 gcd_welyam_external_enemy 后调用本效果。
-gcd_welyam_on_adshaw_revolt_effect = {
-    if = {
-        limit = {
-            tag = A13
-            has_disaster = gcd_welyam_reform
-            exists = event_target:gcd_welyam_external_enemy
-            A24 = { is_subject_of = A13 liberty_desire = 50.001 }
-        }
-        gcd_welyam_westmoors_defect_effect = yes
-    }
-}
+# 更新：阿德肖叛乱已接入新剧情；仍由灾难与独立倾向共同限制。
+gcd_welyam_on_adshaw_revolt_effect = { gcd_crovis_westmoors_hook_effect = yes }

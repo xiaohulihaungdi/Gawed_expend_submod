@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 from pathlib import Path
 
 from pdx_script import parse
@@ -35,12 +36,24 @@ def build(anb_root: Path) -> dict[str, bytes]:
         potential = { is_in_war = { casus_belli = cb_gcd_gawedi_civil_war participants = FROM } }
         allow = { always = no }
     }''', "peace_lock"),
+        (peace.brace + 1, '''    # 新增：阿德肖叛乱同样禁止双方及参战国手动议和。
+    condition = {
+        tooltip = gcd_crovis_no_peace_tt
+        potential = { is_in_war = { casus_belli = cb_gcd_adshaw_revolt participants = FROM } }
+        allow = { always = no }
+    }''', "adshaw_peace_lock"),
         (enforce.brace + 1, '''    # 新增：第三国不能用强制和平绕过内战的两种脚本结局。
     condition = {
         tooltip = gcd_welyam_no_manual_peace_tt
         potential = { FROM = { is_in_war = { casus_belli = cb_gcd_gawedi_civil_war } } }
         allow = { always = no }
     }''', "enforce_lock"),
+        (enforce.brace + 1, '''    # 新增：第三国不能强制结束阿德肖叛乱。
+    condition = {
+        tooltip = gcd_crovis_no_peace_tt
+        potential = { FROM = { is_in_war = { casus_belli = cb_gcd_adshaw_revolt } } }
+        allow = { always = no }
+    }''', "adshaw_enforce_lock"),
         (declare_effect.brace + 1, '''    # 新增：只在改革灾难中、由 A13 主动对洛伦特或皇帝宣战时检查威斯特摩尔。
     gcd_welyam_on_declare_war_effect = yes''', "westmoors_hook"),
     ]
@@ -58,6 +71,27 @@ def build(anb_root: Path) -> dict[str, bytes]:
     set_consort_flag = gcd_welyam_karina_deland''', "karina_identity")
     # 新增：重建原版兼容事件时，同步保留每个事件前的中文名称和用途注释。
     result[path] = annotate_events(text).encode("utf-8")
+
+    # 新增：保留当前原版冰冻喉全文，只在克洛维登场、复国成功和失败处插入回调。
+    path = "events/Flavour_Frozenmaw_Z18.txt"
+    text = (anb_root / path).read_bytes().decode("utf-8-sig")
+    events = {e.scalar("id"): e for e in parse(text).children("country_event")}
+    spawn = events["flavor_frozenmaw.49"].children("option")[0]
+    restored = events["flavor_frozenmaw.55"].children("option")[0].children("change_tag")[0]
+    defeated = events["flavor_frozenmaw.56"].children("immediate")[0]
+    inserts = [
+        (spawn.brace + 1, "    # 新增：记录真实克洛维国家，供加韦德任务检查和参战使用。\n    gcd_crovis_record_actor_effect = yes", "crovis_spawn"),
+        (restored.end, "    # 新增：必须在改名Z45后投递加冕事件。\n    gcd_crovis_after_restoration_effect = yes", "crovis_victory"),
+        (defeated.brace + 1, "    # 新增：原版战败同样清除双方的复国战争临时修正。\n    gcd_crovis_remove_support_effect = yes", "crovis_defeat"),
+    ]
+    for location, content, label in sorted(inserts, reverse=True):
+        text = patch(text, location, content, label)
+    localisation = (anb_root / "localisation/Flavour_Frozenmaw_Z18_l_english.yml").read_text(encoding="utf-8-sig")
+    titles = dict(re.findall(r'^\s*([\w.]+):\d+\s+"([^"\n]*)"', localisation, re.M))
+    notes = {e.scalar("id"): (titles.get(e.scalar("title"), e.scalar("title")),
+                              "保留原版剧情及选项；新增克洛维接口仅在标记处执行。")
+             for e in parse(text).children("country_event")}
+    result[path] = annotate_events(text, notes).encode("utf-8")
     return result
 
 
@@ -81,7 +115,7 @@ def main():
     if not args.check:
         (ROOT / "制作源文件/改革兼容基线.json").write_text(
             json.dumps(baselines, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print("Compatibility checks passed." if args.check else "Generated 2 compatibility files.")
+    print("Compatibility checks passed." if args.check else f"Generated {len(output)} compatibility files.")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,8 @@
+# 新增：永冻边区为进攻方，使用保卫自己首都的战争目标。
+# 禁和由外交动作兼容文件执行，最终胜负依用户指定占领条件结算。
+gcd_adshaw_defend_capital = {
+    type = defend_capital
+    attacker = { badboy_factor = 0 prestige_factor = 0 peace_cost_factor = 1 peace_options = { } }
+    defender = { badboy_factor = 0 prestige_factor = 0 peace_cost_factor = 1 peace_options = { } }
+    war_name = GCD_ADSHAW_REVOLT_WAR_NAME
+}

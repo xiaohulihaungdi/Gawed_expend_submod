@@ -303,6 +303,8 @@ a13_mission_3 = { # 第 3 列
                     subject = Z26
                 }
             }
+            # 新增：完成阿德肖任务后，克洛维赴加韦顿请求援助。
+            country_event = { id = gawed_yongdongbianqu.10 days = 1 }
         }
     }
 
@@ -314,12 +316,12 @@ a13_mission_3 = { # 第 3 列
         }
         provinces_to_highlight = { }
         trigger = {
-            # 待补：当前 Anbennar 的 flavor_frozenmaw.53 没有设置此旗标。
-            # 按原稿保留条件；后续须补配套事件或确认替代条件，未擅自改成开局可完成。
-            has_country_flag = frozenmaw_53_happened
+            # 调整：原旗标无来源，改为独立提示并检查真实的复国战争。
+            custom_trigger_tooltip = { tooltip = gcd_crovis_departed_tt gcd_crovis_departed_trigger = yes }
         }
         effect = {
-            # 待补：原稿奖励为空；保留空奖励，不添加自拟收益。
+            # 调整：文档事件一负责参战与双方冲击伤害承受修正。
+            country_event = { id = gawed_yongdongbianqu.1 }
         }
     }
 

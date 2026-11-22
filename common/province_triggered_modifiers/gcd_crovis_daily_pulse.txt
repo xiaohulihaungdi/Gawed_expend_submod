@@ -1,0 +1,12 @@
+# 新增：独立于改革灾难的原生每日翻转；不安排循环事件，避免事件栈递归。
+gcd_crovis_daily_pulse = {
+    potential = { always = yes }
+    hidden = yes
+    trigger = { A13 = { NOT = { has_country_flag = gcd_crovis_daily_flip } } }
+    on_activation = {
+        A13 = { set_country_flag = gcd_crovis_daily_flip gcd_crovis_daily_effect = yes }
+    }
+    on_deactivation = {
+        A13 = { clr_country_flag = gcd_crovis_daily_flip gcd_crovis_daily_effect = yes }
+    }
+}

@@ -1,0 +1,34 @@
+# 新增：只有已承诺资助且克洛维确实在进行原版复国战争时，任务才可完成。
+gcd_crovis_departed_trigger = {
+    has_country_flag = gcd_crovis_funded
+    any_country = {
+        war_with = Z18
+        # THIS 为正在检查的国家；只接受这场战争的进攻领袖，也兼容已开战的存档。
+        is_in_war = { casus_belli = cb_crovis_invasion attacker_leader = THIS defender_leader = Z18 }
+    }
+}
+
+# 新增：严格核对专属 CB 与双方领袖，不使用其他战争的占领或分数结算。
+gcd_crovis_revolt_active_trigger = {
+    has_country_flag = gcd_crovis_revolt_active
+    is_in_war = { casus_belli = cb_gcd_adshaw_revolt attacker_leader = Z45 defender_leader = A13 }
+}
+
+# 新增：省份由加韦德或其仍属己方的属国控制，才算完成王室的占领目标。
+gcd_crovis_crown_control_trigger = {
+    controller = { OR = { tag = A13 is_subject_of = A13 } }
+}
+gcd_crovis_crown_won_trigger = {
+    gcd_crovis_revolt_active_trigger = yes
+    exists = Z26
+    Z26 = { all_owned_province = { gcd_crovis_crown_control_trigger = yes } }
+    # 本机地图：701埃萨尔德、740永冻堡、737猛犸厅。
+    701 = { gcd_crovis_crown_control_trigger = yes }
+    740 = { gcd_crovis_crown_control_trigger = yes }
+    737 = { gcd_crovis_crown_control_trigger = yes }
+}
+gcd_crovis_rebels_won_trigger = {
+    gcd_crovis_revolt_active_trigger = yes
+    221 = { controller = { OR = { tag = Z26 tag = Z45 } } }
+    Z45 = { war_score_against = { who = A13 value = 75 } }
+}

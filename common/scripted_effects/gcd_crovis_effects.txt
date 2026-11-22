@@ -1,0 +1,163 @@
+# 新增：从求援起安装独立每日检测，灾难结束不影响本剧情。
+gcd_crovis_install_pulse_effect = {
+    if = {
+        limit = { NOT = { has_country_flag = gcd_crovis_pulse_installed } }
+        set_country_flag = gcd_crovis_pulse_installed
+        221 = { add_province_triggered_modifier = gcd_crovis_daily_pulse }
+    }
+}
+gcd_crovis_stop_pulse_effect = {
+    # 先关运行标记，再移除触发修正，防止移除回调重新执行。
+    clr_country_flag = gcd_crovis_pulse_installed
+    clr_country_flag = gcd_crovis_daily_tick
+    221 = { remove_province_triggered_modifier = gcd_crovis_daily_pulse }
+}
+
+# 新增：在原版 .49/.54 运行国保存真实克洛维国家，跟随其复国改名。
+gcd_crovis_record_actor_effect = {
+    set_country_flag = gcd_crovis_actor
+    save_global_event_target_as = gcd_crovis_actor
+}
+
+gcd_crovis_join_restoration_effect = {
+    if = {
+        limit = { gcd_crovis_departed_trigger = yes }
+        every_country = {
+            limit = {
+                war_with = Z18
+                is_in_war = { casus_belli = cb_crovis_invasion attacker_leader = THIS defender_leader = Z18 }
+            }
+            set_country_flag = gcd_crovis_actor
+            save_global_event_target_as = gcd_crovis_actor
+            add_country_modifier = { name = gcd_crovis_funded_armies duration = -1 desc = gcd_crovis_buff_duration_tt }
+        }
+        # 与原版克洛维援军采用同一参战命令；原版剧情此时的进攻战争为复国战。
+        join_all_offensive_wars_of = event_target:gcd_crovis_actor
+        add_country_modifier = { name = gcd_crovis_funded_armies duration = -1 desc = gcd_crovis_buff_duration_tt }
+        set_country_flag = gcd_crovis_joined_restoration
+    }
+}
+
+# 新增：专属修正只留到复国战争结束，不沿用到阿德肖叛乱。
+gcd_crovis_remove_support_effect = {
+    A13 = { remove_country_modifier = gcd_crovis_funded_armies }
+    every_country = {
+        limit = { has_country_modifier = gcd_crovis_funded_armies }
+        remove_country_modifier = gcd_crovis_funded_armies
+    }
+}
+
+# 新增：插在原版 .55 change_tag=Z45 之后，先完成原版复国再投递加冕事件。
+gcd_crovis_after_restoration_effect = {
+    gcd_crovis_record_actor_effect = yes
+    gcd_crovis_remove_support_effect = yes
+    A13 = {
+        if = {
+            limit = { has_country_flag = gcd_crovis_funded NOT = { has_country_flag = gcd_crovis_coronation_queued } }
+            set_country_flag = gcd_crovis_coronation_queued
+            country_event = { id = gawed_yongdongbianqu.2 days = 1 }
+        }
+    }
+}
+
+gcd_crovis_start_revolt_effect = {
+    # 防护：必须是两国都存在的审判分支；不释放其他宗主的属国。
+    if = {
+        limit = { exists = Z45 exists = Z26 NOT = { has_country_flag = gcd_crovis_revolt_started } }
+        set_country_flag = gcd_crovis_revolt_started
+        Z45 = {
+            if = { limit = { is_subject_of = A13 } grant_independence = yes }
+            if = { limit = { alliance_with = A13 } break_alliance = A13 }
+        }
+        Z26 = {
+            if = { limit = { is_subject_of = A13 } grant_independence = yes }
+            if = { limit = { alliance_with = A13 } break_alliance = A13 }
+        }
+        Z45 = { declare_war_with_cb = { who = A13 casus_belli = cb_gcd_adshaw_revolt } }
+        if = {
+            limit = { is_in_war = { casus_belli = cb_gcd_adshaw_revolt attacker_leader = Z45 defender_leader = A13 } }
+            set_country_flag = gcd_crovis_revolt_active
+            Z26 = { create_alliance = Z45 join_all_offensive_wars_of = Z45 }
+            # 转移我国及我国属国持有的西寒湾，保留中立国家的领土。
+            west_chillsbay_area = {
+                limit = { OR = { owned_by = A13 owned_by_subject_of = A13 } }
+                cede_province = Z26
+            }
+            # 用户确认：这场战争就是原改革灾难机制预留的“阿德肖叛乱”。
+            gcd_crovis_westmoors_hook_effect = yes
+        }
+    }
+}
+
+gcd_crovis_westmoors_hook_effect = {
+    if = {
+        limit = {
+            gcd_crovis_revolt_active_trigger = yes
+            has_disaster = gcd_welyam_reform
+            A24 = { is_subject_of = A13 liberty_desire = 50.001 }
+        }
+        Z45 = { save_event_target_as = gcd_welyam_external_enemy }
+        A24 = {
+            grant_independence = yes
+            if = { limit = { alliance_with = A13 } break_alliance = A13 }
+            # 清除自动随宗主加入的防御方身份后，加入永冻边区进攻方。
+            if = { limit = { war_with = Z45 } white_peace = Z45 }
+            join_all_offensive_wars_of = Z45
+        }
+        country_event = { id = gcd_welyam.40 days = 1 }
+    }
+}
+
+gcd_crovis_daily_effect = {
+    if = {
+        limit = {
+            tag = A13 has_country_flag = gcd_crovis_pulse_installed
+            OR = { NOT = { has_country_flag = gcd_crovis_daily_tick } had_country_flag = { flag = gcd_crovis_daily_tick days = 1 } }
+        }
+        set_country_flag = gcd_crovis_daily_tick
+        if = {
+            limit = {
+                has_country_modifier = gcd_crovis_funded_armies
+                NOT = { any_country = { has_country_flag = gcd_crovis_actor is_in_war = { casus_belli = cb_crovis_invasion defender_leader = Z18 } } }
+            }
+            gcd_crovis_remove_support_effect = yes
+        }
+        # 剧情开战时与灾难存续期间均可检查；灾难结束后此倒戈检查自然失效。
+        gcd_crovis_westmoors_hook_effect = yes
+        if = {
+            limit = { gcd_crovis_revolt_active_trigger = yes NOT = { has_country_flag = gcd_crovis_result_selected } }
+            if = {
+                limit = { gcd_crovis_crown_won_trigger = yes }
+                set_country_flag = gcd_crovis_result_selected
+                set_country_flag = gcd_crovis_crown_won
+                country_event = { id = gawed_yongdongbianqu.8 days = 1 }
+            }
+            else_if = {
+                limit = { gcd_crovis_rebels_won_trigger = yes }
+                set_country_flag = gcd_crovis_result_selected
+                country_event = { id = gawed_yongdongbianqu.7 days = 1 }
+            }
+        }
+    }
+}
+
+gcd_crovis_crown_victory_effect = {
+    if = { limit = { gcd_crovis_revolt_active_trigger = yes } white_peace = Z45 }
+    clr_country_flag = gcd_crovis_revolt_active
+    # 用户确认：“继承遗产”指直接吞并阿德肖。
+    if = { limit = { exists = Z26 } inherit = Z26 }
+    if = { limit = { exists = Z45 } inherit = Z45 }
+    east_chillsbay_area = { add_core = A13 }
+    set_country_flag = gcd_crovis_chain_finished
+    gcd_crovis_stop_pulse_effect = yes
+}
+gcd_crovis_rebel_victory_effect = {
+    if = { limit = { gcd_crovis_revolt_active_trigger = yes } white_peace = Z45 }
+    clr_country_flag = gcd_crovis_revolt_active
+    coast_of_vics_area = {
+        limit = { OR = { owned_by = A13 owned_by_subject_of = A13 } }
+        cede_province = Z26
+    }
+    set_country_flag = gcd_crovis_chain_finished
+    gcd_crovis_stop_pulse_effect = yes
+}

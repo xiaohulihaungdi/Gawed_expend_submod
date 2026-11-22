@@ -40,12 +40,16 @@ l_english:
  a13_5_4_desc:0 "第一阶段任务草稿，叙事文本待补。"
  a13_5_5_title:0 "威利亚姆之治"
  a13_5_5_desc:0 "第一阶段任务草稿，叙事文本待补。"
- # 新增：为已接入的任务修正补中文显示名，不修改修正数值。
+ # 调整：任务一至少完成两个不同附庸的全部条件；送礼按关系加成检查。
+ gcd_a13_lorent_subjects_tt:0 "至少§Y2§!个洛伦特附庸（§Y红林§!除外）对我国的关系达到§Y125§!，且各自获得我国送礼带来的至少§Y+25§!关系加成。"
+ gcd_a13_lorent_subjects_reward_tt:0 "所有满足上述关系及送礼条件的洛伦特附庸（§Y红林§!除外）获得§R+50§!独立倾向。"
+ # 新增：为已接入的任务修正补中文显示名。
  bumandebanshenren:0 "不满的半身人"
  ailunruqin:0 "艾伦入侵"
  ailundeshengli:0 "艾伦的胜利"
  weiqiaoenchuchou:0 "为乔恩复仇"
  quanwanqudezhuren:0 "全湾区的主人"
  xiangdongjinfa:0 "向东进发"
- tongzhibeiweik:0 "统治贝维克"
+ # 调整：名称与三项数值对应原版“贝维克之战”，沿用旧 ID 兼容现有存档。
+ tongzhibeiweik:0 "贝维克之战"
  lanwanzhizhu:0 "蓝湾之主"

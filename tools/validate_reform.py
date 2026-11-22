@@ -14,6 +14,7 @@ from check_event_structure import errors as event_errors
 from pdx_script import Node, parse
 from validate_welyam_units_and_reforms import validate as validate_units_and_reforms
 from validate_welyam_routes_and_outcomes import validate as validate_routes_and_outcomes
+from validate_lorent_missions import validate as validate_lorent_missions
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -195,7 +196,7 @@ def validate(anb: Path, game: Path):
     assert 'capital = 221' in (anb / "history/countries/A13 - Gawed.txt").read_text(encoding="utf-8-sig")
     assert (game / "gfx/interface/disasters/civil_war.dds").exists()
 
-    # 保留前四列、原稿、原版禁用文件；第五列的依赖仍无环。
+    # 保留未授权改动的前四列、原稿、原版禁用文件；任务依赖仍无环。
     missions = trees["missions/a13_stage1_missions.txt"]
     original = parse(subprocess.check_output(["git", "show", "acd61b7:missions/a13_stage1_missions.txt"], cwd=ROOT).decode("utf-8"))
     # 同步前发现安装目录已有两处图标互换；只允许并保留这两处，其余前四列须与基线相同。
@@ -204,11 +205,19 @@ def validate(anb: Path, game: Path):
         for mission in col.children():
             if mission.key in local_icons:
                 mission.children("icon")[0].value = local_icons[mission.key]
+            if mission.key in {"a13_1_1", "a13_2_1", "a13_3_1"}:
+                # 本轮任务一调整，并合并本机已有的任务二、任务三改动，防止同步覆盖。
+                current = next(n for column in missions.children() for n in column.children()
+                               if n.key == mission.key)
+                for key in ("trigger", "effect"):
+                    mission.children(key)[0].value = current.children(key)[0].value
     assert [normalized(n) for n in missions.children()[:4]] == [normalized(n) for n in original.children()[:4]]
     assert (ROOT / "missions/Gawedi_Missions.txt").read_bytes() == subprocess.check_output(
         ["git", "show", "acd61b7:missions/Gawedi_Missions.txt"], cwd=ROOT)
     all_missions = {n.key: n for col in missions.children() for n in col.children() if re.fullmatch(r"a13_\d_\d", n.key)}
     assert len(all_missions) == 20
+    validate_lorent_missions(all_missions, trees["common/scripted_triggers/gcd_a13_mission_triggers.txt"],
+                             trees["common/event_modifiers/a13_mission_modifiers1.txt"], anb)
     def visit(mid, stack):
         assert mid not in stack, ("循环依赖", mid)
         for dep in all_missions[mid].children("required_missions"):
@@ -338,7 +347,7 @@ def validate(anb: Path, game: Path):
         clean = re.sub(rb'\r?\n    # GCD_REFORM_BEGIN ([a-z_]+)\r?\n.*?    # GCD_REFORM_END \1\r?\n', b"", clean, flags=re.S)
         assert clean == (anb / path).read_bytes().removeprefix(b"\xef\xbb\xbf"), path
         assert hashlib.sha256(content).hexdigest() == bases[path]["generated_sha256"]
-    print("Reform validation passed: syntax/references, 20 missions, timer boundaries, disaster shutdown, loan unlock, outcomes, durations, compatibility and encoding.")
+    print("Reform validation passed: syntax/references, 20 missions, Lorent subject/gift boundaries, Bayvic values, timer boundaries, disaster shutdown, loan unlock, outcomes, durations, compatibility and encoding.")
 
 
 if __name__ == "__main__":

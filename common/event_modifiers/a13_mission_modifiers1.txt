@@ -1,5 +1,5 @@
 # 修正（加载）：使用 UTF-8 无 BOM，避免首个修正被误解析。
-# 接入用户提供的 8 个任务修正；所有数值均与原稿一致。
+# 接入用户提供的 8 个任务修正；后续授权调整在对应修正处注明。
 bumandebanshenren = {
     defensiveness = -0.2
 }
@@ -23,7 +23,10 @@ xiangdongjinfa = {
     global_colonial_growth = 25
 }
 tongzhibeiweik = {
-    land_morale = 0.1
+    # 调整：采用原版 adshaw_battle_for_bayvic 的三项数值；任务发放 20 年。
+    land_morale = 0.05
+    land_maintenance_modifier = -0.1
+    siege_ability = 0.1
 }
 lanwanzhizhu = {
     land_morale = 0.05

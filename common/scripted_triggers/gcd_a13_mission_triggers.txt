@@ -1,0 +1,11 @@
+# 新增：任务检查与奖励共用此条件；ROOT 为执行任务的加韦德。
+# 只计洛伦特的现存附庸，明确排除红林 A03。
+gcd_a13_lorent_subversion_target_trigger = {
+    exists = yes
+    is_subject_of = A01
+    is_vassal = yes
+    NOT = { tag = A03 }
+    has_opinion = { who = ROOT value = 125 }
+    # 用户确认：“送钱25”指送礼关系加成至少 +25，不是赠送 25 杜卡特。
+    has_25_opinion_sent_gift = { target = ROOT }
+}

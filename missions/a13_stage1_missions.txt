@@ -20,12 +20,37 @@ a13_mission_1 = { # 第 1 列
             A01 = {
                 has_spy_network_from = {
                     who = ROOT
-                    value = 25
+                    # 调整：洛伦特境内的加韦德间谍网至少达到 30。
+                    value = 30
+                }
+            }
+            # 调整：逐国计数；同一个附庸须同时满足关系与送礼要求，红林不计入。
+            custom_trigger_tooltip = {
+                tooltip = gcd_a13_lorent_subjects_tt
+                calc_true_if = {
+                    amount = 2
+                    all_country = {
+                        # 用单个布尔结果计数，避免把关系和礼物误算成两个国家。
+                        OR = { gcd_a13_lorent_subversion_target_trigger = yes }
+                    }
                 }
             }
         }
         effect = {
+            # 调整：获得小人国地区的普通宣称。
+            small_country_region = { add_claim = ROOT }
+            custom_tooltip = gcd_a13_lorent_subjects_reward_tt
+            hidden_effect = {
+                A01 = {
+                    every_subject_country = {
+                        # 与任务完成条件共用筛选；全部合格附庸均获益，红林始终排除。
+                        limit = { gcd_a13_lorent_subversion_target_trigger = yes }
+                        add_liberty_desire = 50
+                    }
+                }
+            }
             A01 = {
+                # 保留原期限：洛伦特防御效率 -20%，持续 20 年。
                 add_country_modifier = {
                     name = bumandebanshenren
                     duration = 7300
@@ -54,11 +79,37 @@ a13_mission_2 = { # 第 2 列
                 has_opinion_modifier = {
                     who = ROOT
                     modifier = sent_gift
+                    # 同步：保留本机对帝国让步任务的送礼关系至少 +25 要求。
+                    value = 25
+                }
+            }
+            calc_true_if = {
+                # 修正本机稿：amount 应放在计数器内；每个符合条件的国家只计一次。
+                amount = 2
+                all_country = {
+                    OR = {
+                        AND = {
+                            has_country_flag = lilac_wars_moon_party
+                            OR = {
+                                has_opinion_modifier = {
+                                    who = ROOT
+                                    modifier = insulted
+                                }
+                                has_opinion_modifier = {
+                                    who = ROOT
+                                    modifier = scornfully_insulted
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
         effect = {
-            # 待补：原稿奖励为空；保留空奖励，不添加自拟收益。
+            # 同步：保留本机奖励，给予威克斯 10 帝国权威。
+            A30 = {
+                add_imperial_influence = 10
+            }
         }
     }
 
@@ -197,14 +248,17 @@ a13_mission_3 = { # 第 3 列
         # 修正：补齐或移除原稿错位的闭合括号，恢复任务、条件和效果的独立层级。
         provinces_to_highlight = { }
         trigger = {
+            # 同步：保留本机修改，须与阿德肖结盟且其对我国关系达到 150。
+            alliance_with = Z26
             Z26 = {
                 has_opinion = {
                     who = ROOT
-                    value = 120
+                    value = 150
                 }
             }
         }
         effect = {
+            # 同步：保留本机修改，下列四个区域同时给我国与阿德肖永久宣称。
             # 修正：将原效果中的 NOT 移入 limit；仅给无核心且无永久宣称的省份加宣称。
             serpentshead_area = {
                 limit = {
@@ -212,6 +266,7 @@ a13_mission_3 = { # 第 3 列
                     NOT = { is_core = ROOT }
                 }
                 add_permanent_claim = ROOT
+                add_permanent_claim = Z26
             }
             # 修正：将原效果中的 NOT 移入 limit；仅给无核心且无永久宣称的省份加宣称。
             coast_of_vics_area = {
@@ -220,6 +275,7 @@ a13_mission_3 = { # 第 3 列
                     NOT = { is_core = ROOT }
                 }
                 add_permanent_claim = ROOT
+                add_permanent_claim = Z26
             }
             # 修正：将原效果中的 NOT 移入 limit；仅给无核心且无永久宣称的省份加宣称。
             west_chillsbay_area = {
@@ -228,6 +284,7 @@ a13_mission_3 = { # 第 3 列
                     NOT = { is_core = ROOT }
                 }
                 add_permanent_claim = ROOT
+                add_permanent_claim = Z26
             }
             # 修正：原国家作用域的孤立宣称行已移入上方省份组。
             # 修正：将原效果中的 NOT 移入 limit；仅给无核心且无永久宣称的省份加宣称。
@@ -237,8 +294,15 @@ a13_mission_3 = { # 第 3 列
                     NOT = { is_core = ROOT }
                 }
                 add_permanent_claim = ROOT
+                add_permanent_claim = Z26
             }
-            create_vassal = Z26
+            A13 = {
+                # 同步：保留本机的自治附庸类型，不退回普通附庸。
+                create_subject = {
+                    subject_type = autonomous_vassal
+                    subject = Z26
+                }
+            }
         }
     }
 
@@ -417,6 +481,8 @@ a13_mission_4 = { # 第 4 列
             }
         }
         effect = {
+            # 调整：三项数值与原版“贝维克之战”一致，期限为 20 年（7300 天）。
+            # 沿用修正 ID，使已有存档中的“统治贝维克”也读取更新后的数值。
             add_country_modifier = {
                 name = tongzhibeiweik
                 duration = 7300

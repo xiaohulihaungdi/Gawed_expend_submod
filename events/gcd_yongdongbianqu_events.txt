@@ -1,0 +1,302 @@
+namespace = gawed_yongdongbianqu
+
+# ============================================================
+# 加韦德（A13）“永冻边区”事件串
+# 放到你的 mod：events/gawed_yongdongbianqu_events.txt
+# 命名空间：gawed_yongdongbianqu（事件 id 依次 .1 ~ .6）
+# ============================================================
+
+
+
+
+# ------------------------------------------------------------
+# .1  加韦德支持克罗维斯（原 flavor_grombar.50 选项 a 的效果）
+# ------------------------------------------------------------
+# GCD_EVENT_NOTE_BEGIN gawed_yongdongbianqu.1
+# 事件：克洛维的冒险：加韦德援助（gawed_yongdongbianqu.1）
+# 用途：支持已记录的克洛维国家并获得10威望；无事件目标时改与阿德肖结盟。
+# GCD_EVENT_NOTE_END
+country_event = {
+	id = gawed_yongdongbianqu.1
+	title = flavor_grombar.50.t
+	desc = flavor_grombar.50.d
+	# 修正：使用本机可确认存在的外交事件图。
+	picture = DIPLOMACY_eventPicture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	# 防护：这些选项以加韦德为执行国。
+	trigger = { tag = A13 }
+
+	option = {
+		name = flavor_grombar.50.a
+		ai_chance = { factor = 100 }
+
+		if = {
+			limit = { has_saved_event_target = crovis_spawn_tag }
+			create_alliance = event_target:crovis_spawn_tag
+			add_historical_friend = event_target:crovis_spawn_tag
+			event_target:crovis_spawn_tag = { add_historical_friend = ROOT }
+			event_target:crovis_spawn_tag = {
+				country_event = {
+					id = flavor_grombar.52
+					days = 1
+				}
+			}
+		}
+		else = {
+			Z26 = { create_alliance = ROOT }
+		}
+
+		add_prestige = 10
+	}
+}
+
+
+# ------------------------------------------------------------
+# .2  永冻边区（Z45 / Vrorenmarch）成为加韦德的附庸
+# ------------------------------------------------------------
+# GCD_EVENT_NOTE_BEGIN gawed_yongdongbianqu.2
+# 事件：永冻边区归附（gawed_yongdongbianqu.2）
+# 用途：使独立且未与我国交战的永冻边区成为加韦德附庸。
+# GCD_EVENT_NOTE_END
+country_event = {
+	id = gawed_yongdongbianqu.2
+	title = flavor_frozenmaw.55.t
+	desc = flavor_frozenmaw.55.d
+	picture = ORC_WITH_AXE_eventPicture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	# 防护：这些选项以加韦德为执行国。
+	trigger = { tag = A13 }
+
+	option = {
+		name = flavor_frozenmaw.55.a
+		ai_chance = { factor = 100 }
+
+		if = {
+			limit = {
+				exists = Z45
+				NOT = { tag = Z45 }
+				Z45 = {
+					is_subject = no
+					NOT = { war_with = ROOT }
+				}
+			}
+			vassalize = Z45
+		}
+	}
+}
+
+
+# ------------------------------------------------------------
+# .3  可选：观察者，永冻边区一出现就自动给加韦德发 .2
+# ------------------------------------------------------------
+# GCD_EVENT_NOTE_BEGIN gawed_yongdongbianqu.3
+# 事件：永冻边区观察者（隐藏）（gawed_yongdongbianqu.3）
+# 用途：永冻边区独立存在且未与我国交战时，自动向加韦德投递归附事件。
+# GCD_EVENT_NOTE_END
+country_event = {
+	id = gawed_yongdongbianqu.3
+	hidden = yes
+	title = gawed_yongdongbianqu.3.t
+	desc = gawed_yongdongbianqu.3.d
+
+	trigger = {
+		tag = A13
+		exists = Z45
+		NOT = { has_country_flag = gawed_z45_watcher_done }
+		Z45 = {
+			is_subject = no
+			NOT = { war_with = ROOT }
+		}
+	}
+
+	mean_time_to_happen = { months = 1 }
+
+	immediate = {
+		set_country_flag = gawed_z45_watcher_done
+		country_event = {
+			id = gawed_yongdongbianqu.2
+			days = 1
+		}
+	}
+
+	option = { name = gawed_yongdongbianqu.3.a }
+}
+
+
+# ------------------------------------------------------------
+# .4  白湾文化（white_reachman）推行
+#     → 完成后 90 天触发 .5
+# ------------------------------------------------------------
+# GCD_EVENT_NOTE_BEGIN gawed_yongdongbianqu.4
+# 事件：白湾的归化（gawed_yongdongbianqu.4）
+# 用途：将五个指定省份改为白湾文化，90天后触发归属之争。
+# GCD_EVENT_NOTE_END
+country_event = {
+	id = gawed_yongdongbianqu.4
+	title = gawed_yongdongbianqu.4.t
+	desc = gawed_yongdongbianqu.4.d
+	picture = CITY_VIEW_eventPicture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	# 防护：这些选项以加韦德为执行国。
+	trigger = { tag = A13 }
+
+	option = {
+		name = gawed_yongdongbianqu.4.a
+		ai_chance = { factor = 100 }
+
+		726 = { change_culture = white_reachman }
+		738 = { change_culture = white_reachman }
+		739 = { change_culture = white_reachman }
+		740 = { change_culture = white_reachman }
+		990 = { change_culture = white_reachman }
+
+		# 第四个事件触发后 90 天 → 第五个事件
+		country_event = {
+			id = gawed_yongdongbianqu.5
+			days = 90
+		}
+	}
+}
+
+
+# ------------------------------------------------------------
+# .5  永冻边区的归属之争（由 .4 触发，90 天后到来）
+#     选项 a：让阿德肖（Z26）与永冻边区（Z45）独立 → 1 天后触发 .6
+#     选项 b：两国独立倾向 -10%，并获得 10 年修正 bumanderenmin
+# ------------------------------------------------------------
+# GCD_EVENT_NOTE_BEGIN gawed_yongdongbianqu.5
+# 事件：永冻边区的归属（gawed_yongdongbianqu.5）
+# 用途：选择释放两附庸并引发战争，或降低各10独立倾向并给予十年叛乱度+2修正。
+# GCD_EVENT_NOTE_END
+country_event = {
+	id = gawed_yongdongbianqu.5
+	title = gawed_yongdongbianqu.5.t
+	desc = gawed_yongdongbianqu.5.d
+	# 修正：原图片不存在，使用本机确认存在的事件图。
+	picture = DIPLOMACY_eventPicture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	# 防护：这些选项以加韦德为执行国。
+	trigger = { tag = A13 }
+
+	# 选项 a：放他们独立，随后翻脸
+	option = {
+		name = gawed_yongdongbianqu.5.a
+		# 补充：提示释放后的一日宣战后果。
+		custom_tooltip = gcd_yongdongbianqu_war_preview_tt
+		ai_chance = { factor = 50 }
+
+		if = {
+			limit = {
+				exists = Z26
+				Z26 = { is_subject_of = ROOT }
+			}
+			Z26 = { grant_independence = yes }
+		}
+
+		if = {
+			limit = {
+				exists = Z45
+				Z45 = { is_subject_of = ROOT }
+			}
+			Z45 = { grant_independence = yes }
+		}
+
+		add_prestige = -5
+
+		# 1 天后触发第六个事件（两国对加韦德宣战）
+		country_event = {
+			id = gawed_yongdongbianqu.6
+			days = 1
+		}
+	}
+
+	# 选项 b：收紧控制
+	option = {
+		name = gawed_yongdongbianqu.5.b
+		ai_chance = { factor = 50 }
+
+		if = {
+			limit = { exists = Z26 Z26 = { is_subject_of = ROOT } }
+			Z26 = {
+				add_liberty_desire = -10
+				add_country_modifier = {
+					name = bumanderenmin
+					duration = 3650
+				}
+			}
+		}
+
+		if = {
+			limit = { exists = Z45 Z45 = { is_subject_of = ROOT } }
+			Z45 = {
+				add_liberty_desire = -10
+				add_country_modifier = {
+					name = bumanderenmin
+					duration = 3650
+				}
+			}
+		}
+	}
+}
+
+
+# ------------------------------------------------------------
+# .6  阿德肖与永冻边区对加韦德宣战（由 .5 选项 a 触发，1 天后）
+# ------------------------------------------------------------
+# GCD_EVENT_NOTE_BEGIN gawed_yongdongbianqu.6
+# 事件：背叛（gawed_yongdongbianqu.6）
+# 用途：由独立的阿德肖和永冻边区分别向加韦德宣战。
+# GCD_EVENT_NOTE_END
+country_event = {
+	id = gawed_yongdongbianqu.6
+	title = gawed_yongdongbianqu.6.t
+	desc = gawed_yongdongbianqu.6.d
+	picture = ORC_WITH_AXE_eventPicture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	# 防护：这些选项以加韦德为执行国。
+	trigger = { tag = A13 }
+
+	option = {
+		name = gawed_yongdongbianqu.6.a
+		ai_chance = { factor = 100 }
+
+		# 两国各自对加韦德（ROOT = A13）宣战
+		# 想指定 CB 就把 declare_war 换成：
+		# declare_war_with_cb = { who = ROOT casus_belli = cb_conquest }
+		if = {
+			limit = {
+				exists = Z26
+				Z26 = {
+					is_subject = no
+					NOT = { war_with = ROOT }
+					# 修正：独立会带来停战，事件宣战不能被这一条件永久挡住。
+				}
+			}
+			Z26 = { declare_war = ROOT }
+		}
+
+		if = {
+			limit = {
+				exists = Z45
+				Z45 = {
+					is_subject = no
+					NOT = { war_with = ROOT }
+					# 修正：独立会带来停战，事件宣战不能被这一条件永久挡住。
+				}
+			}
+			Z45 = { declare_war = ROOT }
+		}
+	}
+}
+
+

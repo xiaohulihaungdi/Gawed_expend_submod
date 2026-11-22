@@ -1,0 +1,298 @@
+namespace = gawed_yongdongbianqu
+
+# ============================================================
+# 加韦德（A13）“永冻边区”事件串
+# 放到你的 mod：events/gawed_yongdongbianqu_events.txt
+# 命名空间：gawed_yongdongbianqu（事件 id 依次 .1 ~ .6）
+# ============================================================
+
+namespace = gawed_yongdongbianqu
+
+
+# ------------------------------------------------------------
+# .1  加韦德支持克罗维斯（原 flavor_grombar.50 选项 a 的效果）
+# ------------------------------------------------------------
+country_event = {
+	id = gawed_yongdongbianqu.1
+	title = flavor_grombar.50.t
+	desc = flavor_grombar.50.d
+	picture = CARIBBEAN_PIRATE_FORT_eventPicture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = flavor_grombar.50.a
+		ai_chance = { factor = 100 }
+
+		if = {
+			limit = { has_saved_event_target = crovis_spawn_tag }
+			create_alliance = event_target:crovis_spawn_tag
+			add_historical_friend = event_target:crovis_spawn_tag
+			event_target:crovis_spawn_tag = { add_historical_friend = ROOT }
+			event_target:crovis_spawn_tag = {
+				country_event = {
+					id = flavor_grombar.52
+					days = 1
+				}
+			}
+		}
+		else = {
+			Z26 = { create_alliance = ROOT }
+		}
+
+		add_prestige = 10
+	}
+}
+
+
+# ------------------------------------------------------------
+# .2  永冻边区（Z45 / Vrorenmarch）成为加韦德的附庸
+# ------------------------------------------------------------
+country_event = {
+	id = gawed_yongdongbianqu.2
+	title = flavor_frozenmaw.55.t
+	desc = flavor_frozenmaw.55.d
+	picture = ORC_WITH_AXE_eventPicture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = flavor_frozenmaw.55.a
+		ai_chance = { factor = 100 }
+
+		if = {
+			limit = {
+				exists = Z45
+				NOT = { tag = Z45 }
+				Z45 = {
+					is_subject = no
+					NOT = { war_with = ROOT }
+				}
+			}
+			vassalize = Z45
+		}
+	}
+}
+
+
+# ------------------------------------------------------------
+# .3  可选：观察者，永冻边区一出现就自动给加韦德发 .2
+# ------------------------------------------------------------
+country_event = {
+	id = gawed_yongdongbianqu.3
+	hidden = yes
+	title = gawed_yongdongbianqu.3.t
+	desc = gawed_yongdongbianqu.3.d
+
+	trigger = {
+		tag = A13
+		exists = Z45
+		NOT = { has_country_flag = gawed_z45_watcher_done }
+		Z45 = {
+			is_subject = no
+			NOT = { war_with = ROOT }
+		}
+	}
+
+	mean_time_to_happen = { months = 1 }
+
+	immediate = {
+		set_country_flag = gawed_z45_watcher_done
+		country_event = {
+			id = gawed_yongdongbianqu.2
+			days = 1
+		}
+	}
+
+	option = { name = gawed_yongdongbianqu.3.a }
+}
+
+
+# ------------------------------------------------------------
+# .4  白湾文化（white_reachman）推行
+#     → 完成后 90 天触发 .5
+# ------------------------------------------------------------
+country_event = {
+	id = gawed_yongdongbianqu.4
+	title = gawed_yongdongbianqu.4.t
+	desc = gawed_yongdongbianqu.4.d
+	picture = CITY_VIEW_eventPicture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = gawed_yongdongbianqu.4.a
+		ai_chance = { factor = 100 }
+
+		726 = { change_culture = white_reachman }
+		738 = { change_culture = white_reachman }
+		739 = { change_culture = white_reachman }
+		740 = { change_culture = white_reachman }
+		990 = { change_culture = white_reachman }
+
+		# 第四个事件触发后 90 天 → 第五个事件
+		country_event = {
+			id = gawed_yongdongbianqu.5
+			days = 90
+		}
+	}
+}
+
+
+# ------------------------------------------------------------
+# .5  永冻边区的归属之争（由 .4 触发，90 天后到来）
+#     选项 a：让阿德肖（Z26）与永冻边区（Z45）独立 → 1 天后触发 .6
+#     选项 b：两国独立倾向 -10%，并获得 10 年修正 bumanderenmin
+# ------------------------------------------------------------
+country_event = {
+	id = gawed_yongdongbianqu.5
+	title = gawed_yongdongbianqu.5.t
+	desc = gawed_yongdongbianqu.5.d
+	picture = ORNATE_THRONE_ROOM_eventPicture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	# 选项 a：放他们独立，随后翻脸
+	option = {
+		name = gawed_yongdongbianqu.5.a
+		ai_chance = { factor = 50 }
+
+		if = {
+			limit = {
+				exists = Z26
+				Z26 = { is_subject = yes }
+			}
+			Z26 = { grant_independence = yes }
+		}
+
+		if = {
+			limit = {
+				exists = Z45
+				Z45 = { is_subject = yes }
+			}
+			Z45 = { grant_independence = yes }
+		}
+
+		add_prestige = -5
+
+		# 1 天后触发第六个事件（两国对加韦德宣战）
+		country_event = {
+			id = gawed_yongdongbianqu.6
+			days = 1
+		}
+	}
+
+	# 选项 b：收紧控制
+	option = {
+		name = gawed_yongdongbianqu.5.b
+		ai_chance = { factor = 50 }
+
+		if = {
+			limit = { exists = Z26 }
+			Z26 = {
+				add_liberty_desire = -10
+				add_country_modifier = {
+					name = bumanderenmin
+					duration = 3650
+				}
+			}
+		}
+
+		if = {
+			limit = { exists = Z45 }
+			Z45 = {
+				add_liberty_desire = -10
+				add_country_modifier = {
+					name = bumanderenmin
+					duration = 3650
+				}
+			}
+		}
+	}
+}
+
+
+# ------------------------------------------------------------
+# .6  阿德肖与永冻边区对加韦德宣战（由 .5 选项 a 触发，1 天后）
+# ------------------------------------------------------------
+country_event = {
+	id = gawed_yongdongbianqu.6
+	title = gawed_yongdongbianqu.6.t
+	desc = gawed_yongdongbianqu.6.d
+	picture = ORC_WITH_AXE_eventPicture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = gawed_yongdongbianqu.6.a
+		ai_chance = { factor = 100 }
+
+		# 两国各自对加韦德（ROOT = A13）宣战
+		# 想指定 CB 就把 declare_war 换成：
+		# declare_war_with_cb = { who = ROOT casus_belli = cb_conquest }
+		if = {
+			limit = {
+				exists = Z26
+				Z26 = {
+					is_subject = no
+					NOT = { war_with = ROOT }
+					NOT = { truce_with = ROOT }
+				}
+			}
+			Z26 = { declare_war = ROOT }
+		}
+
+		if = {
+			limit = {
+				exists = Z45
+				Z45 = {
+					is_subject = no
+					NOT = { war_with = ROOT }
+					NOT = { truce_with = ROOT }
+				}
+			}
+			Z45 = { declare_war = ROOT }
+		}
+	}
+}
+
+
+# ============================================================
+# 修正定义：common/event_modifiers/gawed_modifiers.txt
+# ============================================================
+# bumanderenmin = {
+# 	icon = 1
+# 	liberty_desire = -0.1
+# }
+#
+# 说明：
+#  - 想让“独立倾向 -10%”由修正本身提供（效果持续整 10 年），就保留
+#    liberty_desire = -0.1，并把 .5 选项 b 里的 add_liberty_desire = -10 删掉；
+#  - 想按字面“立即 -10 且另有修正”，就保持现在的写法，把上面这行删掉，
+#    改成你想要的其它效果（例如 land_morale = 0.05）。
+#  - 修正不要为空，空修正游戏会报错。
+
+
+# ============================================================
+# 本地化（localisation/gawed_yongdongbianqu_l_english.yml，UTF-8 BOM）
+# ============================================================
+# l_english:
+#  gawed_yongdongbianqu.4.t:0 "白湾的归化"
+#  gawed_yongdongbianqu.4.d:0 "……"
+#  gawed_yongdongbianqu.4.a:0 "让他们成为白湾人。"
+#  gawed_yongdongbianqu.5.t:0 "永冻边区的归属"
+#  gawed_yongdongbianqu.5.d:0 "阿德肖与永冻边区如今都在我们手中……"
+#  gawed_yongdongbianqu.5.a:0 "让他们独立。"
+#  gawed_yongdongbianqu.5.b:0 "收紧缰绳。"
+#  gawed_yongdongbianqu.6.t:0 "背叛！"
+#  gawed_yongdongbianqu.6.d:0 "阿德肖与永冻边区同时向我们宣战。"
+#  gawed_yongdongbianqu.6.a:0 "那就让他们见识真正的战争。"
+#  gawed_yongdongbianqu.3.t:0 "（隐藏）"
+#  gawed_yongdongbianqu.3.d:0 "（隐藏）"
+#  gawed_yongdongbianqu.3.a:0 "好的。"
+#  bumanderenmin:0 "班德人之盟"

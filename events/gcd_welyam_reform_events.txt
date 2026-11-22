@@ -18,6 +18,10 @@ country_event = {
         # 新增：设为 30 而不是增加 30；作用于事件选项执行时全部本国省份。
         every_owned_province = { set_local_autonomy = 30 }
         custom_tooltip = gcd_welyam_reform_rules_tt
+        # 修正：开局选项同时完整显示三条机制，和灾难效果提示共用文字。
+        custom_tooltip = gcd_welyam_civil_war_rule_tt
+        custom_tooltip = gcd_welyam_rebels_rule_tt
+        custom_tooltip = gcd_welyam_westmoors_rule_tt
     }
 }
 

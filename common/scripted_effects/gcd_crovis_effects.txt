@@ -19,6 +19,31 @@ gcd_crovis_record_actor_effect = {
     save_global_event_target_as = gcd_crovis_actor
 }
 
+# 新增：原版开战回调直接通知玩家；每日入口兼容已开战/稍后承诺资助的存档。
+# 只排队一次；未送达超过3天才补投。事件显示即记seen，停留选项不会重复弹窗。
+gcd_crovis_queue_departure_effect = {
+    if = {
+        limit = {
+            tag = A13
+            gcd_crovis_departed_trigger = yes
+            NOT = { has_country_flag = gcd_crovis_departure_seen }
+            NOT = { has_country_flag = gcd_crovis_joined_restoration }
+            OR = {
+                NOT = { has_country_flag = gcd_crovis_departure_queued }
+                had_country_flag = { flag = gcd_crovis_departure_queued days = 3 }
+            }
+        }
+        clr_country_flag = gcd_crovis_departure_queued
+        set_country_flag = gcd_crovis_departure_queued
+        # 与原版事件栈分开，在开战后次日自动展示出征诗。
+        country_event = { id = gawed_yongdongbianqu.1 days = 1 }
+    }
+}
+gcd_crovis_on_restoration_war_effect = {
+    gcd_crovis_record_actor_effect = yes
+    A13 = { gcd_crovis_queue_departure_effect = yes }
+}
+
 gcd_crovis_join_restoration_effect = {
     if = {
         limit = { gcd_crovis_departed_trigger = yes }
@@ -29,12 +54,31 @@ gcd_crovis_join_restoration_effect = {
             }
             set_country_flag = gcd_crovis_actor
             save_global_event_target_as = gcd_crovis_actor
-            add_country_modifier = { name = gcd_crovis_funded_armies duration = -1 desc = gcd_crovis_buff_duration_tt }
         }
         # 与原版克洛维援军采用同一参战命令；原版剧情此时的进攻战争为复国战。
         join_all_offensive_wars_of = event_target:gcd_crovis_actor
-        add_country_modifier = { name = gcd_crovis_funded_armies duration = -1 desc = gcd_crovis_buff_duration_tt }
         set_country_flag = gcd_crovis_joined_restoration
+    }
+}
+
+# 调整：减伤改由任务发放；永久宣称按用户最新确认覆盖东艾伦河湾21省。
+gcd_crovis_grant_task_reward_effect = {
+    if = {
+        limit = {
+            gcd_crovis_in_restoration_war_trigger = yes
+            NOT = { has_country_flag = gcd_crovis_task_reward_granted }
+        }
+        add_country_modifier = { name = gcd_crovis_funded_armies duration = -1 desc = gcd_crovis_buff_duration_tt }
+        every_country = {
+            limit = { is_in_war = { casus_belli = cb_crovis_invasion attacker_leader = THIS defender_leader = Z18 } }
+            gcd_crovis_record_actor_effect = yes
+            add_country_modifier = { name = gcd_crovis_funded_armies duration = -1 desc = gcd_crovis_buff_duration_tt }
+        }
+        every_province = {
+            limit = { province_group = eastern_alenic_reach }
+            add_permanent_claim = ROOT
+        }
+        set_country_flag = gcd_crovis_task_reward_granted
     }
 }
 
@@ -115,6 +159,16 @@ gcd_crovis_daily_effect = {
             OR = { NOT = { has_country_flag = gcd_crovis_daily_tick } had_country_flag = { flag = gcd_crovis_daily_tick days = 1 } }
         }
         set_country_flag = gcd_crovis_daily_tick
+        gcd_crovis_queue_departure_effect = yes
+        # 兼容：旧版任务已完成、仍在复国战中的测试存档补齐奖励一次，不重置任务。
+        if = {
+            limit = {
+                mission_completed = a13_3_2
+                gcd_crovis_in_restoration_war_trigger = yes
+                NOT = { has_country_flag = gcd_crovis_task_reward_granted }
+            }
+            gcd_crovis_grant_task_reward_effect = yes
+        }
         if = {
             limit = {
                 has_country_modifier = gcd_crovis_funded_armies

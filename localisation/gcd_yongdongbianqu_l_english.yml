@@ -25,9 +25,9 @@
  gawed_yongdongbianqu.6.a:0 "±1S©‹ÖNìNÁ‰Æ‹wck„vb‰N0"
  gawed_yongdongbianqu.7.a:0 "eSLˆb%ag>k0"
  gcd_crovis_departed_tt:0 "×SbìND©R„vKQmôuòTÏuúQÑS"
- gcd_crovis_support_tt:0 " ReQKQmôuùRpp‹s„vYýVb‰N0ÌS¹eb×S„v²QûQ2O³RM–NO§G15%§!ÿcíu0RYýVb‰NÓumg0"
+ gcd_crovis_support_tt:0 " ReQKQmôuùRpp‹s„vYýVb‰NÿÙz(WKQmôuN¹e0"
  gcd_crovis_buff_duration_tt:0 "cíuóYýVb‰NÓumg"
- gcd_crovis_funded_armies:0 "Ä–pž„vôc©R"
+ gcd_crovis_funded_armies:0 "—bûQ‹QºN"
  desc_gcd_crovis_funded_armies:0 " Ræ—·VNKQmôu„v›Q–(WqQTjOb-Nøv’N=eôc0"
  gcd_crovis_execution_tt:0 "VKN¾S«ˆY³Q08l»Q¹HSåN?–·V–wÛSqNùRbýV±Rbÿ?–·V–wìrËz0Óußvv^ ReQb‰Nÿ¥c6ebýVÊS^SýVc	g„v‰ÒRŒn0ÌS¹eNýwKb¨RŒTs^0"
  gcd_crovis_mercy_tt:0 "VKN¾·ƒ—VÝO²b08l»Q¹HSN?–·V–wôuc^SýVsQû|ÿdkTÇekteTTv^0"
@@ -39,3 +39,6 @@
  gcd_adshaw_defend_capital:0 "ÝOkS–™ý"
  bumanderenmin:0 "Nán„vºNl"
  desc_bumanderenmin:0 "ßu»l‰R’cVÑSNán0"
+
+ # ŒteÿÂSbÐcHyNûN¡RVY±RRVÿîOck¿l(uŸSID|Q¹RòT	gXRch0
+ gcd_crovis_task_reward_tt:0 " Ræ—·VNKQmôu·ƒ—V§Y—bûQ‹QºN§!ÿNb×S²QûQ2O³R§G15%§!ÿcíuóYýVb‰NÓumg0\n Ræ—·V·ƒ—V§Y‹vŒn0WHSÿNŒ‚&O³lŒn21w	ÿ§!„v8lEN±Rðy0"

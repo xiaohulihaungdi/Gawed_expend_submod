@@ -316,12 +316,13 @@ a13_mission_3 = { # 第 3 列
         }
         provinces_to_highlight = { }
         trigger = {
-            # 调整：原旗标无来源，改为独立提示并检查真实的复国战争。
-            custom_trigger_tooltip = { tooltip = gcd_crovis_departed_tt gcd_crovis_departed_trigger = yes }
+            # 调整：保留原提示，要求我国已加入克洛维对灰王的这场复国战争。
+            custom_trigger_tooltip = { tooltip = gcd_crovis_departed_tt gcd_crovis_in_restoration_war_trigger = yes }
         }
         effect = {
-            # 调整：文档事件一负责参战与双方冲击伤害承受修正。
-            country_event = { id = gawed_yongdongbianqu.1 }
+            # 调整：参战事件已在开战时自动投递；任务只发减伤及永久宣称。
+            custom_tooltip = gcd_crovis_task_reward_tt
+            hidden_effect = { gcd_crovis_grant_task_reward_effect = yes }
         }
     }
 

@@ -11,7 +11,7 @@ NOTES = {
     "gawed_yongdongbianqu.7": ("叛军胜利（隐藏）", "达到首都及75分条件后和平，阿德肖取得贝维克海岸。"),
     "gawed_yongdongbianqu.10": ("克洛维赴加韦顿求援", "承诺资助，正文暂缺。"),
     "gawed_yongdongbianqu.11": ("旧存档求援接入（隐藏）", "补发已完成前置任务的求援。"),
-    "gawed_yongdongbianqu.1": ("克洛维启行之歌", "加入复国战，双方承受冲击伤害-15%，战后移除。"),
+    "gawed_yongdongbianqu.1": ("克洛维启行之歌", "开战后自动触发，加入克洛维一方；减伤与宣称由任务发放。"),
     "gawed_yongdongbianqu.2": ("白湾王冠之歌", "原版复国改名后落实附庸关系，180天后安排清剿事件。"),
     "gawed_yongdongbianqu.3": ("旧清剿队列接入（隐藏）", "旧版排队事件转交白湾归化，不自动归附。"),
     "gawed_yongdongbianqu.4": ("白湾的归化", "文档第三篇；五省改白湾文化，90天后触发.5。"),

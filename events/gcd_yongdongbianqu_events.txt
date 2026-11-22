@@ -34,7 +34,7 @@ country_event = {
 }
 
 # 事件：克洛维启行之歌（gawed_yongdongbianqu.1）
-# 用途：任务触发；加入原版复国战并给两国冲击伤害承受减免。
+# 用途：克洛维开战后自动触发，选择后加入其阵营；减伤与宣称改由任务奖励发放。
 country_event = {
     id = gawed_yongdongbianqu.1
     title = gawed_yongdongbianqu.1.t
@@ -43,6 +43,11 @@ country_event = {
     fire_only_once = yes
     is_triggered_only = yes
     trigger = { tag = A13 gcd_crovis_departed_trigger = yes }
+
+    immediate = {
+        set_country_flag = gcd_crovis_departure_seen
+        clr_country_flag = gcd_crovis_departure_queued
+    }
 
     option = {
         name = gawed_yongdongbianqu.1.a

@@ -8,6 +8,13 @@ gcd_crovis_departed_trigger = {
     }
 }
 
+# 调整：任务现在要求加韦德已经参加这场复国战，而不是仅检查克洛维开战。
+# 保留原自定义提示文字；CB、敌方领袖和交战对象一起排除旁观或其他战争。
+gcd_crovis_in_restoration_war_trigger = {
+    war_with = Z18
+    is_in_war = { casus_belli = cb_crovis_invasion defender_leader = Z18 }
+}
+
 # 新增：严格核对专属 CB 与双方领袖，不使用其他战争的占领或分数结算。
 gcd_crovis_revolt_active_trigger = {
     has_country_flag = gcd_crovis_revolt_active

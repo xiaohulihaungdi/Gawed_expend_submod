@@ -25,9 +25,9 @@ l_english:
  gawed_yongdongbianqu.6.a:0 "那就让他们见识真正的战争。"
  gawed_yongdongbianqu.7.a:0 "履行战败条款。"
  gcd_crovis_departed_tt:0 "受我们资助的克洛维已经出发"
- gcd_crovis_support_tt:0 "加入克洛维对灰王的复国战争。双方承受的冲击伤害降低§G15%§!，持续到复国战争结束。"
+ gcd_crovis_support_tt:0 "加入克洛维对灰王的复国战争，站在克洛维一方。"
  gcd_crovis_buff_duration_tt:0 "持续至复国战争结束"
- gcd_crovis_funded_armies:0 "雄鹰的援助"
+ gcd_crovis_funded_armies:0 "抗击兽人"
  desc_gcd_crovis_funded_armies:0 "加韦德与克洛维的军队在共同作战中相互支援。"
  gcd_crovis_execution_tt:0 "弗丽达将被处决。永冻边区以“阿德肖叛乱”对我国宣战，阿德肖独立、结盟并加入战争，接收我国及属国持有的西寒湾。双方不能手动和平。"
  gcd_crovis_mercy_tt:0 "弗丽达获得保护。永冻边区与阿德肖维持属国关系，此后通过逐步整合吞并。"
@@ -39,3 +39,6 @@ l_english:
  gcd_adshaw_defend_capital:0 "保卫首都"
  bumanderenmin:0 "不满的人民"
  desc_bumanderenmin:0 "统治安排引发不满。"
+
+ # 调整：参战提示与任务奖励分开，修正沿用原ID兼容已有存档。
+ gcd_crovis_task_reward_tt:0 "加韦德与克洛维获得§Y“抗击兽人”§!：所受冲击伤害§G−15%§!，持续至复国战争结束。\n加韦德获得§Y白湾地区（东艾伦河湾21省）§!的永久宣称。"

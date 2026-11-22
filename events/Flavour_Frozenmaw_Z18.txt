@@ -2893,6 +2893,11 @@ country_event = { # The Restoration War and Reachman Lords Join Us
 			who = Z18
 			casus_belli = cb_crovis_invasion
 		}
+    # GCD_REFORM_BEGIN crovis_departure
+    # 调整：宣战后直接向资助克洛维的加韦德投递参战事件。
+    gcd_crovis_on_restoration_war_effect = yes
+    # GCD_REFORM_END crovis_departure
+
 		Z18 = { set_country_flag = crovis_rebel_@ROOT }
 		if = {
 			limit = {

@@ -72,15 +72,17 @@ def build(anb_root: Path) -> dict[str, bytes]:
     # 新增：重建原版兼容事件时，同步保留每个事件前的中文名称和用途注释。
     result[path] = annotate_events(text).encode("utf-8")
 
-    # 新增：保留当前原版冰冻喉全文，只在克洛维登场、复国成功和失败处插入回调。
+    # 新增：保留当前原版冰冻喉全文，只在克洛维登场、宣战、复国成功和失败处插入回调。
     path = "events/Flavour_Frozenmaw_Z18.txt"
     text = (anb_root / path).read_bytes().decode("utf-8-sig")
     events = {e.scalar("id"): e for e in parse(text).children("country_event")}
     spawn = events["flavor_frozenmaw.49"].children("option")[0]
+    declared = events["flavor_frozenmaw.54"].children("option")[0].children("declare_war_with_cb")[0]
     restored = events["flavor_frozenmaw.55"].children("option")[0].children("change_tag")[0]
     defeated = events["flavor_frozenmaw.56"].children("immediate")[0]
     inserts = [
         (spawn.brace + 1, "    # 新增：记录真实克洛维国家，供加韦德任务检查和参战使用。\n    gcd_crovis_record_actor_effect = yes", "crovis_spawn"),
+        (declared.end, "    # 调整：宣战后直接向资助克洛维的加韦德投递参战事件。\n    gcd_crovis_on_restoration_war_effect = yes", "crovis_departure"),
         (restored.end, "    # 新增：必须在改名Z45后投递加冕事件。\n    gcd_crovis_after_restoration_effect = yes", "crovis_victory"),
         (defeated.brace + 1, "    # 新增：原版战败同样清除双方的复国战争临时修正。\n    gcd_crovis_remove_support_effect = yes", "crovis_defeat"),
     ]

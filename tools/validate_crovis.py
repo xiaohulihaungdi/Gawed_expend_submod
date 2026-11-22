@@ -22,6 +22,7 @@ class Occupation:
         self.flags = {"gcd_crovis_revolt_active"}
         self.disaster = True
         self.liberty = 51
+        self.joined = False
 
     def condition(self, n, actor="A13"):
         k, v = n.key, n.value
@@ -38,12 +39,16 @@ class Occupation:
         if k == "has_disaster": return self.disaster
         if k == "liberty_desire": return self.liberty >= float(v)
         if k == "is_in_war":
+            if n.scalar('casus_belli')=='cb_crovis_invasion':
+                return (self.cb=='cb_crovis_invasion' and n.scalar('defender_leader')=='Z18'
+                        and (actor=='Z23' if n.scalar('attacker_leader')=='THIS'
+                             else actor=='Z23' or (actor=='A13' and self.joined)))
             if n.scalar('attacker_leader')=='THIS':
                 return self.cb=='cb_crovis_invasion' and actor=='Z23' and n.scalar('defender_leader')=='Z18'
             return (self.cb == n.scalar("casus_belli") and
                     n.scalar("attacker_leader") == "Z45" and n.scalar("defender_leader") == "A13")
         if k == "war_score_against": return actor == "Z45" and n.scalar("who") == "A13" and self.score >= float(n.scalar("value"))
-        if k == 'war_with': return actor=='Z23' and v=='Z18' and self.cb=='cb_crovis_invasion'
+        if k == 'war_with': return (actor=='Z23' or (actor=='A13' and self.joined)) and v=='Z18' and self.cb=='cb_crovis_invasion'
         if k == 'any_country': return any(all(self.condition(c,tag) for c in n.children()) for tag in ('A13','Z18','Z23','Z26'))
         if k.isdigit(): return all(self.condition(c, int(k)) for c in n.children())
         if k == "controller": return all(self.condition(c, self.controllers[actor]) for c in n.children())
@@ -60,8 +65,13 @@ def validate():
     assert base.condition(crown) and not base.condition(rebels)
     funding=deepcopy(base);funding.cb='cb_crovis_invasion';funding.flags.add('gcd_crovis_funded')
     assert funding.condition(triggers['gcd_crovis_departed_trigger'])
+    # 克洛维开战足以通知玩家，但我国必须实际加入后才可完成任务。
+    assert not funding.condition(triggers['gcd_crovis_in_restoration_war_trigger'])
+    funding.joined=True
+    assert funding.condition(triggers['gcd_crovis_in_restoration_war_trigger'])
     funding.flags.remove('gcd_crovis_funded');assert not funding.condition(triggers['gcd_crovis_departed_trigger'])
     funding.flags.add('gcd_crovis_funded');funding.cb='cb_conquest';assert not funding.condition(triggers['gcd_crovis_departed_trigger'])
+    assert not funding.condition(triggers['gcd_crovis_in_restoration_war_trigger'])
     for p in (701,737,740,700,710):
         model=deepcopy(base);model.controllers[p]='Z26'
         assert not model.condition(crown),p
@@ -99,6 +109,20 @@ def validate():
     mods=parse((ROOT/'common/event_modifiers/gcd_yongdongbianqu_modifiers.txt').read_text(encoding='utf-8'))
     assert mods.children('gcd_crovis_funded_armies')[0].scalar('shock_damage_received')=='-0.15'
     assert mods.children('bumanderenmin')[0].scalar('global_unrest')=='2'
+    # 参战事件不再提前发buff；奖励由任务独立执行。
+    joining=effects.children('gcd_crovis_join_restoration_effect')[0]
+    assert not any(n.key=='add_country_modifier' for n in joining.walk())
+    reward=effects.children('gcd_crovis_grant_task_reward_effect')[0]
+    assert len([n for n in reward.walk() if n.key=='add_country_modifier'])==2
+    provinces=next(n for n in reward.walk() if n.key=='every_province')
+    assert provinces.children('limit')[0].scalar('province_group')=='eastern_alenic_reach'
+    assert provinces.scalar('add_permanent_claim')=='ROOT'
+    missions=parse((ROOT/'missions/a13_stage1_missions.txt').read_text(encoding='utf-8'))
+    mission=next(n for col in missions.children() for n in col.children() if n.key=='a13_3_2')
+    assert mission.children('trigger')[0].children('custom_trigger_tooltip')[0].scalar('gcd_crovis_in_restoration_war_trigger')=='yes'
+    assert not any(n.key=='country_event' for n in mission.children('effect')[0].walk())
+    assert any(n.key=='gcd_crovis_grant_task_reward_effect' for n in mission.children('effect')[0].walk())
+    assert any(n.key=='gcd_crovis_departure_seen' or (n.key=='set_country_flag' and n.value=='gcd_crovis_departure_seen') for n in event(1).children('immediate')[0].walk())
     finish=effects.children('gcd_crovis_crown_victory_effect')[0]
     assert {n.value for n in finish.walk() if n.key=='inherit'}=={'Z26','Z45'}
     assert finish.children('east_chillsbay_area')[0].children('add_core')[0].value=='A13'
@@ -110,6 +134,8 @@ def validate():
     frozen=parse((ROOT/'events/Flavour_Frozenmaw_Z18.txt').read_text(encoding='utf-8'))
     restored=next(e for e in frozen.children('country_event') if e.scalar('id')=='flavor_frozenmaw.55').children('option')[0]
     assert restored.children('change_tag')[0].end<restored.children('gcd_crovis_after_restoration_effect')[0].start
+    war=next(e for e in frozen.children('country_event') if e.scalar('id')=='flavor_frozenmaw.54').children('option')[0]
+    assert war.children('declare_war_with_cb')[0].end<war.children('gcd_crovis_on_restoration_war_effect')[0].start
     # 原文以段落分隔导出，所有五篇正文必须来自DOCX，不替换为早先聊天版本。
     source=(ROOT/'制作源文件/克洛维之歌_文档原文.txt').read_text(encoding='utf-8')
     loc=(ROOT/'制作源文件/永冻边区事件_中文原文.yml').read_text(encoding='utf-8')

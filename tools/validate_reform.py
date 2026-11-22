@@ -329,13 +329,13 @@ def validate(anb: Path, game: Path):
     options = events["gcd_welyam.20"].children("option")
     assert any(n.key == "set_country_flag" and n.value == "gcd_welyam_civil_war_blocked" for n in options[0].walk())
     assert not any(n.key == "set_country_flag" and n.value == "gcd_welyam_civil_war_blocked" for n in options[1].walk())
-    assert options[0].children("add_ruler_modifier")[0].scalar("duration") == "-1"
-    assert events["gcd_welyam.21"].children("option")[0].children("add_country_modifier")[0].scalar("duration") == "3650"
-    assert events["gcd_welyam.10"].children("option")[0].children("add_ruler_modifier")[0].scalar("duration") == "-1"
+    assert next(n for n in options[0].walk() if n.key == "add_ruler_modifier").scalar("duration") == "-1"
+    assert next(n for n in events["gcd_welyam.21"].walk() if n.key == "add_country_modifier").scalar("duration") == "3650"
+    assert next(n for n in events["gcd_welyam.10"].walk() if n.key == "add_ruler_modifier").scalar("duration") == "-1"
     assert {n.scalar("duration") for n in events["gcd_welyam.30"].walk() if n.key == "add_country_modifier"} == {"5475"}
     assert mods["gcd_welyam_great_hunt_karina"].scalar("diplomatic_reputation") == "4"
     cleanup = effects["gcd_welyam_cleanup_reform_effect"]
-    assert {n.value for n in cleanup.walk() if n.key == "remove_country_modifier"} == {"gcd_welyam_royal_right_hand"}
+    assert {n.value for n in cleanup.walk() if n.key == "remove_country_modifier"} == set(mods)
     assert any(n.key == "all_subject_country" for n in all_missions["a13_5_4"].children("trigger")[0].walk())
 
     # 兼容文件剥去插入片段之后与 Anbennar 原文件逐字节一致。

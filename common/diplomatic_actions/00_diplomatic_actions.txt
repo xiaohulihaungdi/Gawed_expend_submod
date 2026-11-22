@@ -675,6 +675,11 @@ declarewar = {
 	}
 
 	pre_effect = {
+    # GCD_REFORM_BEGIN wex_before_war
+    # 新增：在自动防御召唤之前消耗下一次对洛伦特宣战的威克斯中立奖励。
+    gcd_royal_before_declare_war_effect = yes
+    # GCD_REFORM_END wex_before_war
+
 		if = { #Caergaraen
 			limit = {
 				has_country_modifier = J74_saerasyar_sword_base_mod
@@ -774,6 +779,11 @@ declarewar = {
     # 新增：只在改革灾难中、由 A13 主动对洛伦特或皇帝宣战时检查威斯特摩尔。
     gcd_welyam_on_declare_war_effect = yes
     # GCD_REFORM_END westmoors_hook
+
+    # GCD_REFORM_BEGIN wex_after_war
+    # 新增：若外部强制脚本已将威克斯拉入目标战争，立即执行中立兜底。
+    if = { limit = { tag = A13 } gcd_wex_enforce_neutrality_effect = yes }
+    # GCD_REFORM_END wex_after_war
 
 		on_war_declaration_effect = yes #1.35
 
@@ -3871,6 +3881,22 @@ request_to_join_federation = {
 }
 
 callaction = {
+    # GCD_REFORM_BEGIN wex_call_lock
+    # 新增：只在这一次A13对A01的战争中限制威克斯的召唤，不解除任何同盟。
+    condition = {
+        tooltip = gcd_wex_neutrality_call_tt
+        potential = {
+            FROM = { tag = A30 }
+            A13 = { has_country_flag = gcd_wex_neutrality_active }
+            OR = {
+                tag = A13 tag = A01
+                is_in_war = { attacker_leader = A13 defender_leader = A01 }
+            }
+        }
+        allow = { always = no }
+    }
+    # GCD_REFORM_END wex_call_lock
+
 ### condition
 	#General Callaction
 	condition = { 

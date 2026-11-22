@@ -1,0 +1,14 @@
+# 新增：加韦德内战王室胜利，持续30年；不属于灾难临时修正，灾难清理不移除。
+gcd_royal_victory = {
+    nobles_influence_modifier = -0.20
+    global_autonomy = -0.10
+    land_maintenance_modifier = -0.20
+    global_tax_modifier = 0.20
+}
+
+# 新增：军事政府能力，获得一年人力之外再给予10年修正。
+# 原版中文的“训练度”对应discipline（+5%），不是军队操练值。
+gcd_royal_guard_training = {
+    land_maintenance_modifier = -0.10
+    discipline = 0.05
+}

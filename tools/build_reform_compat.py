@@ -29,7 +29,26 @@ def build(anb_root: Path) -> dict[str, bytes]:
     peace = node.children("requestpeace")[0]
     enforce = node.children("enforce_peace")[0]
     declare_effect = node.children("declarewar")[0].children("effect")[0]
+    declare_pre = node.children("declarewar")[0].children("pre_effect")[0]
+    call = node.children("callaction")[0]
     inserts = [
+        (declare_pre.brace + 1, '''    # 新增：在自动防御召唤之前消耗下一次对洛伦特宣战的威克斯中立奖励。
+    gcd_royal_before_declare_war_effect = yes''', "wex_before_war"),
+        (declare_effect.brace + 1, '''    # 新增：若外部强制脚本已将威克斯拉入目标战争，立即执行中立兜底。
+    if = { limit = { tag = A13 } gcd_wex_enforce_neutrality_effect = yes }''', "wex_after_war"),
+        (call.brace + 1, '''    # 新增：只在这一次A13对A01的战争中限制威克斯的召唤，不解除任何同盟。
+    condition = {
+        tooltip = gcd_wex_neutrality_call_tt
+        potential = {
+            FROM = { tag = A30 }
+            A13 = { has_country_flag = gcd_wex_neutrality_active }
+            OR = {
+                tag = A13 tag = A01
+                is_in_war = { attacker_leader = A13 defender_leader = A01 }
+            }
+        }
+        allow = { always = no }
+    }''', "wex_call_lock"),
         (peace.brace + 1, '''    # 新增：双方处于同一场加韦德内战时，禁止白和平、投降和单独议和。
     condition = {
         tooltip = gcd_welyam_no_manual_peace_tt
@@ -94,6 +113,13 @@ def build(anb_root: Path) -> dict[str, bytes]:
                               "保留原版剧情及选项；新增克洛维接口仅在标记处执行。")
              for e in parse(text).children("country_event")}
     result[path] = annotate_events(text, notes).encode("utf-8")
+
+    # 新增：仅把自定义政改注册到原有君主制第一层，其余政体列表保持原样。
+    path = "common/governments/00_governments.txt"
+    text = (anb_root / path).read_bytes().decode("utf-8-sig")
+    tier = parse(text).children("monarchy")[0].children("reform_levels")[0].children()[0].children("reforms")[0]
+    text = patch(text, tier.brace + 1, "    gcd_gawedi_monarchy", "gawedi_tier_one")
+    result[path] = text.encode("utf-8")
     return result
 
 

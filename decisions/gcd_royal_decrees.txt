@@ -1,0 +1,38 @@
+country_decisions = {
+    # 改编用户提供的BFE_tongguoyian：去除边方国家与暴政资源依赖，保留议案/阶层议案与自治度效果。
+    gcd_royal_force_issue = {
+        potential = { tag = A13 has_reform = gcd_gawedi_monarchy }
+        allow = {
+            OR = {
+                any_owned_province = { local_autonomy_above_min = 15 }
+                has_active_debate = yes
+                has_any_active_estate_agenda = yes
+            }
+            # 沿用原例10年冷却，以日期旗标实现，不额外添加数值惩罚。
+            custom_trigger_tooltip = {
+                tooltip = gcd_royal_force_issue_cooldown_tt
+                OR = {
+                    NOT = { has_country_flag = gcd_royal_force_issue_used }
+                    had_country_flag = { flag = gcd_royal_force_issue_used days = 3650 }
+                }
+            }
+        }
+        effect = {
+            clr_country_flag = gcd_royal_force_issue_used
+            set_country_flag = gcd_royal_force_issue_used
+            custom_tooltip = gcd_royal_force_issue_effect_tt
+            auto_complete_estate_agenda = { estate = all }
+            hidden_effect = {
+                every_owned_province = { add_local_autonomy_no_authority_effect = -15 }
+            }
+            if = {
+                limit = { has_parliament = yes has_active_debate = yes }
+                every_owned_province = {
+                    limit = { has_seat_in_parliament = yes NOT = { is_backing_current_issue = yes } }
+                    back_current_issue = yes
+                }
+            }
+        }
+        ai_will_do = { factor = 0 }
+    }
+}

@@ -110,6 +110,9 @@ a13_mission_2 = { # 第 2 列
             A30 = {
                 add_imperial_influence = 10
             }
+            # 新增：下一次主动对洛伦特宣战时，威克斯保持中立；不解除其同盟，只生效一次。
+            custom_tooltip = gcd_wex_neutrality_reward_tt
+            hidden_effect = { gcd_wex_arm_neutrality_effect = yes }
         }
     }
 
@@ -655,7 +658,11 @@ a13_mission_5 = { # 第 5 列
             clr_country_flag = gcd_welyam_rebel_event_queued
             # 修正（用户补充）：在完成此任务时立即解除借款禁令，且在任务提示里说明。
             hidden_effect = { gcd_welyam_unlock_burgher_loans_effect = yes }
-            add_country_modifier = { name = gcd_welyam_royal_right_hand duration = -1 }
+            # 防护：内战胜利已结束灾难的存档继续做任务时，不重新获得改革期修正。
+            if = {
+                limit = { has_disaster = gcd_welyam_reform }
+                add_country_modifier = { name = gcd_welyam_royal_right_hand duration = -1 }
+            }
             custom_tooltip = gcd_welyam_rebels_stopped_tt
         }
     }
@@ -747,7 +754,7 @@ a13_mission_5 = { # 第 5 列
             stability = 2
         }
         effect = {
-            # 新增：完成最后任务立即结束灾难；尚未设计的政府改革不建立虚假引用。
+            # 完成最后任务立即结束灾难；内战胜利的独立政改与奖励由内战结局发放。
             set_country_flag = gcd_welyam_reform_completed
             end_disaster = gcd_welyam_reform
             hidden_effect = { gcd_welyam_cleanup_reform_effect = yes }

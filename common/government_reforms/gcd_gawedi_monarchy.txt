@@ -1,0 +1,17 @@
+# 新增：注册于君主制第一层，胜利结算只替换第一层，不清空其他政改。
+gcd_gawedi_monarchy = {
+    icon = "crown"
+    allow_normal_conversion = yes
+    valid_for_nation_designer = no
+    potential = { tag = A13 has_country_flag = gcd_welyam_crown_victory_achieved }
+    has_parliament = yes
+    custom_attributes = { enables_estate_nobles = yes }
+    modifiers = {
+        nobles_influence_modifier = -0.10
+        burghers_loyalty_modifier = 0.10
+        stability_cost_modifier = -0.20
+        advisor_cost = -0.10
+    }
+    government_abilities = { gcd_gawedi_mechanic }
+    ai = { factor = 100 }
+}

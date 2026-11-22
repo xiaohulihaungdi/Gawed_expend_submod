@@ -1,0 +1,8 @@
+# 新增：沿用已使用的原生每日翻转，避免循环事件导致栈溢出。
+gcd_royal_daily_pulse = {
+    potential = { always = yes }
+    hidden = yes
+    trigger = { A13 = { NOT = { has_country_flag = gcd_royal_daily_flip } } }
+    on_activation = { A13 = { set_country_flag = gcd_royal_daily_flip gcd_royal_daily_effect = yes } }
+    on_deactivation = { A13 = { clr_country_flag = gcd_royal_daily_flip gcd_royal_daily_effect = yes } }
+}

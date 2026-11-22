@@ -1,0 +1,85 @@
+# 新增：内战胜利先终止灾难并清理其专属临时修正，再发放战后奖励。
+gcd_royal_finish_reform_victory_effect = {
+    set_country_flag = gcd_welyam_crown_victory_achieved
+    set_country_flag = gcd_welyam_reform_completed
+    if = { limit = { has_disaster = gcd_welyam_reform } end_disaster = gcd_welyam_reform }
+    gcd_welyam_cleanup_reform_effect = yes
+    if = {
+        limit = { NOT = { has_country_flag = gcd_royal_victory_awarded } }
+        set_country_flag = gcd_royal_victory_awarded
+        change_estate_land_share = { estate = estate_nobles share = -20 }
+        add_country_modifier = { name = gcd_royal_victory duration = 10950 }
+    }
+    # 第一层选项从当前Anbennar列表生成，其他层改革与点数不在此改动。
+    gcd_royal_install_tier1_effect = yes
+}
+
+# 新增：只给下一次主动对洛伦特宣战使用一次；之后的其他战争不重新装填。
+gcd_wex_arm_neutrality_effect = {
+    if = {
+        limit = { NOT = { has_country_flag = gcd_wex_neutrality_consumed } }
+        set_country_flag = gcd_wex_neutrality_ready
+        # 待用奖励只存标记；真正宣战时才启用日检，避免和平时期空转。
+    }
+}
+gcd_royal_before_declare_war_effect = {
+    if = {
+        limit = { tag = A13 FROM = { tag = A01 } has_country_flag = gcd_wex_neutrality_ready }
+        clr_country_flag = gcd_wex_neutrality_ready
+        set_country_flag = gcd_wex_neutrality_consumed
+        set_country_flag = gcd_wex_neutrality_active
+        gcd_royal_install_pulse_effect = yes
+    }
+}
+
+# 新增：宣战后及每日兜底仅核对A13进攻、A01防守的这场战争，不操作同盟关系。
+gcd_wex_enforce_neutrality_effect = {
+    if = {
+        limit = {
+            tag = A13 has_country_flag = gcd_wex_neutrality_active
+            A30 = { is_in_war = { attacker_leader = A13 defender_leader = A01 } }
+        }
+        # 外部脚本若绕过召唤限制强制拉入威克斯，只让它单独退出，不结束双方领袖的战争。
+        A30 = { white_peace = A13 }
+    }
+}
+
+# 新增：中立检测与改革灾难的检测分开，灾难结束不会撤销待用的任务奖励。
+gcd_royal_install_pulse_effect = {
+    if = {
+        limit = { NOT = { has_country_flag = gcd_royal_pulse_installed } }
+        set_country_flag = gcd_royal_pulse_installed
+        221 = { add_province_triggered_modifier = gcd_royal_daily_pulse }
+    }
+}
+gcd_royal_stop_pulse_effect = {
+    clr_country_flag = gcd_royal_pulse_installed
+    clr_country_flag = gcd_royal_last_tick
+    221 = { remove_province_triggered_modifier = gcd_royal_daily_pulse }
+}
+gcd_royal_daily_effect = {
+    if = {
+        limit = {
+            tag = A13 has_country_flag = gcd_royal_pulse_installed
+            OR = { NOT = { has_country_flag = gcd_royal_last_tick } had_country_flag = { flag = gcd_royal_last_tick days = 1 } }
+        }
+        set_country_flag = gcd_royal_last_tick
+        gcd_wex_enforce_neutrality_effect = yes
+        if = {
+            # 留一日供宣战流程建立战争；战争结束后移除这次中立，不影响后续战争。
+            limit = {
+                has_country_flag = gcd_wex_neutrality_active
+                NOT = { war_with = A01 }
+                had_country_flag = { flag = gcd_wex_neutrality_active days = 1 }
+            }
+            clr_country_flag = gcd_wex_neutrality_active
+        }
+        if = {
+            limit = {
+                NOT = { has_country_flag = gcd_wex_neutrality_ready }
+                NOT = { has_country_flag = gcd_wex_neutrality_active }
+            }
+            gcd_royal_stop_pulse_effect = yes
+        }
+    }
+}

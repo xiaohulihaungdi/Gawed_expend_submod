@@ -1,0 +1,33 @@
+﻿l_english:
+ # °ežXÿ‹s²R…QbÜw)R0Nµu?e9e0ÄOW¯eýw›RoR,gÊSN/k'`ZKQ¯e-NËzVY±R0
+ gcd_royal_victory:0 "‹s²R„vÜw)R"
+ gcd_royal_guard_training:0 "‹s²RkSuQ­‹Ãu"
+ gcd_gawedi_monarchy:0 " Ræ—·VTIN6R"
+ gcd_gawedi_monarchy_desc:0 "…QbÓumgTÿ‹s²R6eÞV'Y†˜IN„vèRW0WN›QyVCgÿìSÆ–ÌRFU®‹OyrªczKÿv^åNôv^S‹s Q„vkSuQˆR²b‹sýV0\n\n=T(u®‹Ov^ÝOYu5Ïe6–BSÿïSÇHV6RÇ‹s²R®‹Hh³Q®‹te˜0W¹eê»l0ŒRb6–BS®‹Hhv^O®‹-^=ecSVMR®‹Hh0"
+ gcd_gawedi_mechanic:0 " Ræ—·V‹s²RCg›R"
+ ability_gcd_gawedi_mechanic:0 " Ræ—·V‹s²RCg›R"
+ gcd_gawedi_adm_power:0 "†˜INW0Wte˜Û¦^"
+ gcd_gawedi_dip_power:0 "ÌRFU®‹OD©RÛ¦^"
+ gcd_gawedi_mil_power:0 "‹s²RkSuQ­‹ÃuÛ¦^"
+ gcd_gawedi_adm_power_gain_modifier:0 "†˜INW0Wte˜Û¦^žX•îOck"
+ gcd_gawedi_dip_power_gain_modifier:0 "ÌRFU®‹OD©RÛ¦^žX•îOck"
+ gcd_gawedi_mil_power_gain_modifier:0 "‹s²RkSuQ­‹ÃuÛ¦^žX•îOck"
+ monthly_gcd_gawedi_adm_power:0 "Ïkg†˜INW0Wte˜Û¦^"
+ monthly_gcd_gawedi_dip_power:0 "ÏkgÌRFU®‹OD©RÛ¦^"
+ monthly_gcd_gawedi_mil_power:0 "Ïkg‹s²RkSuQ­‹ÃuÛ¦^"
+ GCD_GAWEDI_SEIZE_LORDS:0 "yr–†˜INW0W"
+ GCD_GAWEDI_SEIZE_LORDS_desc:0 "1u‹s²R>mXTte˜'Y†˜IN„v†˜0WÿM–NO,gýVwýNê»l¦^0"
+ GCD_GAWEDI_FUND_COUNCIL:0 "D©RÌRFU®‹O"
+ GCD_GAWEDI_FUND_COUNCIL_desc:0 "åN‹s²R„v=ecôucÌRFU®‹Oÿ‹SNOýV…QÛSqN>mû|„vÛ¦^0"
+ GCD_GAWEDI_ROYAL_GUARD:0 "­‹Ãu‹s²RkSuQ"
+ GCD_GAWEDI_ROYAL_GUARD_desc:0 "eˆEQøvSVŽNNt^žX•„vºN›Rÿv^·ƒ—VcíuASt^„vF–›Qôu²b9 10%0­‹Ãu¦^ +5% îOck0"
+ gcd_royal_autonomy_tt:0 "Nb	g,gýVwýN·ƒ—VåNNHeœgÿ"
+ gcd_royal_force_issue_title:0 "HV6RÇ‹s²R®‹Hh"
+ gcd_royal_force_issue_desc:0 "åN‹s²RCgZ¨c¨R®‹HhÿOSVMR®‹O„vNb	g®‹-^lHN=ecÿŒRb°s	ghQè6–BS®‹Hhÿv^ShQè,gýVwýNê»l¦^M–NO150dk³Q®‹ÏkASt^ïSgbLˆN/k0"
+ gcd_royal_force_issue_cooldown_tt:0 "Ç»SASt^…Q*ggbLˆHV6RÇ‹s²R®‹Hh"
+ gcd_royal_force_issue_effect_tt:0 "Nb	g,gýVwýNê»l¦^ §G15§!0å‚	g®‹O©º‹ÿOhQè,gýV®‹-^=ecSVMR®‹Hhÿê¨RŒRbNb	g°s	g6–BS®‹Hh0\ndk³Q®‹ÛeQ §Y10 t^§! ·QtS0"
+ gcd_wex_neutrality_reward_tt:0 "§YNN/k§!bìNIN¨RT§Ym&Oyr§!±Rböeÿ§YZKQ¯e§!SÝOc-NËzÿsSOƒRNm&OyrÓußvmNNOÂSb0dkHeœgÅN(uŽNÙNHWb‰Nÿ§YNOã‰d–vQTßvsQû|§!0"
+ gcd_wex_neutrality_call_tt:0 "ZKQ¯eòTbú‹(W Ræ—·Vdk/kùRm&Oyr„vb‰N-NÝOc-NËz"
+ gcd_royal.1.t:0 "‹s²RbTNY²NVY±R|Q¹R¥ceQ"
+ gcd_royal.1.d:0 "HNçeXRch¥ceQ‹s²R…QbÜw)RŒTZKQ¯e-NËzVY±R0"
+ gcd_royal.1.a:0 "¥ceQòTŒRb…Q¹R„vVY±R0"

@@ -13,12 +13,15 @@ gcd_welyam_reform = {
     }
     can_stop = { has_any_disaster = yes }
     progress = { modifier = { factor = 100 always = yes } }
-    # 修正：结束条件直接核对任务，玩家看到任务名而不是内部国家旗标。
+    # 修正：完成末项任务或赢得加韦德内战均可结束，仍用清晰中文提示。
     # 三条机制附在同一提示的说明段，不参与结束条件判断；确保当前灾难悬浮框能读取。
     can_end = {
         custom_trigger_tooltip = {
             tooltip = gcd_welyam_reform_end_condition_tt
-            mission_completed = a13_5_5
+            OR = {
+                mission_completed = a13_5_5
+                has_country_flag = gcd_welyam_crown_victory_achieved
+            }
         }
     }
     modifier = {

@@ -46,7 +46,7 @@ country_event = {
 
 # GCD_EVENT_NOTE_BEGIN gcd_welyam.10
 # 事件：第一次富商议会（gcd_welyam.10）
-# 用途：发放改革进度、金钱及持续到君主死亡的顾问费用修正。
+# 用途：发放改革进度、金钱及顾问费用修正；君主死亡或改革灾难结束时移除修正。
 # GCD_EVENT_NOTE_END
 country_event = {
     id = gcd_welyam.10
@@ -56,17 +56,21 @@ country_event = {
     is_triggered_only = yes
     option = {
         name = gcd_welyam.10.a
-        # 新增：图五奖励放在事件选项中；顾问花费持续到当前君主死亡。
+        # 修正：顾问花费最多持续到君主死亡；灾难先结束则提前清除，迟到事件不重新发放。
         # 修正（日志确认）：add_reform_progress 不是 EU4 有效效果。
         change_government_reform_progress = 25
         add_treasury = 100
-        add_ruler_modifier = { name = gcd_welyam_first_council duration = -1 }
+        if = {
+            limit = { has_disaster = gcd_welyam_reform }
+            add_ruler_modifier = { name = gcd_welyam_first_council duration = -1 }
+            custom_tooltip = gcd_welyam_reform_modifier_duration_tt
+        }
     }
 }
 
 # GCD_EVENT_NOTE_BEGIN gcd_welyam.20
 # 事件：奥尔德沃德会议（gcd_welyam.20）
-# 用途：第一路线给予君主在世期间的贵族忠诚均衡点与影响力修正，并永久阻止内战；兼容旧存档的第二路线转入大领主之誓。
+# 用途：第一路线给予忠诚均衡点与影响力修正，直到君主死亡或灾难结束，并永久阻止内战；旧存档第二路线转入大领主之誓。
 # GCD_EVENT_NOTE_END
 country_event = {
     id = gcd_welyam.20
@@ -78,8 +82,12 @@ country_event = {
         name = gcd_welyam.20.a
         # 新增：只有原稿第一路线可用此选项，不可在完成任务后临时换路线领另一奖励。
         trigger = { has_country_flag = gcd_welyam_task3_settlement_route }
-        # 修正（图三）：第一路线持续到君主死亡。
-        add_ruler_modifier = { name = gcd_welyam_noble_settlement duration = -1 }
+        # 修正：最多持续到君主死亡；改革灾难结束即移除。
+        if = {
+            limit = { has_disaster = gcd_welyam_reform }
+            add_ruler_modifier = { name = gcd_welyam_noble_settlement duration = -1 }
+            custom_tooltip = gcd_welyam_reform_modifier_duration_tt
+        }
         hidden_effect = {
             set_country_flag = gcd_welyam_civil_war_blocked
             clr_country_flag = gcd_welyam_low_nobles_since
@@ -98,7 +106,7 @@ country_event = {
 
 # GCD_EVENT_NOTE_BEGIN gcd_welyam.21
 # 事件：大领主之誓（gcd_welyam.21）
-# 用途：第二路线立即没收20贵族土地、降低20贵族忠诚，并给予十年的叛乱度与自治度修正。
+# 用途：第二路线立即没收20贵族土地、降低20贵族忠诚；十年叛乱度与自治度修正遇灾难结束提前移除。
 # GCD_EVENT_NOTE_END
 country_event = {
     id = gcd_welyam.21
@@ -108,16 +116,20 @@ country_event = {
     is_triggered_only = yes
     option = {
         name = gcd_welyam.21.a
-        # 新增（用户图三）：立即没收贵族土地并降低忠诚；十年修正单独计时。
+        # 立即没收贵族土地并降低忠诚；十年修正若遇灾难结束则提前清除。
         change_estate_land_share = { estate = estate_nobles share = -20 }
         add_estate_loyalty = { estate = estate_nobles loyalty = -20 }
-        add_country_modifier = { name = gcd_welyam_crown_consolidation duration = 3650 }
+        if = {
+            limit = { has_disaster = gcd_welyam_reform }
+            add_country_modifier = { name = gcd_welyam_crown_consolidation duration = 3650 }
+            custom_tooltip = gcd_welyam_reform_modifier_duration_tt
+        }
     }
 }
 
 # GCD_EVENT_NOTE_BEGIN gcd_welyam.30
 # 事件：威利亚姆的大围猎（gcd_welyam.30）
-# 用途：增加各阶层忠诚并发放十五年外交修正；配偶为卡丽娜时使用额外奖励版本。
+# 用途：增加各阶层忠诚并发放十五年外交修正，灾难结束提前移除；配偶为卡丽娜时使用额外奖励版本。
 # GCD_EVENT_NOTE_END
 country_event = {
     id = gcd_welyam.30
@@ -130,10 +142,15 @@ country_event = {
         # 新增：所有大围猎奖励在事件里发放，任务仅触发事件并给前瞻。
         add_estate_loyalty = { estate = all loyalty = 10 }
         if = {
-            limit = { gcd_welyam_has_karina_trigger = yes }
-            add_country_modifier = { name = gcd_welyam_great_hunt_karina duration = 5475 }
+            # 防护：灾难结束后，迟到的大围猎事件不恢复改革期修正。
+            limit = { has_disaster = gcd_welyam_reform }
+            if = {
+                limit = { gcd_welyam_has_karina_trigger = yes }
+                add_country_modifier = { name = gcd_welyam_great_hunt_karina duration = 5475 }
+            }
+            else = { add_country_modifier = { name = gcd_welyam_great_hunt duration = 5475 } }
+            custom_tooltip = gcd_welyam_reform_modifier_duration_tt
         }
-        else = { add_country_modifier = { name = gcd_welyam_great_hunt duration = 5475 } }
     }
 }
 
@@ -275,7 +292,7 @@ country_event = {
 
 # GCD_EVENT_NOTE_BEGIN gcd_welyam.102
 # 事件：加韦德内战：王室的胜利（gcd_welyam.102）
-# 用途：加韦德取得至少99战争分数后结算王室胜利，吞并大边区等六个叛乱国家。
+# 用途：取得至少99分后吞并六个叛乱国，结束灾难并清理改革期修正，发放三十年王室胜利、没收贵族土地并启用加韦德君主制。
 # GCD_EVENT_NOTE_END
 country_event = {
     id = gcd_welyam.102

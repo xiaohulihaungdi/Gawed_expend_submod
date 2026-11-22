@@ -8,6 +8,11 @@ common/diplomatic_actions/00_diplomatic_actions.txt -text
 events/Flavour_Gawed_A13.txt -text
 # 生成的二级政改替换效果按字节校验，保留生成器的换行。
 common/scripted_effects/gcd_welyam_tier2_reform_effect.txt -text
+# 新增：政改注册表与俄罗斯能力副本也按生成器的原始字节校验。
+# 原版基线中的行尾空格一并保留，不作为新增格式错误报告。
+common/governments/00_governments.txt -text whitespace=-blank-at-eol
+common/government_mechanics/gcd_gawedi_monarchy.txt -text whitespace=-blank-at-eol
+common/scripted_effects/gcd_gawedi_tier1_effect.txt -text
 # 保留用户禁用文件和原稿的原始字节，避免 Git 自动转换换行。
 missions/Gawedi_Missions.txt -text
 制作源文件/*用户原稿.txt -text

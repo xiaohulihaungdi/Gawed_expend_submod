@@ -1,0 +1,41 @@
+namespace = gcd_royal
+
+# 事件：王室战后与外交奖励兼容接入（gcd_royal.1，隐藏）
+# 用途：为已完成旧任务或已赢得旧版内战的存档补上新奖励；不会重置任务或重复没收土地。
+country_event = {
+    id = gcd_royal.1
+    title = gcd_royal.1.t
+    desc = gcd_royal.1.d
+    hidden = yes
+    fire_only_once = yes
+    trigger = {
+        tag = A13
+        OR = {
+            AND = {
+                mission_completed = a13_2_1
+                NOT = { has_country_flag = gcd_wex_neutrality_ready }
+                NOT = { has_country_flag = gcd_wex_neutrality_consumed }
+            }
+            AND = {
+                has_country_flag = gcd_welyam_civil_war_crown_selected
+                has_country_flag = gcd_welyam_civil_war_happened
+                NOT = { has_country_flag = gcd_welyam_civil_war_active }
+                NOT = { has_country_flag = gcd_royal_victory_awarded }
+            }
+        }
+    }
+    mean_time_to_happen = { days = 1 }
+    option = {
+        name = gcd_royal.1.a
+        if = { limit = { mission_completed = a13_2_1 } gcd_wex_arm_neutrality_effect = yes }
+        if = {
+            limit = {
+                has_country_flag = gcd_welyam_civil_war_crown_selected
+                has_country_flag = gcd_welyam_civil_war_happened
+                NOT = { has_country_flag = gcd_welyam_civil_war_active }
+                NOT = { has_country_flag = gcd_royal_victory_awarded }
+            }
+            gcd_royal_finish_reform_victory_effect = yes
+        }
+    }
+}

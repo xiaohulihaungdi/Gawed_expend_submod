@@ -61,13 +61,8 @@ gcd_welyam_run_daily_once_effect = {
 
 gcd_welyam_cleanup_reform_effect = {
     set_country_flag = gcd_welyam_reform_ended
-    # 修正（战后新设计）：六项改革期修正全部随灾难结束；君主修正也用原生 remove_country_modifier 移除。
+    # 修正：只有明确注明持续到灾难结束的“国王的左膀右臂”在此移除。
     remove_country_modifier = gcd_welyam_royal_right_hand
-    remove_country_modifier = gcd_welyam_first_council
-    remove_country_modifier = gcd_welyam_noble_settlement
-    remove_country_modifier = gcd_welyam_crown_consolidation
-    remove_country_modifier = gcd_welyam_great_hunt
-    remove_country_modifier = gcd_welyam_great_hunt_karina
     gcd_welyam_unlock_burgher_loans_effect = yes
     clr_country_flag = gcd_welyam_low_nobles_since
     clr_country_flag = gcd_welyam_rebel_clock
@@ -77,7 +72,7 @@ gcd_welyam_cleanup_reform_effect = {
         limit = { NOT = { has_country_flag = gcd_welyam_civil_war_active } }
         gcd_welyam_remove_daily_pulse_effect = yes
     }
-    # 战后“王室的胜利”和卫兵训练属于独立新修正，不纳入改革期清理。
+    # 第一次富商议会、奥尔德沃德会议按君主期限；大领主之誓和大围猎按10/15年期限自行到期。
 }
 
 # 修正（用户补充）：任务二即可解除本灾难的借款禁令；灾难结束仍执行相同清理作为兜底。

@@ -1,5 +1,33 @@
 namespace = gcd_royal
 
+# 事件：改革完成与任务完成兼容修正（gcd_royal.2，隐藏）
+# 用途：旧版内战胜利补齐第五列完成状态；旧版完成威利亚姆之治却未获得政改时补授，不重发奖励。
+country_event = {
+    id = gcd_royal.2
+    title = gcd_royal.1.t
+    desc = gcd_royal.1.d
+    hidden = yes
+    fire_only_once = yes
+    trigger = {
+        tag = A13
+        NOT = { has_country_flag = gcd_royal_completion_checked }
+        OR = {
+            AND = {
+                has_country_flag = gcd_welyam_crown_victory_achieved
+                NOT = { AND = { mission_completed = a13_5_1 mission_completed = a13_5_2 mission_completed = a13_5_3 mission_completed = a13_5_4 mission_completed = a13_5_5 } }
+            }
+            AND = { mission_completed = a13_5_5 NOT = { has_reform = gcd_gawedi_monarchy } }
+        }
+    }
+    mean_time_to_happen = { days = 1 }
+    option = {
+        name = gcd_royal.1.a
+        set_country_flag = gcd_royal_completion_checked
+        if = { limit = { has_country_flag = gcd_welyam_crown_victory_achieved } gcd_royal_complete_fifth_column_effect = yes }
+        if = { limit = { mission_completed = a13_5_5 } gcd_royal_install_tier1_effect = yes }
+    }
+}
+
 # 事件：王室战后与外交奖励兼容接入（gcd_royal.1，隐藏）
 # 用途：为已完成旧任务或已赢得旧版内战的存档补上新奖励；不会重置任务或重复没收土地。
 country_event = {

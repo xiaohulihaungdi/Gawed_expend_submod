@@ -50,6 +50,8 @@ class RoyalModel(Model):
                     and node.scalar('attacker_leader') == 'A13' and node.scalar('defender_leader') == 'A01')
         if k == 'mission_completed':
             return v in self.completed
+        if k == 'gcd_welyam_has_karina_trigger':
+            return False # 此模型默认没有卡琳娜配偶，数值分支另由改革检查覆盖。
         if k == 'any_owned_province':
             old = self.scope
             result = False
@@ -94,6 +96,8 @@ class RoyalModel(Model):
                 self.gov = v
             elif k == 'inherit':
                 self.inherited.append(v)
+            elif k == 'complete_mission':
+                self.completed.add(v)
             elif k == 'white_peace':
                 self.peaces.append((self.actor, v))
                 if self.actor == 'A30': self.wex_in_target = False
@@ -139,7 +143,7 @@ def validate(anb: Path, game: Path):
     assert {n.key: n.value for n in mods['gcd_royal_guard_training'].children()} == {
         'land_maintenance_modifier': '-0.10', 'discipline': '0.05'}
 
-    # 直接执行真实胜利结算：清除全部旧修正、停时钟和借款禁令，再给新奖励；重复执行不得重复没地。
+    # 真实胜利结算：仅删除灾难专属修正，保留君主/定期修正，自动完成五项任务且不重发奖励。
     winner = RoyalModel(effects)
     winner.country_modifiers = {name: -1 for name in old_mods} | {'unrelated_reward': 999}
     winner.ruler_modifiers = {'gcd_welyam_first_council', 'gcd_welyam_noble_settlement'}
@@ -148,8 +152,9 @@ def validate(anb: Path, game: Path):
         'gcd_welyam_rebel_event_queued', 'gcd_welyam_owns_burgher_loan_lock', 'estate_burghers_indebted_to_burghers_disabled')})
     winner.reforms = {'feudalism_reform', 'empower_magnate_council', 'expanded_royal_court_reform'}
     winner.execute(effects['gcd_welyam_crown_victory_effect'])
-    assert not winner.disaster and not winner.ruler_modifiers
-    assert winner.country_modifiers == {'unrelated_reward': 999, 'gcd_royal_victory': 10950}
+    assert not winner.disaster and winner.ruler_modifiers == {'gcd_welyam_first_council', 'gcd_welyam_noble_settlement'}
+    assert winner.country_modifiers == {name:-1 for name in old_mods if name != 'gcd_welyam_royal_right_hand'} | {'unrelated_reward':999, 'gcd_royal_victory':10950}
+    assert winner.completed == {f'a13_5_{i}' for i in range(1,6)} and not winner.events
     assert winner.noble_land == 15 and winner.crown_land == 40
     assert winner.reforms == {'gcd_gawedi_monarchy', 'empower_magnate_council', 'expanded_royal_court_reform'}
     assert set(winner.inherited) == {'A50', 'B83', 'B84', 'A52', 'A51', 'A24'}
@@ -240,7 +245,7 @@ def validate(anb: Path, game: Path):
 
     events = read('events/gcd_royal_monarchy_events.txt')
     assert not event_errors(events, Node('ROOT', list(effects.values()), 0, 0))
-    migration = events.children('country_event')[0]
+    migration = next(e for e in events.children('country_event') if e.scalar('id') == 'gcd_royal.1')
     old = RoyalModel(effects)
     old.completed.add('a13_2_1')
     assert old.condition(migration.children('trigger')[0])
@@ -251,7 +256,26 @@ def validate(anb: Path, game: Path):
             late = RoyalModel(effects)
             late.disaster = False
             late.execute(event.children('option')[0])
-            assert not late.country_modifiers and not late.ruler_modifiers
+            assert late.country_modifiers or late.ruler_modifiers
+
+    # 正常任务路线不要求赢内战；旧档两种完成方式均补上缺失效果而不再次没收土地。
+    tasks = read('missions/a13_stage1_missions.txt')
+    last = next(n for col in tasks.children() for n in col.children() if n.key == 'a13_5_5')
+    peaceful = RoyalModel(effects)
+    peaceful.completed.add('a13_5_5')
+    peaceful.execute(last.children('effect')[0])
+    assert 'gcd_gawedi_monarchy' in peaceful.reforms and peaceful.noble_land == 35
+    assert peaceful.condition(reform.children('potential')[0])
+    compat = next(e for e in events.children('country_event') if e.scalar('id') == 'gcd_royal.2')
+    for won in (True, False):
+        state = RoyalModel(effects)
+        if won: state.flags['gcd_welyam_crown_victory_achieved'] = 0
+        else: state.completed.add('a13_5_5')
+        assert state.condition(compat.children('trigger')[0])
+        state.execute(compat.children('option')[0])
+        assert 'gcd_gawedi_monarchy' in state.reforms and state.noble_land == 35 and not state.country_modifiers
+        if won: assert state.completed == {f'a13_5_{i}' for i in range(1,6)}
+        assert not state.condition(compat.children('trigger')[0])
 
     source = (ROOT/'制作源文件/加韦德君主制_中文原文.yml').read_text(encoding='utf-8-sig')
     runtime = (ROOT/'localisation/gcd_gawedi_monarchy_l_english.yml').read_text(encoding='utf-8-sig')

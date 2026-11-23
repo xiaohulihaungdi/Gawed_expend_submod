@@ -1,6 +1,7 @@
 # 新增：内战胜利先终止灾难并清理其专属临时修正，再发放战后奖励。
 gcd_royal_finish_reform_victory_effect = {
     set_country_flag = gcd_welyam_crown_victory_achieved
+    set_country_flag = gcd_royal_completion_checked
     set_country_flag = gcd_welyam_reform_completed
     if = { limit = { has_disaster = gcd_welyam_reform } end_disaster = gcd_welyam_reform }
     gcd_welyam_cleanup_reform_effect = yes
@@ -12,6 +13,17 @@ gcd_royal_finish_reform_victory_effect = {
     }
     # 第一层选项从当前Anbennar列表生成，其他层改革与点数不在此改动。
     gcd_royal_install_tier1_effect = yes
+    # 新增：内战胜利自动完成第五列五项任务，只设置完成状态，不再次执行任务奖励或事件链。
+    gcd_royal_complete_fifth_column_effect = yes
+}
+
+# 新增：按任务树顺序标记完成；兼容旧档重复接入，不重新发放任务效果。
+gcd_royal_complete_fifth_column_effect = {
+    if = { limit = { NOT = { mission_completed = a13_5_1 } } complete_mission = a13_5_1 }
+    if = { limit = { NOT = { mission_completed = a13_5_2 } } complete_mission = a13_5_2 }
+    if = { limit = { NOT = { mission_completed = a13_5_3 } } complete_mission = a13_5_3 }
+    if = { limit = { NOT = { mission_completed = a13_5_4 } } complete_mission = a13_5_4 }
+    if = { limit = { NOT = { mission_completed = a13_5_5 } } complete_mission = a13_5_5 }
 }
 
 # 新增：只给下一次主动对洛伦特宣战使用一次；之后的其他战争不重新装填。

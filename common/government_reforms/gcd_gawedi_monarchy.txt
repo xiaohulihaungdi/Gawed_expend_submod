@@ -3,7 +3,8 @@ gcd_gawedi_monarchy = {
     icon = "crown"
     allow_normal_conversion = yes
     valid_for_nation_designer = no
-    potential = { tag = A13 has_country_flag = gcd_welyam_crown_victory_achieved }
+    # 修正：任务完成与内战胜利两条路线均可启用。
+    potential = { tag = A13 OR = { has_country_flag = gcd_welyam_crown_victory_achieved mission_completed = a13_5_5 } }
     has_parliament = yes
     custom_attributes = { enables_estate_nobles = yes }
     modifiers = {

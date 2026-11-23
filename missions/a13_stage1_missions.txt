@@ -754,10 +754,14 @@ a13_mission_5 = { # 第 5 列
             stability = 2
         }
         effect = {
-            # 完成最后任务立即结束灾难；内战胜利的独立政改与奖励由内战结局发放。
+            # 修正：正常完成威利亚姆之治也自动授予一级加韦德君主制，保留其他层政改。
             set_country_flag = gcd_welyam_reform_completed
+            set_country_flag = gcd_royal_completion_checked
             end_disaster = gcd_welyam_reform
-            hidden_effect = { gcd_welyam_cleanup_reform_effect = yes }
+            hidden_effect = {
+                gcd_welyam_cleanup_reform_effect = yes
+                gcd_royal_install_tier1_effect = yes
+            }
             custom_tooltip = gcd_welyam_reform_finished_tt
         }
     }

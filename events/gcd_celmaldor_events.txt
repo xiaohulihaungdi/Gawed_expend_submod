@@ -1,0 +1,129 @@
+namespace = gcd_celmaldor
+
+# 事件：凯尔马尔多第一阶段（gcd_celmaldor.1，正文待写）
+# 用途：加韦德或其非朝贡属国取得696后改为蓝湾文化，三项发展各-1、荒废度+20，并向维奈尔投递难民事件。
+country_event = {
+    id = gcd_celmaldor.1
+    title = gcd_celmaldor.1.t
+    desc = gcd_celmaldor.1.d
+    picture = NOBLE_ESTATE_eventPicture
+    fire_only_once = yes
+    trigger = {
+        tag = A13
+        696 = {
+            gcd_celmaldor_eligible_owner_trigger = yes
+            NOT = { has_province_flag = gcd_celmaldor_stage1 }
+        }
+    }
+    mean_time_to_happen = { days = 1 }
+    option = {
+        name = gcd_celmaldor.continue
+        696 = {
+            set_province_flag = gcd_celmaldor_stage1
+            change_culture = blue_reachman
+            # 原生文化变更回调亦会处理种族多数；这里同步转换，避免显示与人口条件短暂不一致。
+            convert_majority_to_minority = { size = large }
+            add_base_tax = -1
+            add_base_production = -1
+            add_base_manpower = -1
+            add_devastation = 20
+        }
+        country_event = { id = gcd_celmaldor.2 days = 365 }
+        if = { limit = { exists = A21 } A21 = { country_event = { id = gcd_celmaldor.4 days = 1 } } }
+    }
+}
+
+# 事件：凯尔马尔多第二阶段（gcd_celmaldor.2，正文待写）
+# 用途：第一阶段一年后减少一级精灵人口、三项发展各-1；自动条件为失地/旧队列提供补查，不循环投递事件。
+country_event = {
+    id = gcd_celmaldor.2
+    title = gcd_celmaldor.2.t
+    desc = gcd_celmaldor.2.d
+    picture = NOBLE_ESTATE_eventPicture
+    fire_only_once = yes
+    trigger = {
+        tag = A13
+        696 = {
+            gcd_celmaldor_eligible_owner_trigger = yes
+            had_province_flag = { flag = gcd_celmaldor_stage1 days = 365 }
+            NOT = { has_province_flag = gcd_celmaldor_stage2 }
+            NOT = { has_province_flag = gcd_celmaldor_stage2_delivered }
+        }
+    }
+    mean_time_to_happen = { days = 1 }
+    # 延迟投递与自动补查可能同日到达，显示时即锁定，避免弹出两个相同事件。
+    immediate = { 696 = { set_province_flag = gcd_celmaldor_stage2_delivered } }
+    option = {
+        name = gcd_celmaldor.continue
+        696 = {
+            set_province_flag = gcd_celmaldor_stage2
+            remove_elven_minority_size_effect = yes
+            add_base_tax = -1
+            add_base_production = -1
+            add_base_manpower = -1
+        }
+        country_event = { id = gcd_celmaldor.3 days = 730 }
+    }
+}
+
+# 事件：凯尔马尔多第三阶段（gcd_celmaldor.3，正文待写）
+# 用途：第二阶段两年后清除精灵人口，维护原生人口计数，并令三项发展各-1。
+country_event = {
+    id = gcd_celmaldor.3
+    title = gcd_celmaldor.3.t
+    desc = gcd_celmaldor.3.d
+    picture = NOBLE_ESTATE_eventPicture
+    fire_only_once = yes
+    trigger = {
+        tag = A13
+        696 = {
+            gcd_celmaldor_eligible_owner_trigger = yes
+            had_province_flag = { flag = gcd_celmaldor_stage2 days = 730 }
+            NOT = { has_province_flag = gcd_celmaldor_stage3 }
+            NOT = { has_province_flag = gcd_celmaldor_stage3_delivered }
+        }
+    }
+    mean_time_to_happen = { days = 1 }
+    immediate = { 696 = { set_province_flag = gcd_celmaldor_stage3_delivered } }
+    option = {
+        name = gcd_celmaldor.continue
+        696 = {
+            set_province_flag = gcd_celmaldor_stage3
+            # 兜底：期间若其他脚本又令精灵成为多数，先恢复蓝湾文化再走原生转换和移除。
+            if = {
+                limit = { has_elven_majority_trigger = yes }
+                change_culture = blue_reachman
+                convert_majority_to_minority = { size = large }
+            }
+            remove_racial_minority_any_size = { race = elven }
+            add_base_tax = -1
+            add_base_production = -1
+            add_base_manpower = -1
+        }
+    }
+}
+
+# 事件：维奈尔接纳凯尔马尔多精灵难民（gcd_celmaldor.4，正文待写）
+# 用途：A21获得永久殖民修正；仅向A13广播，效果不会重复施加给旁观的加韦德。
+country_event = {
+    id = gcd_celmaldor.4
+    title = gcd_celmaldor.4.t
+    desc = gcd_celmaldor.4.d
+    picture = DIPLOMACY_eventPicture
+    fire_only_once = yes
+    major = yes
+    major_trigger = { tag = A13 }
+    trigger = {
+        tag = A21
+        696 = {
+            has_province_flag = gcd_celmaldor_stage1
+            NOT = { has_province_flag = gcd_celmaldor_refugees_received }
+        }
+    }
+    mean_time_to_happen = { days = 1 }
+    immediate = {
+        696 = { set_province_flag = gcd_celmaldor_refugees_received }
+        add_country_modifier = { name = gcd_celmaldor_elven_refugees duration = -1 }
+    }
+    option = { name = gcd_celmaldor.continue }
+}

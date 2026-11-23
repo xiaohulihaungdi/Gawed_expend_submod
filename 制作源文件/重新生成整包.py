@@ -76,6 +76,7 @@ def build_localisation() -> list[Path]:
         "永冻边区事件_中文原文.yml": "gcd_yongdongbianqu_l_english.yml",
         "加韦德君主制_中文原文.yml": "gcd_gawedi_monarchy_l_english.yml",
         "王冠与婚约_中文原文.yml": "gcd_royal_marriage_l_english.yml",
+        "凯尔马尔多_中文原文.yml": "gcd_celmaldor_l_english.yml",
     }
     targets = []
     for source, name in sources.items():

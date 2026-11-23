@@ -212,6 +212,10 @@ def validate(anb: Path, game: Path):
                                if n.key == mission.key)
                 for key in ("trigger", "effect"):
                     mission.children(key)[0].value = current.children(key)[0].value
+            if mission.key == 'a13_4_4':
+                # 用户授权：清除毒疮改为无精灵人口；奖励仍与旧基线逐项比较。
+                current = next(n for column in missions.children() for n in column.children() if n.key == mission.key)
+                mission.children('trigger')[0].value = current.children('trigger')[0].value
     assert [normalized(n) for n in missions.children()[:4]] == [normalized(n) for n in original.children()[:4]]
     assert (ROOT / "missions/Gawedi_Missions.txt").read_bytes() == subprocess.check_output(
         ["git", "show", "acd61b7:missions/Gawedi_Missions.txt"], cwd=ROOT)

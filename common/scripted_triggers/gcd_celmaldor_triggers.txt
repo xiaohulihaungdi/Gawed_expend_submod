@@ -1,0 +1,11 @@
+# 新增：省份作用域；同时排除原版与Anbennar朝贡类型，不干涉其他国家的凯尔马尔多。
+gcd_celmaldor_eligible_owner_trigger = {
+    OR = {
+        owned_by = A13
+        owner = {
+            is_subject_of = A13
+            NOT = { is_subject_of_type = tributary_state }
+            NOT = { is_subject_of_type = tributary_state_anb }
+        }
+    }
+}

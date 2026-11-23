@@ -554,8 +554,8 @@ a13_mission_4 = { # 第 4 列
         trigger = {
             # 修正：原稿 8432 不存在；按用户确认改为凯尔马尔多 Celmaldor，省份 696。
             696 = {
-                # 修正：当前 Anbennar 的蓝湾文化代码为 blue_reachman。
-                culture = blue_reachman
+                # 修正：任务现在检查精灵人口完全不存在，包含多数与大小少数，不再只检查文化。
+                NOT = { has_any_elven_pop_trigger = yes }
             }
         }
         effect = {

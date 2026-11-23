@@ -1,0 +1,6 @@
+# 新增：给予维奈尔A21的永久国家修正；殖民范围为原生百分比，殖民增长为每年定居者数量。
+gcd_celmaldor_elven_refugees = {
+    colonists = 1
+    colonial_range = 0.30
+    global_colonial_growth = 10
+}

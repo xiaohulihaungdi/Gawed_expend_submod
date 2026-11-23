@@ -15,8 +15,8 @@ gcd_welyam_settlement_route_trigger = {
     treasury = 200
 }
 gcd_welyam_consolidation_route_trigger = {
-    # 修正（用户图示）：第二路线必须严格低于 30，30～49 不满足任何路线。
-    NOT = { estate_influence = { estate = estate_nobles influence = 30 } }
+    # 修正：第二路线严格低于40；正好40不满足，特权数量要求保留。
+    NOT = { estate_influence = { estate = estate_nobles influence = 40 } }
     NOT = { num_of_estate_privileges = { estate = estate_nobles value = 2 } }
 }
 

@@ -37,8 +37,8 @@ a13_mission_1 = { # 第 1 列
             }
         }
         effect = {
-            # 调整：获得小人国地区的普通宣称。
-            small_country_region = { add_claim = ROOT }
+            # 修正：小人国地区给予永久性宣称。
+            small_country_region = { add_permanent_claim = ROOT }
             custom_tooltip = gcd_a13_lorent_subjects_reward_tt
             hidden_effect = {
                 A01 = {
@@ -397,30 +397,8 @@ a13_mission_3 = { # 第 3 列
                 name = quanwanqudezhuren
                 duration = -1
             }
-            # 修正：将原效果中的 NOT 移入 limit；仅给无核心且无永久宣称的省份加宣称。
-            wudhal_area = {
-                limit = {
-                    NOT = { is_permanent_claim = ROOT }
-                    NOT = { is_core = ROOT }
-                }
-                add_permanent_claim = ROOT
-            }
-            # 修正：将原效果中的 NOT 移入 limit；仅给无核心且无永久宣称的省份加宣称。
-            northern_giants_tears_area = {
-                limit = {
-                    NOT = { is_permanent_claim = ROOT }
-                    NOT = { is_core = ROOT }
-                }
-                add_permanent_claim = ROOT
-            }
-            # 修正：将原效果中的 NOT 移入 limit；仅给无核心且无永久宣称的省份加宣称。
-            southern_giants_tears_area = {
-                limit = {
-                    NOT = { is_permanent_claim = ROOT }
-                    NOT = { is_core = ROOT }
-                }
-                add_permanent_claim = ROOT
-            }
+            # 修正：所有当前灰皮兽人文化省份均获永久宣称，不再限定三个区域。
+            every_province = { limit = { culture = gray_orc } add_permanent_claim = ROOT }
         }
     }
 

@@ -142,6 +142,29 @@ def build(anb_root: Path) -> dict[str, bytes]:
     for location, content, label in sorted(inserts, reverse=True):
         text = patch(text, location, content, label)
     localisation = (anb_root / "localisation/Flavour_Frozenmaw_Z18_l_english.yml").read_text(encoding="utf-8-sig")
+    # 修正：.54在内战期间只保存暂缓标记，不执行出兵、宣战及后续事件；之后由独立隐藏事件恢复。
+    war = next(e for e in parse(text).children('country_event') if e.scalar('id') == 'flavor_frozenmaw.54')
+    option = war.children('option')[0]
+    original = text[option.start:option.end]
+    newline = '\r\n' if '\r\n' in text else '\n'
+    # patch统一处理换行，传入的片段须先归一为LF，避免原CRLF变成CRCRLF。
+    body = '\n'.join(text[n.start:n.end].replace('\r\n','\n') for n in option.children() if n.key != 'name')
+    active = '''    option = {
+        name = flavor_frozenmaw.54.a
+        if = {
+            limit = { A13 = { OR = { has_country_flag = gcd_welyam_civil_war_active has_country_flag = gcd_welyam_civil_war_starting } } }
+            gcd_crovis_record_actor_effect = yes
+            set_country_flag = gcd_crovis_departure_paused
+        }
+        else = {
+    ''' + body + '''
+        }
+    }'''
+    commented = newline.join('# '+line for line in original.splitlines())
+    replacement = '# GCD_ORIGINAL_TRIGGER_BEGIN frozenmaw54.option'+newline+commented+newline+'# GCD_ORIGINAL_TRIGGER_END frozenmaw54.option'
+    text = text[:option.start]+replacement+text[option.end:]
+    line_start = text.rfind('\n',0,option.start)+1
+    text = patch(text,line_start,active,'crovis_civil_war_pause')
     titles = dict(re.findall(r'^\s*([\w.]+):\d+\s+"([^"\n]*)"', localisation, re.M))
     notes = {e.scalar("id"): (titles.get(e.scalar("title"), e.scalar("title")),
                               "保留原版剧情及选项；新增克洛维接口仅在标记处执行。")
@@ -154,6 +177,11 @@ def build(anb_root: Path) -> dict[str, bytes]:
     tier = parse(text).children("monarchy")[0].children("reform_levels")[0].children()[0].children("reforms")[0]
     text = patch(text, tier.brace + 1, "    gcd_gawedi_monarchy", "gawedi_tier_one")
     result[path] = text.encode("utf-8")
+    # 修正：历史初始化即锁定贷款，覆盖首次暂停画面；on_startup同时服务已存在的存档。
+    path = 'history/countries/A13 - Gawed.txt'
+    text = (anb_root / path).read_bytes().decode('utf-8-sig')
+    text = patch(text,len(text),'    gcd_welyam_lock_burgher_loans_effect = yes','gawed_initial_loan_lock')
+    result[path] = text.encode('utf-8')
     return result
 
 

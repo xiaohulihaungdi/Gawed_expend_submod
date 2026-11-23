@@ -1,5 +1,41 @@
 namespace = gawed_yongdongbianqu
 
+# 事件：克洛维出征恢复检查（gawed_yongdongbianqu.12，隐藏）
+# 用途：内战结束后消费暂缓标记，再投递原版.54，保留其原军队、宣战和后续剧情；不自我调度。
+country_event = {
+    id = gawed_yongdongbianqu.12
+    title = gcd_crovis_resume_title
+    desc = gcd_crovis_resume_desc
+    hidden = yes
+    trigger = {
+        has_country_flag = gcd_crovis_departure_paused
+        A13 = { NOT = { has_country_flag = gcd_welyam_civil_war_active } NOT = { has_country_flag = gcd_welyam_civil_war_starting } }
+    }
+    mean_time_to_happen = { days = 1 }
+    option = {
+        name = gcd_crovis_resume_title
+        clr_country_flag = gcd_crovis_departure_paused
+        if = { limit = { exists = Z18 NOT = { war_with = Z18 } } country_event = { id = flavor_frozenmaw.54 days = 1 } }
+    }
+}
+
+# 事件：永冻边区自治附庸兼容（gawed_yongdongbianqu.13，隐藏）
+# 用途：旧存档已经完成加冕的普通附庸转换为自治附庸，保留后续剧情及其他国家关系。
+country_event = {
+    id = gawed_yongdongbianqu.13
+    title = gcd_crovis_autonomy_title
+    desc = gcd_crovis_resume_desc
+    hidden = yes
+    fire_only_once = yes
+    trigger = { tag = A13 has_country_flag = gcd_crovis_coronation_seen NOT = { has_country_flag = gcd_crovis_autonomy_set } Z45 = { is_subject_of = A13 } }
+    mean_time_to_happen = { days = 1 }
+    option = {
+        name = gcd_crovis_autonomy_title
+        set_country_flag = gcd_crovis_autonomy_set
+        if = { limit = { Z45 = { NOT = { is_subject_of_type = autonomous_vassal } } } create_subject = { subject_type = autonomous_vassal subject = Z45 } }
+    }
+}
+
 # 调整：文档五篇分别为.1/.2/.4/.5/.8；.6执行开战，.10为求援。
 
 # 事件：克洛维赴加韦顿求援（gawed_yongdongbianqu.10）
@@ -74,7 +110,12 @@ country_event = {
     }
     option = {
         name = gawed_yongdongbianqu.2.a
-        if = { limit = { Z45 = { is_subject = no } } vassalize = Z45 }
+        # 修正：复国后的永冻边区采用自治附庸；同属我国的旧普通附庸也转换。
+        if = {
+            limit = { Z45 = { OR = { is_subject = no is_subject_of = A13 } } }
+            create_subject = { subject_type = autonomous_vassal subject = Z45 }
+            set_country_flag = gcd_crovis_autonomy_set
+        }
     }
 }
 

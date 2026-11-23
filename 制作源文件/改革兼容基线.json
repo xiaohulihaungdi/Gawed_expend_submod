@@ -9,10 +9,14 @@
   },
   "events/Flavour_Frozenmaw_Z18.txt": {
     "anb_sha256": "6c2a086c637505e18dd22ad06bf4ab68d537ea48d16df639a0cbe1666ba725ba",
-    "generated_sha256": "6382e5f7153ab86388d7fc145bcd6c2bf8925377c67c450a1ec55770406258e1"
+    "generated_sha256": "16d1b4a5fbfbc479426d171c0f005452facc0a11fb4b5ee84a91c36258d762e6"
   },
   "common/governments/00_governments.txt": {
     "anb_sha256": "09afc124a03ede50de5834249d83b415574f4f320a42844e742542c2f6078041",
     "generated_sha256": "0641a40da5fd8bfd46a686ec38b2c5007aba2f73ba2e3c7bff46ad38f31b07c1"
+  },
+  "history/countries/A13 - Gawed.txt": {
+    "anb_sha256": "73e01b72cfc5d9f01c2a8794b7c4c0d9a6a6c6fa589c23eff1d27eb7e384f6f0",
+    "generated_sha256": "3d375dd88ffca1a73c8c592f2d6e78b1ee2bfd91b1d4d3d0bab314dc5cba53a5"
   }
 }

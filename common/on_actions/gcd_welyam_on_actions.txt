@@ -2,6 +2,8 @@
 on_startup = {
     if = {
         limit = { tag = A13 }
+        # 修正：新游戏初始化即禁止富商贷款，不等灾难过月启动；完成任务后不重新禁用。
+        gcd_welyam_lock_burgher_loans_effect = yes
         gcd_welyam_migrate_lifetime_settlement_effect = yes
         # 修正：以国家 ROOT 修复旧存档卡住的结局投递。
         gcd_welyam_check_civil_war_outcome_effect = yes

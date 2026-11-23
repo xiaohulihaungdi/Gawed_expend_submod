@@ -13,6 +13,9 @@ common/scripted_effects/gcd_welyam_tier2_reform_effect.txt -text
 common/governments/00_governments.txt -text whitespace=-blank-at-eol
 common/government_mechanics/gcd_gawedi_monarchy.txt -text whitespace=-blank-at-eol
 common/scripted_effects/gcd_gawedi_tier1_effect.txt -text
+history/countries/A13* -text
+# 原冰冻喉文件及保留在注释中的原选项按原始换行保存；原版行尾空格一并保留。
+events/Flavour_Frozenmaw_Z18.txt -text whitespace=-blank-at-eol,-space-before-tab
 # 保留用户禁用文件和原稿的原始字节，避免 Git 自动转换换行。
 missions/Gawedi_Missions.txt -text
 制作源文件/*用户原稿.txt -text

@@ -1,4 +1,7 @@
 l_english:
+ gcd_crovis_resume_title:0 "克洛维出征恢复检查"
+ gcd_crovis_resume_desc:0 "恢复内战期间暂缓的出征，或修正旧存档的自治附庸关系。"
+ gcd_crovis_autonomy_title:0 "永冻边区自治附庸兼容"
  gawed_yongdongbianqu.10.t:0 "克洛维赴加韦顿求援"
  gawed_yongdongbianqu.10.d:0 "事件文本待补。"
  gawed_yongdongbianqu.1.t:0 "克洛维启行之歌"

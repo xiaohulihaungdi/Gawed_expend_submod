@@ -2877,8 +2877,17 @@ country_event = { # The Restoration War and Reachman Lords Join Us
 	picture = ORC_WITH_AXE_eventPicture
 
 	is_triggered_only = yes
-	option = {
-		capital_scope = {
+
+    # GCD_REFORM_BEGIN crovis_civil_war_pause
+    option = {
+        name = flavor_frozenmaw.54.a
+        if = {
+            limit = { A13 = { OR = { has_country_flag = gcd_welyam_civil_war_active has_country_flag = gcd_welyam_civil_war_starting } } }
+            gcd_crovis_record_actor_effect = yes
+            set_country_flag = gcd_crovis_departure_paused
+        }
+        else = {
+    capital_scope = {
 			ROOT = {
 				infantry = prev
 				infantry = prev
@@ -2888,18 +2897,13 @@ country_event = { # The Restoration War and Reachman Lords Join Us
 				infantry = prev
 			}
 		}
-		name = flavor_frozenmaw.54.a
-		declare_war_with_cb = {
+declare_war_with_cb = {
 			who = Z18
 			casus_belli = cb_crovis_invasion
 		}
-    # GCD_REFORM_BEGIN crovis_departure
-    # 调整：宣战后直接向资助克洛维的加韦德投递参战事件。
-    gcd_crovis_on_restoration_war_effect = yes
-    # GCD_REFORM_END crovis_departure
-
-		Z18 = { set_country_flag = crovis_rebel_@ROOT }
-		if = {
+gcd_crovis_on_restoration_war_effect = yes
+Z18 = { set_country_flag = crovis_rebel_@ROOT }
+if = {
 			limit = {
 				event_target:crovis_spawn_tag = {
 					alliance_with = Z26
@@ -2912,7 +2916,7 @@ country_event = { # The Restoration War and Reachman Lords Join Us
 				}
 			}
 		}
-		if = {
+if = {
 			limit = {
 				Z22 =  { NOT = { is_supporting_independence_of = ROOT } }
 			}
@@ -2924,13 +2928,13 @@ country_event = { # The Restoration War and Reachman Lords Join Us
 				}
 			}
 		}
-		hidden_effect = {
+hidden_effect = {
 			country_event = {
 				id = flavor_frozenmaw.58
 				days = 365
 			}
 		}
-		if = { 
+if = { 
 			limit = { Z23 = { is_subject_of = ROOT } }
 			if = { 
 				limit = { Z23 = { has_country_flag = crovis_rebellious } } 
@@ -2938,11 +2942,11 @@ country_event = { # The Restoration War and Reachman Lords Join Us
 			}
 			else = { custom_tooltip = crovis_esald_reluctant_tt }
 		}
-		else_if = { 
+else_if = { 
 			limit = { Z23 = { is_subject_of = Z18 } }
 			custom_tooltip = crovis_esald_betray_tt
 		}
-		if = { 
+if = { 
 			limit = { Z27 = { is_subject_of = ROOT } }
 			if = { 
 				limit = { Z27 = { has_country_flag = crovis_rebellious } } 
@@ -2950,11 +2954,11 @@ country_event = { # The Restoration War and Reachman Lords Join Us
 			}
 			else = { custom_tooltip = crovis_cedevik_reluctant_tt }
 		}
-		else_if = { 
+else_if = { 
 			limit = { Z27 = { is_subject_of = Z18 } }
 			custom_tooltip = crovis_cedevik_betray_tt
 		}
-		if = { 
+if = { 
 			limit = { Z48 = { is_subject_of = ROOT } }
 			if = { 
 				limit = { Z48 = { has_country_flag = crovis_rebellious } } 
@@ -2962,11 +2966,11 @@ country_event = { # The Restoration War and Reachman Lords Join Us
 			}
 			else = { custom_tooltip = crovis_rivsby_reluctant_tt }
 		}
-		else_if = { 
+else_if = { 
 			limit = { Z48 = { is_subject_of = Z18 } }
 			custom_tooltip = crovis_rivsby_betray_tt
 		}
-		if = { 
+if = { 
 			limit = { Z49 = { is_subject_of = ROOT } }
 			if = { 
 				limit = { Z49 = { has_country_flag = crovis_rebellious } } 
@@ -2974,11 +2978,117 @@ country_event = { # The Restoration War and Reachman Lords Join Us
 			}
 			else = { custom_tooltip = crovis_eskerborg_reluctant_tt }
 		}
-		else_if = { 
+else_if = { 
 			limit = { Z49 = { is_subject_of = Z18 } }
 			custom_tooltip = crovis_eskerborg_betray_tt
 		}
-	}
+        }
+    }
+    # GCD_REFORM_END crovis_civil_war_pause
+	# GCD_ORIGINAL_TRIGGER_BEGIN frozenmaw54.option
+# option = {
+# 		capital_scope = {
+# 			ROOT = {
+# 				infantry = prev
+# 				infantry = prev
+# 				infantry = prev
+# 				infantry = prev
+# 				infantry = prev
+# 				infantry = prev
+# 			}
+# 		}
+# 		name = flavor_frozenmaw.54.a
+# 		declare_war_with_cb = {
+# 			who = Z18
+# 			casus_belli = cb_crovis_invasion
+# 		}
+#     # GCD_REFORM_BEGIN crovis_departure
+#     # 调整：宣战后直接向资助克洛维的加韦德投递参战事件。
+#     gcd_crovis_on_restoration_war_effect = yes
+#     # GCD_REFORM_END crovis_departure
+# 
+# 		Z18 = { set_country_flag = crovis_rebel_@ROOT }
+# 		if = {
+# 			limit = {
+# 				event_target:crovis_spawn_tag = {
+# 					alliance_with = Z26
+# 				}
+# 			}
+# 			Z26 = {
+# 				country_event = {
+# 					id = flavor_grombar.51
+# 					days = 1
+# 				}
+# 			}
+# 		}
+# 		if = {
+# 			limit = {
+# 				Z22 =  { NOT = { is_supporting_independence_of = ROOT } }
+# 			}
+# 			Z22 = {
+# 				country_event = {
+# 					id = flavour_celmaldor.19
+# 					days = 40
+# 					random = 20
+# 				}
+# 			}
+# 		}
+# 		hidden_effect = {
+# 			country_event = {
+# 				id = flavor_frozenmaw.58
+# 				days = 365
+# 			}
+# 		}
+# 		if = { 
+# 			limit = { Z23 = { is_subject_of = ROOT } }
+# 			if = { 
+# 				limit = { Z23 = { has_country_flag = crovis_rebellious } } 
+# 				custom_tooltip = crovis_esald_willing_tt
+# 			}
+# 			else = { custom_tooltip = crovis_esald_reluctant_tt }
+# 		}
+# 		else_if = { 
+# 			limit = { Z23 = { is_subject_of = Z18 } }
+# 			custom_tooltip = crovis_esald_betray_tt
+# 		}
+# 		if = { 
+# 			limit = { Z27 = { is_subject_of = ROOT } }
+# 			if = { 
+# 				limit = { Z27 = { has_country_flag = crovis_rebellious } } 
+# 				custom_tooltip = crovis_cedevik_willing_tt
+# 			}
+# 			else = { custom_tooltip = crovis_cedevik_reluctant_tt }
+# 		}
+# 		else_if = { 
+# 			limit = { Z27 = { is_subject_of = Z18 } }
+# 			custom_tooltip = crovis_cedevik_betray_tt
+# 		}
+# 		if = { 
+# 			limit = { Z48 = { is_subject_of = ROOT } }
+# 			if = { 
+# 				limit = { Z48 = { has_country_flag = crovis_rebellious } } 
+# 				custom_tooltip = crovis_rivsby_willing_tt
+# 			}
+# 			else = { custom_tooltip = crovis_rivsby_reluctant_tt }
+# 		}
+# 		else_if = { 
+# 			limit = { Z48 = { is_subject_of = Z18 } }
+# 			custom_tooltip = crovis_rivsby_betray_tt
+# 		}
+# 		if = { 
+# 			limit = { Z49 = { is_subject_of = ROOT } }
+# 			if = { 
+# 				limit = { Z49 = { has_country_flag = crovis_rebellious } } 
+# 				custom_tooltip = crovis_eskerborg_willing_tt
+# 			}
+# 			else = { custom_tooltip = crovis_eskerborg_reluctant_tt }
+# 		}
+# 		else_if = { 
+# 			limit = { Z49 = { is_subject_of = Z18 } }
+# 			custom_tooltip = crovis_eskerborg_betray_tt
+# 		}
+# 	}
+# GCD_ORIGINAL_TRIGGER_END frozenmaw54.option
 }
 
 # GCD_EVENT_NOTE_BEGIN flavor_frozenmaw.55

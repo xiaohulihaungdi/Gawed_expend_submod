@@ -44,10 +44,10 @@ class WarModel(Model):
 
 def validate(effects, triggers, missions, events, pulse):
     task = missions["a13_5_3"]
-    # 第二路线边界严格为 <30；第一路线仍 >=50，30～49 不能误通过。
+    # 第二路线边界严格为 <40；第一路线仍 >=50，40～49 不能误通过。
     for influence, privileges, allowed, event_id in (
         (29.999, 1, True, "gcd_welyam.21"),
-        (30, 1, False, None), (49.999, 1, False, None),
+        (30, 1, True, "gcd_welyam.21"), (39.999, 1, True, "gcd_welyam.21"), (40, 1, False, None), (49.999, 1, False, None),
         (50, 1, True, "gcd_welyam.20"),
         (20, 2, False, None),
     ):

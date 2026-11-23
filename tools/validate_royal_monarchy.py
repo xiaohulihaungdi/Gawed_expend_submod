@@ -94,15 +94,24 @@ class RoyalModel(Model):
                 self.ruler_modifiers.discard(v)
             elif k == 'change_government':
                 self.gov = v
+            elif k == 'save_global_event_target_as':
+                self.saved_actor = self.actor
             elif k == 'inherit':
                 self.inherited.append(v)
             elif k == 'complete_mission':
                 self.completed.add(v)
             elif k == 'white_peace':
-                self.peaces.append((self.actor, v))
+                self.peaces.append((self.actor, getattr(self, 'previous_enemy', v) if v == 'PREV' else v))
                 if self.actor == 'A30': self.wex_in_target = False
                 elif v == 'A50': self.civil_war = False
-            elif k in {'221', 'A30'}:
+            elif k == 'every_enemy_country':
+                for enemy in list(getattr(self, 'enemy_tags', [])):
+                    old = self.actor
+                    self.actor, self.previous_enemy = enemy, enemy
+                    self.execute(n)
+                    self.actor = old
+                self.enemy_tags = []
+            elif k in {'221', 'A30', 'A13'}:
                 old = self.actor
                 self.actor = k
                 self.execute(n)

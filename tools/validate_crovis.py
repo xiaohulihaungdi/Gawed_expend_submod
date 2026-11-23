@@ -91,11 +91,11 @@ def validate():
 
     event_tree=parse((ROOT/'events/gcd_yongdongbianqu_events.txt').read_text(encoding='utf-8'))
     events={e.scalar('id'):e for e in event_tree.children('country_event')}
-    assert len(events)==10
+    assert len(events)==12
     assert not errors(event_tree,effects)
     for eid,e in events.items():
         assert e.children('option')
-        if eid!='gawed_yongdongbianqu.11': assert e.scalar('is_triggered_only')=='yes'
+        if eid not in {'gawed_yongdongbianqu.11','gawed_yongdongbianqu.12','gawed_yongdongbianqu.13'}: assert e.scalar('is_triggered_only')=='yes'
     def event(number):return events['gawed_yongdongbianqu.'+str(number)]
     assert event(2).children('immediate')[0].children('country_event')[0].scalar('days')=='180'
     assert event(2).children('immediate')[0].children('country_event')[0].scalar('id')=='gawed_yongdongbianqu.4'
@@ -105,7 +105,7 @@ def validate():
     assert cultural.children('country_event')[0].scalar('days')=='90'
     assert cultural.children('country_event')[0].scalar('id')=='gawed_yongdongbianqu.5'
     assert not event(6).children('hidden')
-    assert [e.scalar('id') for e in events.values() if e.children('mean_time_to_happen')]==['gawed_yongdongbianqu.11']
+    assert {e.scalar('id') for e in events.values() if e.children('mean_time_to_happen')}=={'gawed_yongdongbianqu.11','gawed_yongdongbianqu.12','gawed_yongdongbianqu.13'}
     mods=parse((ROOT/'common/event_modifiers/gcd_yongdongbianqu_modifiers.txt').read_text(encoding='utf-8'))
     assert mods.children('gcd_crovis_funded_armies')[0].scalar('shock_damage_received')=='-0.15'
     assert mods.children('bumanderenmin')[0].scalar('global_unrest')=='2'
@@ -135,7 +135,7 @@ def validate():
     restored=next(e for e in frozen.children('country_event') if e.scalar('id')=='flavor_frozenmaw.55').children('option')[0]
     assert restored.children('change_tag')[0].end<restored.children('gcd_crovis_after_restoration_effect')[0].start
     war=next(e for e in frozen.children('country_event') if e.scalar('id')=='flavor_frozenmaw.54').children('option')[0]
-    assert war.children('declare_war_with_cb')[0].end<war.children('gcd_crovis_on_restoration_war_effect')[0].start
+    assert next(n for n in war.walk() if n.key=='declare_war_with_cb').end<next(n for n in war.walk() if n.key=='gcd_crovis_on_restoration_war_effect').start
     # 原文以段落分隔导出，所有五篇正文必须来自DOCX，不替换为早先聊天版本。
     source=(ROOT/'制作源文件/克洛维之歌_文档原文.txt').read_text(encoding='utf-8')
     loc=(ROOT/'制作源文件/永冻边区事件_中文原文.yml').read_text(encoding='utf-8')

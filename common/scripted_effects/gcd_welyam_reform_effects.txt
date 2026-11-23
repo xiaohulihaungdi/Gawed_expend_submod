@@ -2,17 +2,24 @@
 gcd_welyam_begin_reform_effect = {
     set_country_flag = gcd_welyam_opening_seen
     set_country_flag = gcd_welyam_rebel_clock
+    gcd_welyam_lock_burgher_loans_effect = yes
+    gcd_welyam_install_daily_pulse_effect = yes
+}
+
+# 修正：开局及灾难开始共用禁令，只认领本模组自己施加的标记。
+gcd_welyam_lock_burgher_loans_effect = {
     # 提醒：保留其他内容已经设置的借款禁用标记，灾难结束时只撤销本模组的禁令。
     if = {
         limit = {
             NOT = { has_country_flag = estate_burghers_indebted_to_burghers_disabled }
             # 防护：已经完成任务二的存档进入本灾难时，不重新施加借款禁令。
             NOT = { has_country_flag = gcd_welyam_rebel_spawn_stopped }
+            NOT = { has_country_flag = gcd_welyam_reform_ended }
+            NOT = { mission_completed = a13_5_2 }
         }
         set_country_flag = gcd_welyam_owns_burgher_loan_lock
         set_country_flag = estate_burghers_indebted_to_burghers_disabled
     }
-    gcd_welyam_install_daily_pulse_effect = yes
 }
 
 # 修正（内战后栈溢出）：停止使用会在事件链中重入的 .90 自我调度。
@@ -203,6 +210,9 @@ gcd_welyam_release_revolt_country_effect = {
 }
 
 gcd_welyam_start_civil_war_effect = {
+    # 新增：先阻止克洛维出征回调，再无条件白和平结束我国当前战争，之后才释放国家、建立内战。
+    set_country_flag = gcd_welyam_civil_war_starting
+    every_enemy_country = { A13 = { white_peace = PREV } }
     set_country_flag = gcd_welyam_civil_war_happened
     clr_country_flag = gcd_welyam_civil_war_queued
     clr_country_flag = gcd_welyam_low_nobles_since
@@ -263,6 +273,7 @@ gcd_welyam_start_civil_war_effect = {
         clr_country_flag = gcd_welyam_civil_war_happened
         country_event = { id = gcd_welyam.103 days = 1 }
     }
+    clr_country_flag = gcd_welyam_civil_war_starting
 }
 
 gcd_welyam_join_civil_war_effect = {

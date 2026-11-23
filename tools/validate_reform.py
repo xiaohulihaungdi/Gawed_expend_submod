@@ -206,7 +206,7 @@ def validate(anb: Path, game: Path):
         for mission in col.children():
             if mission.key in local_icons:
                 mission.children("icon")[0].value = local_icons[mission.key]
-            if mission.key in {"a13_1_1", "a13_2_1", "a13_3_1", "a13_3_2"}:
+            if mission.key in {"a13_1_1", "a13_2_1", "a13_3_1", "a13_3_2", "a13_3_4"}:
                 # 本轮任务一调整，并合并本机已有的任务二、任务三改动，防止同步覆盖。
                 current = next(n for column in missions.children() for n in column.children()
                                if n.key == mission.key)
@@ -348,7 +348,7 @@ def validate(anb: Path, game: Path):
     for path in bases:
         content = (ROOT / path).read_bytes()
         # 新增：移除说明注释后，仍逐字节核对原版兼容文件，避免注释掩盖逻辑改动。
-        clean = strip_notes(content.decode("utf-8")).encode("utf-8")
+        clean = restore_original_triggers(strip_notes(content.decode("utf-8"))).encode("utf-8")
         clean = re.sub(rb'\r?\n    # GCD_REFORM_BEGIN ([a-z_]+)\r?\n.*?    # GCD_REFORM_END \1\r?\n', b"", clean, flags=re.S)
         clean = restore_original_triggers(clean.decode('utf-8')).encode('utf-8')
         assert clean == (anb / path).read_bytes().removeprefix(b"\xef\xbb\xbf"), path

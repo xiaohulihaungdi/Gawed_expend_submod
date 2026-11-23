@@ -118,7 +118,7 @@ def validate(missions, helper_tree, modifiers, anb):
     assert {tag for tag in world if check.countries[tag].get("liberty") != world[tag].get("liberty")} == {"A09", "A08", "B68"}
     assert check.countries["A09"]["liberty"] == check.countries["A08"]["liberty"] == 60
     assert check.countries["B68"]["liberty"] == 100
-    assert check.claims == [("add_claim", "ROOT")]
+    assert check.claims == [("add_permanent_claim", "ROOT")]
     assert check.modifiers == [("A01", "bumandebanshenren", 7300)]
     assert modifiers.children("bumandebanshenren")[0].scalar("defensiveness") == "-0.2"
     assert parse((anb / "map/region.txt").read_text(encoding="utf-8-sig")).children("small_country_region")

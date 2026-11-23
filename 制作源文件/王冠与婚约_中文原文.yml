@@ -8,7 +8,7 @@ l_english:
  gcd_marriage_queen_karina:0 "卡琳娜王后"
  gcd_marriage_great_lords:0 "大领主的婚约"
  gcd_marriage_karina_event_tt:0 "次日触发§Y“卡琳娜·德兰”§!事件，沿用其成为配偶的原版效果。§Y“卡琳娜王后”§!修正持续到当前君主死亡：君主预期寿命§G+15%§!、月度自治度§G−0.05§!。"
- gcd_marriage_moorman_loyal_tt:0 "§G威斯特摩尔此后不会背叛我们。§!\n无论独立倾向高低，在加韦德内战、阿德肖叛乱及我国对洛伦特或皇帝宣战时，均不会因本模组的倒戈机制独立或加入敌方。此保证永久有效，不随君主或配偶死亡撤销。"
+ gcd_marriage_moorman_loyal_tt:0 "§G威斯特摩尔此后不会背叛我们。§!\n无论独立倾向高低，在加韦德内战、阿德肖叛乱及我国对洛伦特或皇帝宣战时均不会叛离我们。"
  gcd_marriage_moorman_war_lock_tt:0 "摩尔婚约保证威斯特摩尔不向加韦德宣战或发动独立战争"
  gcd_marriage.2.t:0 "不满的人民归属修正"
  gcd_marriage.2.d:0 "清理旧版误加给属国的修正，将其接入加韦德。"

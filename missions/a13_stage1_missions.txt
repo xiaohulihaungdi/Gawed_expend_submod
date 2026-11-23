@@ -58,7 +58,6 @@ a13_mission_1 = { # 第 1 列
             }
         }
     }
-
 }
 
 a13_mission_2 = { # 第 2 列
@@ -629,8 +628,8 @@ a13_mission_5 = { # 第 5 列
         }
         effect = {
             # 新增：奖励全部在事件选项里发放，任务提供事件及奖励前瞻。
-            custom_tooltip = gcd_welyam_council_preview_tt
             country_event = { id = gcd_welyam.10 }
+            custom_tooltip = gcd_welyam_council_preview_tt
         }
     }
 
@@ -730,8 +729,8 @@ a13_mission_5 = { # 第 5 列
         }
         effect = {
             # 新增：任务只触发事件；十五年奖励及配偶判断均在事件选项里执行。
-            custom_tooltip = gcd_welyam_hunt_preview_tt
             country_event = { id = gcd_welyam.30 }
+            custom_tooltip = gcd_welyam_hunt_preview_tt
         }
     }
 

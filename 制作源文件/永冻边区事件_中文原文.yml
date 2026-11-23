@@ -30,7 +30,7 @@ l_english:
  gcd_crovis_funded_armies:0 "抗击兽人"
  desc_gcd_crovis_funded_armies:0 "加韦德与克洛维的军队在共同作战中相互支援。"
  gcd_crovis_execution_tt:0 "弗丽达将被处决。永冻边区以“阿德肖叛乱”对我国宣战，阿德肖独立、结盟并加入战争，接收我国及属国持有的西寒湾。双方不能手动和平。"
- gcd_crovis_mercy_tt:0 "弗丽达获得保护。永冻边区与阿德肖维持属国关系，此后通过逐步整合吞并。"
+ gcd_crovis_mercy_tt:0 "弗丽达获得保护。永冻边区与阿德肖维持属国关系，各降低10独立倾向，此后通过逐步整合吞并。加韦德获得§Y“不满的人民”§!，持续§Y10年§!：全国叛乱度§R+2§!。"
  gcd_crovis_crown_victory_tt:0 "吞并阿德肖与永冻边区，并获得东寒湾地区的核心。"
  gcd_crovis_no_peace_tt:0 "阿德肖叛乱只能通过指定的占领条件结束，不能手动或强制和平。"
  cb_gcd_adshaw_revolt:0 "阿德肖叛乱"

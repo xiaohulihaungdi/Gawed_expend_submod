@@ -15,6 +15,7 @@ from pdx_script import Node, parse
 from validate_welyam_units_and_reforms import validate as validate_units_and_reforms
 from validate_welyam_routes_and_outcomes import validate as validate_routes_and_outcomes
 from validate_lorent_missions import validate as validate_lorent_missions
+from build_reform_compat import restore_original_triggers
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -345,6 +346,7 @@ def validate(anb: Path, game: Path):
         # 新增：移除说明注释后，仍逐字节核对原版兼容文件，避免注释掩盖逻辑改动。
         clean = strip_notes(content.decode("utf-8")).encode("utf-8")
         clean = re.sub(rb'\r?\n    # GCD_REFORM_BEGIN ([a-z_]+)\r?\n.*?    # GCD_REFORM_END \1\r?\n', b"", clean, flags=re.S)
+        clean = restore_original_triggers(clean.decode('utf-8')).encode('utf-8')
         assert clean == (anb / path).read_bytes().removeprefix(b"\xef\xbb\xbf"), path
         assert hashlib.sha256(content).hexdigest() == bases[path]["generated_sha256"]
     print("Reform validation passed: syntax/references, 20 missions, Lorent subject/gift boundaries, Bayvic values, timer boundaries, disaster shutdown, loan unlock, outcomes, durations, compatibility and encoding.")

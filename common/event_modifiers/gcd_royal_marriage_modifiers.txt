@@ -1,0 +1,10 @@
+# 新增：两份婚约修正随当前君主存续，不属于改革灾难的六项临时修正。
+gcd_marriage_queen_karina = {
+    monarch_lifespan = 0.15 # 用户确认：原生“君主预期寿命+15%”，不是固定增加15年。
+    global_autonomy = -0.05
+}
+gcd_marriage_great_lords = {
+    nobles_loyalty_modifier = 0.15
+    nobles_influence_modifier = 0.10
+    global_autonomy = 0.05
+}

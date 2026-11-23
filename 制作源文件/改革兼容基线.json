@@ -1,11 +1,11 @@
 {
   "common/diplomatic_actions/00_diplomatic_actions.txt": {
     "anb_sha256": "e4a859e12af050e8dc5876a24ca9f412f985f63a83c89af2e0e260c393fe172f",
-    "generated_sha256": "005cdc42e5639390aa3d8d75024d03e3e9f0c49eb774f1b2a8c52b8bcb282dcb"
+    "generated_sha256": "d365d3be7770c782b18b556558f1114a37de316987d710ed15df5b923f46a3fc"
   },
   "events/Flavour_Gawed_A13.txt": {
     "anb_sha256": "d2d7d961ab8cba7e66a27d0208f01c733519601da967d0750a41b0557ca9bccd",
-    "generated_sha256": "730c510320838c07d4f3353aa6089a9527d85848d162de7a15b81aa3c21b22fb"
+    "generated_sha256": "cfcca47b4a6576a1e1d2b710c763ea4577b11692591081473b9b6a121592738d"
   },
   "events/Flavour_Frozenmaw_Z18.txt": {
     "anb_sha256": "6c2a086c637505e18dd22ad06bf4ab68d537ea48d16df639a0cbe1666ba725ba",

@@ -129,8 +129,9 @@ country_event = {
         every_subject_country = {
             limit = { OR = { tag = Z26 tag = Z45 } }
             add_liberty_desire = -10
-            add_country_modifier = { name = bumanderenmin duration = 3650 }
         }
+        # 修正（用户确认）：十年“叛乱度+2”给予加韦德，两国只立即降低10独立倾向。
+        add_country_modifier = { name = bumanderenmin duration = 3650 }
         set_country_flag = gcd_crovis_chain_finished
         gcd_crovis_stop_pulse_effect = yes
     }

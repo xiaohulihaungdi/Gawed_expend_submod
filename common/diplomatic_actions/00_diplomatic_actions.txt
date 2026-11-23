@@ -183,6 +183,18 @@ transfer_trade_power = {
 #Cut because the Grand Crusade war doesn't really have any place in the current content, but it could be very useful for the future.
 #Also modders should have the chance to just uncomment it all so they can experience the great 30 Years War like Crusade.
 declarewar = {
+    # GCD_REFORM_BEGIN moorman_marriage_war_lock
+    # 新增：摩尔婚约永久阻止威斯特摩尔主动向加韦德宣战，包括独立战争。
+    condition = {
+        tooltip = gcd_marriage_moorman_war_lock_tt
+        potential = {
+            tag = A24
+            FROM = { tag = A13 has_country_flag = gcd_marriage_westmoors_loyal }
+        }
+        allow = { always = no }
+    }
+    # GCD_REFORM_END moorman_marriage_war_lock
+
 #	condition = {
 #		tooltip = GRAND_CRUSADE_NO_OTHER_WAR
 #		potential = { }

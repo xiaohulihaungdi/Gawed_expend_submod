@@ -138,6 +138,8 @@ gcd_crovis_westmoors_hook_effect = {
         limit = {
             gcd_crovis_revolt_active_trigger = yes
             has_disaster = gcd_welyam_reform
+            # 新增：摩尔婚约永久豁免威斯特摩尔倒戈，不随国王死亡或灾难结束撤销。
+            NOT = { has_country_flag = gcd_marriage_westmoors_loyal }
             A24 = { is_subject_of = A13 liberty_desire = 50.001 }
         }
         Z45 = { save_event_target_as = gcd_welyam_external_enemy }

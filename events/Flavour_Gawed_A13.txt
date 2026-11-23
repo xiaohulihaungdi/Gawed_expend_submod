@@ -361,7 +361,7 @@ country_event = {
 #Derek Deland
 # GCD_EVENT_NOTE_BEGIN flavor_gawed.4
 # 事件：德里克·德兰（flavor_gawed.4）
-# 用途：决定是否接受德兰议会修正与富商巨头议会特权；拒绝会损失稳定度或行政点及富商忠诚。
+# 用途：接受德兰议会修正、富商特权及二级75%减费商人顾问Derek Deland；拒绝仍沿用原惩罚。
 # GCD_EVENT_NOTE_END
 country_event = {
 	id = flavor_gawed.4
@@ -382,6 +382,11 @@ country_event = {
 	
 	#Fantastic
 	option = {
+    # GCD_REFORM_BEGIN derek_advisor
+    # 新增：接受德兰议会时提供二级商人顾问，费用为正常的25%（减免75%）。
+    define_advisor = { type = trader name = "Derek Deland" skill = 2 cost_multiplier = 0.25 }
+    # GCD_REFORM_END derek_advisor
+
 		name = flavor_gawed.4.a
 		ai_chance = {
 			factor = 1
@@ -2282,8 +2287,8 @@ country_event = {
 
 #Karina Deland
 # GCD_EVENT_NOTE_BEGIN flavor_gawed.35
-# 事件：卡丽娜·德兰（flavor_gawed.35）
-# 用途：处理卡丽娜成为配偶；本模组额外记录身份供大围猎奖励判断。
+# 事件：卡琳娜·德兰（flavor_gawed.35）
+# 用途：由1450年王冠与婚约第一选项触发，沿用原配偶效果并记录身份；原自动触发条件已注释保留。
 # GCD_EVENT_NOTE_END
 country_event = {
 	id = flavor_gawed.35
@@ -2294,12 +2299,19 @@ country_event = {
 	
 	fire_only_once = yes
 	
-	trigger = {
-		tag = A13
-		has_consort = yes
-		has_ruler = "Welyam III"
-		has_country_modifier = gawed_deland_council
-	}
+
+    # GCD_REFORM_BEGIN karina_marriage_only
+    # 新增：禁止原随机触发，改由“王冠与婚约”中选择卡琳娜后投递。
+    is_triggered_only = yes
+    # GCD_REFORM_END karina_marriage_only
+	# GCD_ORIGINAL_TRIGGER_BEGIN flavor_gawed.35
+# trigger = {
+# 		tag = A13
+# 		has_consort = yes
+# 		has_ruler = "Welyam III"
+# 		has_country_modifier = gawed_deland_council
+# 	}
+# GCD_ORIGINAL_TRIGGER_END flavor_gawed.35
 	
 	# A King Flustered
 	option = {

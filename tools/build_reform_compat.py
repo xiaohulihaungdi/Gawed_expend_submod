@@ -20,6 +20,16 @@ def patch(text: str, target, content: str, label: str) -> str:
     return text[:target] + insertion + text[target:]
 
 
+def restore_original_triggers(text: str) -> str:
+    """兼容检查用：把保留在注释中的原触发条件还原，逐字节核对上游。"""
+    pattern = re.compile(r'# GCD_ORIGINAL_TRIGGER_BEGIN ([\w.]+)\r?\n(.*?)\r?\n# GCD_ORIGINAL_TRIGGER_END \1', re.S)
+    def restore(match):
+        lines = match[2].splitlines(keepends=True)
+        assert all(line.startswith('# ') for line in lines)
+        return ''.join(line[2:] for line in lines)
+    return pattern.sub(restore, text)
+
+
 def build(anb_root: Path) -> dict[str, bytes]:
     result = {}
     path = "common/diplomatic_actions/00_diplomatic_actions.txt"
@@ -32,6 +42,15 @@ def build(anb_root: Path) -> dict[str, bytes]:
     declare_pre = node.children("declarewar")[0].children("pre_effect")[0]
     call = node.children("callaction")[0]
     inserts = [
+        (node.children("declarewar")[0].brace + 1, '''    # 新增：摩尔婚约永久阻止威斯特摩尔主动向加韦德宣战，包括独立战争。
+    condition = {
+        tooltip = gcd_marriage_moorman_war_lock_tt
+        potential = {
+            tag = A24
+            FROM = { tag = A13 has_country_flag = gcd_marriage_westmoors_loyal }
+        }
+        allow = { always = no }
+    }''', "moorman_marriage_war_lock"),
         (declare_pre.brace + 1, '''    # 新增：在自动防御召唤之前消耗下一次对洛伦特宣战的威克斯中立奖励。
     gcd_royal_before_declare_war_effect = yes''', "wex_before_war"),
         (declare_effect.brace + 1, '''    # 新增：若外部强制脚本已将威克斯拉入目标战争，立即执行中立兜底。
@@ -82,12 +101,27 @@ def build(anb_root: Path) -> dict[str, bytes]:
 
     path = "events/Flavour_Gawed_A13.txt"
     text = (anb_root / path).read_bytes().decode("utf-8-sig")
+    derek = next(e for e in parse(text).children("country_event") if e.scalar("id") == "flavor_gawed.4")
+    text = patch(text, derek.children("option")[0].brace + 1, '''    # 新增：接受德兰议会时提供二级商人顾问，费用为正常的25%（减免75%）。
+    define_advisor = { type = trader name = "Derek Deland" skill = 2 cost_multiplier = 0.25 }''', "derek_advisor")
     event = next(e for e in parse(text).children("country_event")
                  if e.scalar("id") == "flavor_gawed.35")
     option = event.children("option")[0]
     consort = option.children("define_consort")[0]
     text = patch(text, consort.end, '''    # 新增：标记实际由原版事件生成的卡丽娜，不用相同文化/能力冒充姓名检查。
     set_consort_flag = gcd_welyam_karina_deland''', "karina_identity")
+    # 用户要求：原卡琳娜事件只从1450年婚约选项进入；原触发条件逐行注释保留。
+    event = next(e for e in parse(text).children("country_event") if e.scalar("id") == "flavor_gawed.35")
+    trigger = event.children("trigger")[0]
+    newline = "\r\n" if "\r\n" in text else "\n"
+    original = text[trigger.start:trigger.end]
+    commented = newline.join('# ' + line for line in original.splitlines())
+    replacement = ("# GCD_ORIGINAL_TRIGGER_BEGIN flavor_gawed.35" + newline + commented + newline
+                   + "# GCD_ORIGINAL_TRIGGER_END flavor_gawed.35")
+    text = text[:trigger.start] + replacement + text[trigger.end:]
+    trigger_line_start = text.rfind('\n', 0, trigger.start) + 1
+    text = patch(text, trigger_line_start, '''    # 新增：禁止原随机触发，改由“王冠与婚约”中选择卡琳娜后投递。
+    is_triggered_only = yes''', "karina_marriage_only")
     # 新增：重建原版兼容事件时，同步保留每个事件前的中文名称和用途注释。
     result[path] = annotate_events(text).encode("utf-8")
 

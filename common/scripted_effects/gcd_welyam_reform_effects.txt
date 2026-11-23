@@ -217,10 +217,20 @@ gcd_welyam_start_civil_war_effect = {
     gcd_welyam_release_revolt_country_effect = { REBEL_TAG = B84 } # 西山
     gcd_welyam_release_revolt_country_effect = { REBEL_TAG = A52 } # 鹰冠
     gcd_welyam_release_revolt_country_effect = { REBEL_TAG = A51 } # 金菲尔德
-    gcd_welyam_release_revolt_country_effect = { REBEL_TAG = A24 } # 威斯特摩尔，不检查独立倾向
-    release_all_possible_countries = yes
-    # 新增：现有属国一并脱离王室；后续只让点名的五国加入大边区。
-    every_subject_country = { grant_independence = yes }
+    # 修正（摩尔婚约）：威斯特摩尔受永久婚约保护时，不释放、不独立、不加入叛军。
+    if = {
+        limit = { NOT = { has_country_flag = gcd_marriage_westmoors_loyal } }
+        gcd_welyam_release_revolt_country_effect = { REBEL_TAG = A24 }
+    }
+    if = {
+        limit = { has_country_flag = gcd_marriage_westmoors_loyal }
+        gcd_marriage_release_other_countries_effect = yes
+        every_subject_country = { limit = { NOT = { tag = A24 } } grant_independence = yes }
+    }
+    else = {
+        release_all_possible_countries = yes
+        every_subject_country = { grant_independence = yes }
+    }
     # 防护：核心已被移除的旧存档，用一块本国非首都领土建立领头国；不赠送外国领土。
     if = {
         limit = { NOT = { exists = A50 } }
@@ -248,7 +258,10 @@ gcd_welyam_start_civil_war_effect = {
         gcd_welyam_join_civil_war_effect = { REBEL_TAG = B84 }
         gcd_welyam_join_civil_war_effect = { REBEL_TAG = A52 }
         gcd_welyam_join_civil_war_effect = { REBEL_TAG = A51 }
-        gcd_welyam_join_civil_war_effect = { REBEL_TAG = A24 }
+        if = {
+            limit = { NOT = { has_country_flag = gcd_marriage_westmoors_loyal } }
+            gcd_welyam_join_civil_war_effect = { REBEL_TAG = A24 }
+        }
     }
     else = {
         # 防护：仅剩首都且无法建立领头国时不制造永远无法结算的假战争。
@@ -339,7 +352,8 @@ gcd_welyam_crown_victory_effect = {
     inherit = B84
     inherit = A52
     inherit = A51
-    inherit = A24
+    # 只吞并背叛王室的威斯特摩尔；受摩尔婚约保护的属国保留原关系。
+    if = { limit = { NOT = { has_country_flag = gcd_marriage_westmoors_loyal } } inherit = A24 }
     # 修正：王室赢得内战立即结束改革，清理机制并发放一次战后奖励与一级政改。
     gcd_royal_finish_reform_victory_effect = yes
 }
@@ -368,6 +382,7 @@ gcd_welyam_on_declare_war_effect = {
         limit = {
             tag = A13
             has_disaster = gcd_welyam_reform
+            NOT = { has_country_flag = gcd_marriage_westmoors_loyal }
             FROM = { OR = { tag = A01 is_emperor = yes } }
             A24 = { is_subject_of = A13 liberty_desire = 50.001 }
         }
@@ -377,17 +392,21 @@ gcd_welyam_on_declare_war_effect = {
 }
 
 gcd_welyam_westmoors_defect_effect = {
-    A24 = {
-        grant_independence = yes
-        if = { limit = { alliance_with = A13 } break_alliance = A13 }
-        # 新增：避免先被作为属国拉入王室一方后无法切换阵营。
-        if = {
-            limit = { war_with = event_target:gcd_welyam_external_enemy }
-            white_peace = event_target:gcd_welyam_external_enemy
+    # 防护：直接调用倒戈效果也必须尊重永久摩尔婚约。
+    if = {
+        limit = { NOT = { has_country_flag = gcd_marriage_westmoors_loyal } }
+        A24 = {
+            grant_independence = yes
+            if = { limit = { alliance_with = A13 } break_alliance = A13 }
+            # 避免先被作为属国拉入王室一方后无法切换阵营。
+            if = {
+                limit = { war_with = event_target:gcd_welyam_external_enemy }
+                white_peace = event_target:gcd_welyam_external_enemy
+            }
+            join_all_defensive_wars_of = event_target:gcd_welyam_external_enemy
         }
-        join_all_defensive_wars_of = event_target:gcd_welyam_external_enemy
+        country_event = { id = gcd_welyam.40 days = 1 }
     }
-    country_event = { id = gcd_welyam.40 days = 1 }
 }
 
 # 更新：下面接口专指永冻边区发起的阿德肖叛乱。

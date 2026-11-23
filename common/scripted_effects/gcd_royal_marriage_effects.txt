@@ -1,0 +1,11 @@
+# 新增：摩尔婚约下，内战释放其他可释放国家时必须略过威斯特摩尔。
+# 沿用原版勃艮第继承事件的 every_core_country / exists=no / release=PREV 写法，
+# 只在本国领土上扫描；没有婚约时仍走原 release_all_possible_countries。
+gcd_marriage_release_other_countries_effect = {
+    every_owned_province = {
+        every_core_country = {
+            limit = { exists = no NOT = { tag = A24 } NOT = { tag = A13 } }
+            A13 = { release = PREV }
+        }
+    }
+}

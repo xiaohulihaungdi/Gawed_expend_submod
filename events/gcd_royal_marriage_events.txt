@@ -1,0 +1,82 @@
+namespace = gcd_marriage
+
+# 事件：王冠与婚约（gcd_marriage.1）
+# 用途：1450年夏由加韦德选择卡琳娜、老牌领主或摩尔氏族婚约；正文和三项答复采用用户原文。
+country_event = {
+    id = gcd_marriage.1
+    title = gcd_marriage.1.t
+    desc = gcd_marriage.1.d
+    picture = wihgfx_FEMALE_RULER_eventPicture
+    fire_only_once = yes
+    trigger = {
+        tag = A13
+        is_year = 1450
+        NOT = { is_year = 1451 }
+        # 原生 is_month 从0起算：5为六月，8为九月，范围为六月至八月。
+        is_month = 5
+        NOT = { is_month = 8 }
+        NOT = { has_country_flag = gcd_marriage_chosen }
+    }
+    mean_time_to_happen = { days = 1 }
+
+    option = {
+        name = gcd_marriage.1.a
+        ai_chance = { factor = 1 }
+        set_country_flag = gcd_marriage_chosen
+        set_country_flag = gcd_marriage_karina_chosen
+        # 新增：君主修正不随配偶或灾难结束清理；原卡琳娜事件在次日弹出。
+        add_ruler_modifier = { name = gcd_marriage_queen_karina duration = -1 }
+        add_estate_loyalty = { estate = estate_nobles loyalty = -10 }
+        if = { limit = { A24 = { is_subject_of = A13 } } A24 = { add_liberty_desire = 15 } }
+        custom_tooltip = gcd_marriage_karina_event_tt
+        country_event = { id = flavor_gawed.35 days = 1 }
+    }
+    option = {
+        name = gcd_marriage.1.b
+        ai_chance = { factor = 1 }
+        set_country_flag = gcd_marriage_chosen
+        set_country_flag = gcd_marriage_lords_chosen
+        define_consort = { culture = gawedi female = yes }
+        add_ruler_modifier = { name = gcd_marriage_great_lords duration = -1 }
+        add_estate_loyalty = { estate = estate_burghers loyalty = -10 }
+    }
+    option = {
+        name = gcd_marriage.1.c
+        ai_chance = { factor = 1 }
+        set_country_flag = gcd_marriage_chosen
+        # 用户要求：永久保证威斯特摩尔不背叛，不限灾难期间，也不随君主/配偶死亡撤销。
+        set_country_flag = gcd_marriage_westmoors_loyal
+        define_consort = { culture = moorman female = yes }
+        if = { limit = { A24 = { is_subject_of = A13 } } A24 = { add_liberty_desire = -30 } }
+        custom_tooltip = gcd_marriage_moorman_loyal_tt
+    }
+}
+
+# 事件：不满的人民归属修正（gcd_marriage.2，隐藏）
+# 用途：清除旧版误加给阿德肖/永冻边区的修正；加韦德尚无该修正时，补发一次十年修正。
+# 提醒：原剩余期限无法从旧脚本标记恢复，旧档补发从修正接入当天重新计十年；已有正确修正不刷新。
+country_event = {
+    id = gcd_marriage.2
+    title = gcd_marriage.2.t
+    desc = gcd_marriage.2.d
+    hidden = yes
+    fire_only_once = yes
+    trigger = {
+        tag = A13
+        has_country_flag = gcd_crovis_frida_spared
+        OR = {
+            Z26 = { has_country_modifier = bumanderenmin }
+            Z45 = { has_country_modifier = bumanderenmin }
+        }
+    }
+    mean_time_to_happen = { days = 1 }
+    option = {
+        name = gcd_marriage.2.a
+        Z26 = { remove_country_modifier = bumanderenmin }
+        Z45 = { remove_country_modifier = bumanderenmin }
+        if = {
+            limit = { NOT = { has_country_modifier = bumanderenmin } }
+            add_country_modifier = { name = bumanderenmin duration = 3650 }
+        }
+    }
+}

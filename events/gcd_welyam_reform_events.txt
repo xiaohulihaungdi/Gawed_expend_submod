@@ -122,7 +122,8 @@ country_event = {
 country_event = {
     id = gcd_welyam.30
     title = gcd_welyam.30.t
-    desc = gcd_welyam_placeholder_desc
+    # 补充：正文采用用户提供的两段大围猎文本；触发和十五年奖励维持原样。
+    desc = gcd_welyam.30.d
     picture = DIPLOMACY_eventPicture
     is_triggered_only = yes
     option = {

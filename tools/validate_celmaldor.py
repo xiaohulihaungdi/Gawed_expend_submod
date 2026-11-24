@@ -117,7 +117,7 @@ def validate(anb, game):
     source = (ROOT/'制作源文件/凯尔马尔多_中文原文.yml').read_text(encoding='utf-8-sig')
     assert decode_special((ROOT/'localisation/gcd_celmaldor_l_english.yml').read_text(encoding='utf-8-sig')) == source
     for i in range(1,5):
-        assert f' gcd_celmaldor.{i}.d:0 ""' in source and f' gcd_celmaldor.{i}.t:0 ""' in source
+        assert f' gcd_celmaldor.{i}.d:0 ""' not in source and f' gcd_celmaldor.{i}.t:0 ""' not in source
     print('Celmaldor validation passed: eligible owners/tributaries, 365/730-day boundaries, population stages, lost province, development, A21-only permanent reward/broadcast, mission, native interfaces and encoding.')
 
 if __name__ == '__main__':

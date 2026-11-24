@@ -9,7 +9,7 @@ from pdx_script import parse
 NOTES = {
     "gawed_yongdongbianqu.8": ("加韦顿的囚王", "文档第五篇；吞并两国，获得东寒湾核心。"),
     "gawed_yongdongbianqu.7": ("叛军胜利（隐藏）", "达到首都及75分条件后和平，阿德肖取得贝维克海岸。"),
-    "gawed_yongdongbianqu.10": ("克洛维赴加韦顿求援", "承诺资助，正文暂缺。"),
+    "gawed_yongdongbianqu.10": ("湾区的骑士", "承诺资助，正文来自用户事件文档。"),
     "gawed_yongdongbianqu.11": ("旧存档求援接入（隐藏）", "补发已完成前置任务的求援。"),
     "gawed_yongdongbianqu.1": ("克洛维启行之歌", "开战后自动触发，加入克洛维一方；减伤与宣称由任务发放。"),
     "gawed_yongdongbianqu.2": ("白湾王冠之歌", "原版复国改名后落实附庸关系，180天后安排清剿事件。"),

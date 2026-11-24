@@ -1,0 +1,110 @@
+{
+  "source": "事件文本.docx",
+  "events": [
+    {
+      "id": "gcd_welyam.10",
+      "title": null,
+      "paragraphs": 1,
+      "characters": 97,
+      "desc_sha256": "163654649b6bfe8c5fc732b4b6deb2572a0e027386f03c1c6db83811cd21e792",
+      "option": null
+    },
+    {
+      "id": "gcd_welyam.20",
+      "title": null,
+      "paragraphs": 2,
+      "characters": 318,
+      "desc_sha256": "552de76d268017c4473af47745f06179430e637466a30fdef203a6cb256cdbb5",
+      "option": null
+    },
+    {
+      "id": "gcd_welyam.21",
+      "title": null,
+      "paragraphs": 2,
+      "characters": 193,
+      "desc_sha256": "3c41a8653393edda43343184b88865d536f321931a4948b7d52bac333f688d4e",
+      "option": null
+    },
+    {
+      "id": "gcd_welyam.40",
+      "title": null,
+      "paragraphs": 2,
+      "characters": 96,
+      "desc_sha256": "c494807422fd452381b23a0f3f01e540447ec2c9699e9e2d7cf13d58c98cbeca",
+      "option": null
+    },
+    {
+      "id": "gcd_welyam.100",
+      "title": null,
+      "paragraphs": 1,
+      "characters": 43,
+      "desc_sha256": "411fd66c259514a495f23d49a1295b2578e8972f0ce54a74ab5200adf6cad43e",
+      "option": null
+    },
+    {
+      "id": "gcd_welyam.101",
+      "title": null,
+      "paragraphs": 1,
+      "characters": 69,
+      "desc_sha256": "0b47be79fc8c3c0a76a1a7adf5515320e0eb5af773bfa821dc334c5d80b65714",
+      "option": null
+    },
+    {
+      "id": "gcd_welyam.102",
+      "title": null,
+      "paragraphs": 1,
+      "characters": 70,
+      "desc_sha256": "1107a0609e57812788b0eae3969d9384c7ee7e3a9e422ab6b6eb30431713b692",
+      "option": null
+    },
+    {
+      "id": "gawed_yongdongbianqu.10",
+      "title": "湾区的骑士",
+      "paragraphs": 4,
+      "characters": 797,
+      "desc_sha256": "98ba6811c9dcd0bafb88544948f8c034154704d3d351754c98179bcd7d455317",
+      "option": "为他准备军饷，召集愿意北上的人。"
+    },
+    {
+      "id": "gcd_celmaldor.1",
+      "title": "马尔多里安之叹",
+      "paragraphs": 4,
+      "characters": 442,
+      "desc_sha256": "dc3473eb6f223b6836f09a1e9995e0bf3a50eec7160690abb4554db9aae48d11",
+      "option": null
+    },
+    {
+      "id": "gcd_celmaldor.2",
+      "title": "德兰的旧宅",
+      "paragraphs": 3,
+      "characters": 432,
+      "desc_sha256": "a8df30f63bbfd8d20a7dfc299293157d3c5afdc17903c5ed02e38aef2702e8e1",
+      "option": "德兰自己的画相去哪了？"
+    },
+    {
+      "id": "gcd_celmaldor.3",
+      "title": "最终方案",
+      "paragraphs": 4,
+      "characters": 296,
+      "desc_sha256": "baeb19904fa8f2bf901e18fe1d7414ab877c105b8c36a3ea61950223279c89a5",
+      "option": "以下是精灵暴动头目（已被清除）：「马尔多里安……」"
+    },
+    {
+      "id": "gcd_celmaldor.4",
+      "title": "凯尔马尔多的精灵难民",
+      "paragraphs": 1,
+      "characters": 115,
+      "desc_sha256": "509f31c6d46b2673cd25daf1c2be3a2c74f75087683a631045b736953f39d7a0",
+      "option": null
+    }
+  ],
+  "format_changes": [
+    "按层级规范直角引号",
+    "去除奥尔德沃德正文夹入的数字1",
+    "补齐第三阶段选项的右引号"
+  ],
+  "fallback_titles": {
+    "gcd_celmaldor.2": "德兰的旧宅",
+    "gcd_celmaldor.4": "凯尔马尔多的精灵难民"
+  }
+}

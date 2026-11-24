@@ -1,6 +1,6 @@
 namespace = gcd_celmaldor
 
-# 事件：凯尔马尔多第一阶段（gcd_celmaldor.1，正文待写）
+# 事件：马尔多里安之叹（gcd_celmaldor.1，正文来自用户事件文档）
 # 用途：加韦德或其非朝贡属国取得696后改为蓝湾文化，三项发展各-1、荒废度+20，并向维奈尔投递难民事件。
 country_event = {
     id = gcd_celmaldor.1
@@ -33,7 +33,7 @@ country_event = {
     }
 }
 
-# 事件：凯尔马尔多第二阶段（gcd_celmaldor.2，正文待写）
+# 事件：德兰的旧宅（gcd_celmaldor.2，正文来自用户事件文档，标题暂拟）
 # 用途：第一阶段一年后减少一级精灵人口、三项发展各-1；自动条件为失地/旧队列提供补查，不循环投递事件。
 country_event = {
     id = gcd_celmaldor.2
@@ -54,7 +54,7 @@ country_event = {
     # 延迟投递与自动补查可能同日到达，显示时即锁定，避免弹出两个相同事件。
     immediate = { 696 = { set_province_flag = gcd_celmaldor_stage2_delivered } }
     option = {
-        name = gcd_celmaldor.continue
+        name = gcd_celmaldor.2.a
         696 = {
             set_province_flag = gcd_celmaldor_stage2
             remove_elven_minority_size_effect = yes
@@ -66,7 +66,7 @@ country_event = {
     }
 }
 
-# 事件：凯尔马尔多第三阶段（gcd_celmaldor.3，正文待写）
+# 事件：最终方案（gcd_celmaldor.3，正文来自用户事件文档）
 # 用途：第二阶段两年后清除精灵人口，维护原生人口计数，并令三项发展各-1。
 country_event = {
     id = gcd_celmaldor.3
@@ -86,7 +86,7 @@ country_event = {
     mean_time_to_happen = { days = 1 }
     immediate = { 696 = { set_province_flag = gcd_celmaldor_stage3_delivered } }
     option = {
-        name = gcd_celmaldor.continue
+        name = gcd_celmaldor.3.a
         696 = {
             set_province_flag = gcd_celmaldor_stage3
             # 兜底：期间若其他脚本又令精灵成为多数，先恢复蓝湾文化再走原生转换和移除。
@@ -103,7 +103,7 @@ country_event = {
     }
 }
 
-# 事件：维奈尔接纳凯尔马尔多精灵难民（gcd_celmaldor.4，正文待写）
+# 事件：凯尔马尔多的精灵难民（gcd_celmaldor.4，正文来自用户事件文档，标题暂拟）
 # 用途：A21获得永久殖民修正；仅向A13广播，效果不会重复施加给旁观的加韦德。
 country_event = {
     id = gcd_celmaldor.4

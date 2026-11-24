@@ -38,8 +38,8 @@ country_event = {
 
 # 调整：文档五篇分别为.1/.2/.4/.5/.8；.6执行开战，.10为求援。
 
-# 事件：克洛维赴加韦顿求援（gawed_yongdongbianqu.10）
-# 用途：承诺资助并启用独立检测，正文按用户要求暂缺。
+# 事件：湾区的骑士（gawed_yongdongbianqu.10）
+# 用途：承诺资助并启用独立检测，正文已按用户事件文档填入。
 country_event = {
     id = gawed_yongdongbianqu.10
     title = gawed_yongdongbianqu.10.t
